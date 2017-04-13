@@ -1,0 +1,775 @@
+[gd_scene load_steps=12 format=1]
+
+[ext_resource path="res://images/weapons/missile02.png" type="Texture" id=1]
+[ext_resource path="res://images/weapons/grey01.png" type="Texture" id=2]
+[ext_resource path="res://images/weapons/exp02.png" type="Texture" id=3]
+[ext_resource path="res://sounds/weapons/weapons.tres" type="SampleLibrary" id=4]
+
+[sub_resource type="Curve2D" id=1]
+
+bake_interval = 5.0
+_data = {
+"points": Vector2Array( 0, 0, 1, -191, 1.20282, 4.48138, -1, 166, -3, -174, 155.361, -502.624, 0, 0, 0, 0, 1.3443, -798.469 )
+}
+
+[sub_resource type="ColorRamp" id=2]
+
+offsets = FloatArray( 0.000734754, 0.0742101, 0.570169, 1 )
+colors = ColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 0.501961, 0.501961, 0.501961, 1, 0, 0, 0, 0 )
+
+[sub_resource type="Curve2D" id=3]
+
+bake_interval = 5.0
+_data = {
+"points": Vector2Array( 0, 0, 56.4759, -169.428, 52.224, 41.8322, 47.8818, 116.635, -50.3372, -131.368, 84.4468, -400.685, 8.46152, 136.313, 0, 0, 23.505, -714.259 )
+}
+
+[sub_resource type="Curve2D" id=4]
+
+bake_interval = 5.0
+_data = {
+"points": Vector2Array( 0, 0, -2.45547, -170.656, -9.79578, 45.9197, 1.22774, 141.19, 2.45547, -201.349, -82.8663, -420.63, -7.36642, 148.556, 0, 0, -42.977, -877.14 )
+}
+
+[sub_resource type="Curve2D" id=5]
+
+bake_interval = 5.0
+_data = {
+"points": Vector2Array( 0, 0, -6.52598, -226.257, -36.8061, 22.5927, 2.45547, 166.972, 2.45547, -135.051, -132.728, -384.065, 0, 0, 0, 0, -33.0047, -688.774 )
+}
+
+[sub_resource type="ColorRamp" id=6]
+
+offsets = FloatArray( 0, 0.1, 0.502924, 1 )
+colors = ColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Animation" id=7]
+
+length = 5.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Path1/PathFollow/Missile/Smoke:config/emitting")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 0.1, 1.4, 1.5 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Path1/PathFollow/Missile:visibility/self_opacity")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0, 0.1, 1.5, 1.6 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Path1/PathFollow:offset")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = {
+"times": FloatArray( 0.1, 1.5 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 878.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Explosion1:config/emitting")
+tracks/3/interp = 1
+tracks/3/imported = false
+tracks/3/keys = {
+"times": FloatArray( 1.3, 1.4, 1.5, 1.6 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Sound1:play/play")
+tracks/4/interp = 1
+tracks/4/imported = false
+tracks/4/keys = {
+"times": FloatArray( 0 ),
+"transitions": FloatArray( 1 ),
+"update": 2,
+"values": [ "rlaunch" ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("Sound2:play/play")
+tracks/5/interp = 1
+tracks/5/imported = false
+tracks/5/keys = {
+"times": FloatArray( 1.6 ),
+"transitions": FloatArray( 1 ),
+"update": 2,
+"values": [ "explosion01" ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Path3/PathFollow/Missile/Smoke:config/emitting")
+tracks/6/interp = 1
+tracks/6/imported = false
+tracks/6/keys = {
+"times": FloatArray( 0.1, 0.2, 2, 2.1 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Path3/PathFollow/Missile:visibility/self_opacity")
+tracks/7/interp = 1
+tracks/7/imported = false
+tracks/7/keys = {
+"times": FloatArray( 0.1, 0.2, 2.1, 2.2 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Sound3:play/play")
+tracks/8/interp = 1
+tracks/8/imported = false
+tracks/8/keys = {
+"times": FloatArray( 0.1 ),
+"transitions": FloatArray( 1 ),
+"update": 2,
+"values": [ "rlaunch" ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Sound4:play/play")
+tracks/9/interp = 1
+tracks/9/imported = false
+tracks/9/keys = {
+"times": FloatArray( 1.8 ),
+"transitions": FloatArray( 1 ),
+"update": 2,
+"values": [ "explosion01" ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Explosion3:config/emitting")
+tracks/10/interp = 1
+tracks/10/imported = false
+tracks/10/keys = {
+"times": FloatArray( 1.9, 2, 2.1, 2.2 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("Path3/PathFollow:offset")
+tracks/11/interp = 1
+tracks/11/imported = false
+tracks/11/keys = {
+"times": FloatArray( 0.2, 2.1 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 931.0 ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("Path2/PathFollow/Missile:visibility/self_opacity")
+tracks/12/interp = 1
+tracks/12/imported = false
+tracks/12/keys = {
+"times": FloatArray( 0.3, 0.4, 1.9, 2 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("Path2/PathFollow/Missile/Smoke:config/emitting")
+tracks/13/interp = 1
+tracks/13/imported = false
+tracks/13/keys = {
+"times": FloatArray( 0.3, 0.4, 1.8, 1.9 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("Path2/PathFollow:offset")
+tracks/14/interp = 1
+tracks/14/imported = false
+tracks/14/keys = {
+"times": FloatArray( 0.4, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 773.0 ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Explosion4:config/emitting")
+tracks/15/interp = 1
+tracks/15/imported = false
+tracks/15/keys = {
+"times": FloatArray( 1.9, 2, 2.1, 2.2 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("Path4/PathFollow/Missile:visibility/self_opacity")
+tracks/16/interp = 1
+tracks/16/imported = false
+tracks/16/keys = {
+"times": FloatArray( 0.4, 0.5, 2, 2.1 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 1.0, 1.0, 0.0 ]
+}
+tracks/17/type = "value"
+tracks/17/path = NodePath("Path4/PathFollow/Missile/Smoke:config/emitting")
+tracks/17/interp = 1
+tracks/17/imported = false
+tracks/17/keys = {
+"times": FloatArray( 0.4, 0.5, 1.9, 2 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false ]
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("Path4/PathFollow:offset")
+tracks/18/interp = 1
+tracks/18/imported = false
+tracks/18/keys = {
+"times": FloatArray( 0.5, 2 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 744.9 ]
+}
+tracks/19/type = "value"
+tracks/19/path = NodePath("Explosion2:config/emitting")
+tracks/19/interp = 1
+tracks/19/imported = false
+tracks/19/keys = {
+"times": FloatArray( 1.8, 1.9, 2, 2.1 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false ]
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("Sound5:play/play")
+tracks/20/interp = 1
+tracks/20/imported = false
+tracks/20/keys = {
+"times": FloatArray( 0.3 ),
+"transitions": FloatArray( 1 ),
+"update": 2,
+"values": [ "rlaunch" ]
+}
+tracks/21/type = "value"
+tracks/21/path = NodePath("Sound6:play/play")
+tracks/21/interp = 1
+tracks/21/imported = false
+tracks/21/keys = {
+"times": FloatArray( 2 ),
+"transitions": FloatArray( 1 ),
+"update": 2,
+"values": [ "explosion09" ]
+}
+tracks/22/type = "value"
+tracks/22/path = NodePath("Sound8:play/play")
+tracks/22/interp = 1
+tracks/22/imported = false
+tracks/22/keys = {
+"times": FloatArray( 2.1 ),
+"transitions": FloatArray( 1 ),
+"update": 2,
+"values": [ "explosion02" ]
+}
+tracks/23/type = "value"
+tracks/23/path = NodePath("Sound7:play/play")
+tracks/23/interp = 1
+tracks/23/imported = false
+tracks/23/keys = {
+"times": FloatArray( 0.4 ),
+"transitions": FloatArray( 1 ),
+"update": 2,
+"values": [ "rlaunch" ]
+}
+tracks/24/type = "method"
+tracks/24/path = NodePath(".")
+tracks/24/interp = 1
+tracks/24/imported = false
+tracks/24/keys = {
+"times": FloatArray( 5 ),
+"transitions": FloatArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[node name="MissileLaunch" type="Node2D"]
+
+z/z = 5
+__meta__ = {
+"__editor_plugin_screen__": "2D"
+}
+
+[node name="Path1" type="Path2D" parent="."]
+
+curve = SubResource( 1 )
+
+[node name="PathFollow" type="PathFollow2D" parent="Path1"]
+
+transform/pos = Vector2( 1.20282, 4.48138 )
+transform/rot = 89.371
+offset = 0.0
+h_offset = 0.0
+v_offset = 0.0
+rotate = true
+cubic_interp = true
+loop = false
+lookahead = 4.0
+
+[node name="Missile" type="Sprite" parent="Path1/PathFollow"]
+
+visibility/self_opacity = 0.0
+transform/pos = Vector2( 25, 0 )
+transform/rot = -89.3489
+texture = ExtResource( 1 )
+
+[node name="Smoke" type="Particles2D" parent="Path1/PathFollow/Missile"]
+
+visibility/self_opacity = 0.25
+transform/pos = Vector2( 0, 16 )
+config/amount = 256
+config/lifetime = 2.0
+config/emitting = false
+config/process_mode = 1
+config/local_space = false
+config/texture = ExtResource( 2 )
+params/direction = 0.0
+params/spread = 5.0
+params/linear_velocity = 32.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 24.0
+params/initial_angle = 0.0
+params/initial_size = 1.5
+params/final_size = 2.5
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.5
+randomness/initial_size = 0.2
+randomness/final_size = 0.2
+color/color_ramp = SubResource( 2 )
+
+[node name="Path2" type="Path2D" parent="."]
+
+curve = SubResource( 3 )
+
+[node name="PathFollow" type="PathFollow2D" parent="Path2"]
+
+transform/pos = Vector2( 52.224, 41.8322 )
+transform/rot = 71.6325
+offset = 0.0
+h_offset = 0.0
+v_offset = 0.0
+rotate = true
+cubic_interp = true
+loop = false
+lookahead = 4.0
+
+[node name="Missile" type="Sprite" parent="Path2/PathFollow"]
+
+visibility/self_opacity = 0.0
+transform/rot = -90.0
+texture = ExtResource( 1 )
+
+[node name="Smoke" type="Particles2D" parent="Path2/PathFollow/Missile"]
+
+visibility/self_opacity = 0.25
+transform/pos = Vector2( 0, 16 )
+config/amount = 256
+config/lifetime = 2.0
+config/emitting = false
+config/process_mode = 1
+config/local_space = false
+config/texture = ExtResource( 2 )
+params/direction = 0.0
+params/spread = 5.0
+params/linear_velocity = 32.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 24.0
+params/initial_angle = 0.0
+params/initial_size = 1.5
+params/final_size = 2.5
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.5
+randomness/initial_size = 0.2
+randomness/final_size = 0.2
+color/color_ramp = SubResource( 2 )
+
+[node name="Path3" type="Path2D" parent="."]
+
+curve = SubResource( 4 )
+
+[node name="PathFollow" type="PathFollow2D" parent="Path3"]
+
+transform/pos = Vector2( -9.79578, 45.9197 )
+transform/rot = 91.01
+offset = 0.0
+h_offset = 0.0
+v_offset = 0.0
+rotate = true
+cubic_interp = true
+loop = false
+lookahead = 4.0
+
+[node name="Missile" type="Sprite" parent="Path3/PathFollow"]
+
+visibility/self_opacity = 0.0
+transform/rot = -90.0
+texture = ExtResource( 1 )
+
+[node name="Smoke" type="Particles2D" parent="Path3/PathFollow/Missile"]
+
+visibility/self_opacity = 0.25
+transform/pos = Vector2( 0, 16 )
+config/amount = 256
+config/lifetime = 2.0
+config/emitting = false
+config/process_mode = 1
+config/local_space = false
+config/texture = ExtResource( 2 )
+params/direction = 0.0
+params/spread = 5.0
+params/linear_velocity = 32.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 24.0
+params/initial_angle = 0.0
+params/initial_size = 1.5
+params/final_size = 2.5
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.5
+randomness/initial_size = 0.2
+randomness/final_size = 0.2
+color/color_ramp = SubResource( 2 )
+
+[node name="Path4" type="Path2D" parent="."]
+
+curve = SubResource( 5 )
+
+[node name="PathFollow" type="PathFollow2D" parent="Path4"]
+
+transform/pos = Vector2( -36.8061, 22.5927 )
+transform/rot = 91.7854
+offset = 0.0
+h_offset = 0.0
+v_offset = 0.0
+rotate = true
+cubic_interp = true
+loop = false
+lookahead = 4.0
+
+[node name="Missile" type="Sprite" parent="Path4/PathFollow"]
+
+visibility/self_opacity = 0.0
+transform/rot = -90.0
+texture = ExtResource( 1 )
+
+[node name="Smoke" type="Particles2D" parent="Path4/PathFollow/Missile"]
+
+visibility/self_opacity = 0.25
+transform/pos = Vector2( 0, 16 )
+config/amount = 256
+config/lifetime = 2.0
+config/emitting = false
+config/process_mode = 1
+config/local_space = false
+config/texture = ExtResource( 2 )
+params/direction = 0.0
+params/spread = 5.0
+params/linear_velocity = 32.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 24.0
+params/initial_angle = 0.0
+params/initial_size = 1.5
+params/final_size = 2.5
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.5
+randomness/initial_size = 0.2
+randomness/final_size = 0.2
+color/color_ramp = SubResource( 2 )
+
+[node name="Explosion1" type="Particles2D" parent="."]
+
+visibility/light_mask = 0
+transform/pos = Vector2( 2, -798 )
+config/amount = 64
+config/lifetime = 3.0
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 10, 10 )
+config/local_space = false
+config/texture = ExtResource( 3 )
+config/h_frames = 10
+config/v_frames = 10
+params/direction = 0.0
+params/spread = 180.0
+params/linear_velocity = 32.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 16.0
+params/initial_angle = 360.0
+params/initial_size = 1.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.2
+randomness/initial_angle = 1.0
+randomness/initial_size = 0.4
+randomness/final_size = 0.4
+color/color = Color( 1, 0.752941, 0.752941, 1 )
+color/color_ramp = SubResource( 6 )
+
+[node name="Explosion2" type="Particles2D" parent="."]
+
+visibility/light_mask = 0
+transform/pos = Vector2( 22, -728 )
+config/amount = 64
+config/lifetime = 3.0
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 10, 10 )
+config/local_space = false
+config/texture = ExtResource( 3 )
+config/h_frames = 10
+config/v_frames = 10
+params/direction = 0.0
+params/spread = 180.0
+params/linear_velocity = 32.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 16.0
+params/initial_angle = 360.0
+params/initial_size = 1.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.2
+randomness/initial_angle = 1.0
+randomness/initial_size = 0.4
+randomness/final_size = 0.4
+color/color = Color( 1, 0.752941, 0.752941, 1 )
+color/color_ramp = SubResource( 6 )
+
+[node name="Explosion3" type="Particles2D" parent="."]
+
+visibility/light_mask = 0
+transform/pos = Vector2( -38, -878 )
+config/amount = 64
+config/lifetime = 3.0
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 10, 10 )
+config/local_space = false
+config/texture = ExtResource( 3 )
+config/h_frames = 10
+config/v_frames = 10
+params/direction = 0.0
+params/spread = 180.0
+params/linear_velocity = 32.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 16.0
+params/initial_angle = 360.0
+params/initial_size = 1.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.2
+randomness/initial_angle = 1.0
+randomness/initial_size = 0.4
+randomness/final_size = 0.4
+color/color = Color( 1, 0.752941, 0.752941, 1 )
+color/color_ramp = SubResource( 6 )
+
+[node name="Explosion4" type="Particles2D" parent="."]
+
+visibility/light_mask = 0
+transform/pos = Vector2( -38, -688 )
+config/amount = 64
+config/lifetime = 3.0
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 10, 10 )
+config/local_space = false
+config/texture = ExtResource( 3 )
+config/h_frames = 10
+config/v_frames = 10
+params/direction = 0.0
+params/spread = 180.0
+params/linear_velocity = 32.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 16.0
+params/initial_angle = 360.0
+params/initial_size = 1.0
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.2
+randomness/initial_angle = 1.0
+randomness/initial_size = 0.4
+randomness/final_size = 0.4
+color/color = Color( 1, 0.752941, 0.752941, 1 )
+color/color_ramp = SubResource( 6 )
+
+[node name="Sound1" type="SamplePlayer2D" parent="."]
+
+transform/pos = Vector2( 53, 36 )
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 8192.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = ExtResource( 4 )
+config/pitch_random = 0.0
+
+[node name="Sound2" type="SamplePlayer2D" parent="."]
+
+transform/pos = Vector2( 2, -798 )
+params/volume_db = 6.0
+params/pitch_scale = 1.25
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 8192.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = ExtResource( 4 )
+config/pitch_random = 0.0
+
+[node name="Sound3" type="SamplePlayer2D" parent="."]
+
+transform/pos = Vector2( -9, 43 )
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 8192.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = ExtResource( 4 )
+config/pitch_random = 0.0
+
+[node name="Sound4" type="SamplePlayer2D" parent="."]
+
+transform/pos = Vector2( 22, -718 )
+params/volume_db = 6.0
+params/pitch_scale = 1.25
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 8192.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = ExtResource( 4 )
+config/pitch_random = 0.0
+
+[node name="Sound5" type="SamplePlayer2D" parent="."]
+
+transform/pos = Vector2( 2, 3 )
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 8192.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = ExtResource( 4 )
+config/pitch_random = 0.0
+
+[node name="Sound6" type="SamplePlayer2D" parent="."]
+
+transform/pos = Vector2( -38, -878 )
+params/volume_db = 6.0
+params/pitch_scale = 1.25
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 8192.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = ExtResource( 4 )
+config/pitch_random = 0.0
+
+[node name="Sound7" type="SamplePlayer2D" parent="."]
+
+transform/pos = Vector2( -37, 20 )
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 8192.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = ExtResource( 4 )
+config/pitch_random = 0.0
+
+[node name="Sound8" type="SamplePlayer2D" parent="."]
+
+transform/pos = Vector2( -28, -688 )
+params/volume_db = 6.0
+params/pitch_scale = 1.25
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 8192.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = ExtResource( 4 )
+config/pitch_random = 0.0
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/shoot = SubResource( 7 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = "shoot"
+
+

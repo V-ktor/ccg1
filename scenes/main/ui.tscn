@@ -1,0 +1,591 @@
+[gd_scene load_steps=32 format=1]
+
+[ext_resource path="res://images/ui/window.png" type="Texture" id=1]
+[ext_resource path="res://images/cards/card_level.png" type="Texture" id=2]
+[ext_resource path="res://fonts/font_digits.tres" type="BitmapFont" id=3]
+[ext_resource path="res://images/cards/card_production.png" type="Texture" id=4]
+[ext_resource path="res://fonts/Play-Bold.ttf" type="DynamicFontData" id=5]
+
+[sub_resource type="StyleBoxFlat" id=1]
+
+content_margin/left = 2.0
+content_margin/right = 2.0
+content_margin/top = 2.0
+content_margin/bottom = 2.0
+bg_color = Color( 0.188235, 0.12549, 0.0941176, 1 )
+light_color = Color( 0.8, 0.8, 0.8, 1 )
+dark_color = Color( 0.8, 0.8, 0.8, 1 )
+border_size = 0
+border_blend = false
+draw_bg = true
+
+[sub_resource type="StyleBoxFlat" id=2]
+
+content_margin/left = 2.0
+content_margin/right = 2.0
+content_margin/top = 2.0
+content_margin/bottom = 2.0
+bg_color = Color( 0.12549, 0.25098, 0.313726, 1 )
+light_color = Color( 0.12549, 0.313726, 0.376471, 1 )
+dark_color = Color( 0.12549, 0.313726, 0.376471, 1 )
+border_size = 4
+border_blend = true
+draw_bg = false
+
+[sub_resource type="StyleBoxFlat" id=3]
+
+content_margin/left = 2.0
+content_margin/right = 2.0
+content_margin/top = 2.0
+content_margin/bottom = 2.0
+bg_color = Color( 0.12549, 0.25098, 0.313726, 1 )
+light_color = Color( 0.8, 0.8, 0.8, 1 )
+dark_color = Color( 0.8, 0.8, 0.8, 1 )
+border_size = 0
+border_blend = false
+draw_bg = true
+
+[sub_resource type="StyleBoxFlat" id=4]
+
+content_margin/left = 2.0
+content_margin/right = 2.0
+content_margin/top = 2.0
+content_margin/bottom = 2.0
+bg_color = Color( 0.12549, 0.188235, 0.25098, 1 )
+light_color = Color( 0.8, 0.8, 0.8, 1 )
+dark_color = Color( 0.8, 0.8, 0.8, 1 )
+border_size = 0
+border_blend = false
+draw_bg = true
+
+[sub_resource type="StyleBoxFlat" id=5]
+
+content_margin/left = 2.0
+content_margin/right = 2.0
+content_margin/top = 2.0
+content_margin/bottom = 2.0
+bg_color = Color( 0.0627451, 0.12549, 0.188235, 1 )
+light_color = Color( 0.8, 0.8, 0.8, 1 )
+dark_color = Color( 0.8, 0.8, 0.8, 1 )
+border_size = 0
+border_blend = false
+draw_bg = true
+
+[sub_resource type="StyleBoxFlat" id=6]
+
+content_margin/left = 6.0
+content_margin/right = 6.0
+content_margin/top = 6.0
+content_margin/bottom = 6.0
+bg_color = Color( 0.0627451, 0.25098, 0.376471, 1 )
+light_color = Color( 0, 0, 0, 1 )
+dark_color = Color( 0, 0, 0, 1 )
+border_size = 0
+border_blend = false
+draw_bg = true
+
+[sub_resource type="StyleBoxFlat" id=7]
+
+content_margin/left = 6.0
+content_margin/right = 6.0
+content_margin/top = 6.0
+content_margin/bottom = 6.0
+bg_color = Color( 0.12549, 0.376471, 0.501961, 1 )
+light_color = Color( 0, 0, 0, 1 )
+dark_color = Color( 0, 0, 0, 1 )
+border_size = 0
+border_blend = false
+draw_bg = true
+
+[sub_resource type="StyleBoxFlat" id=8]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = 8.0
+content_margin/bottom = 8.0
+bg_color = Color( 0, 0.0627451, 0.0941176, 1 )
+light_color = Color( 0, 0, 0, 1 )
+dark_color = Color( 0, 0, 0, 1 )
+border_size = 0
+border_blend = false
+draw_bg = true
+
+[sub_resource type="StyleBoxFlat" id=9]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = 8.0
+content_margin/bottom = 8.0
+bg_color = Color( 0.0627451, 0.376471, 0.501961, 1 )
+light_color = Color( 0.0627451, 0.376471, 0.501961, 1 )
+dark_color = Color( 0.0627451, 0.376471, 0.501961, 1 )
+border_size = 4
+border_blend = false
+draw_bg = false
+
+[sub_resource type="StyleBoxFlat" id=10]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0.0627451, 0.12549, 0.188235, 1 )
+light_color = Color( 0.8, 0.8, 0.8, 1 )
+dark_color = Color( 0.8, 0.8, 0.8, 1 )
+border_size = 0
+border_blend = false
+draw_bg = true
+
+[sub_resource type="StyleBoxFlat" id=11]
+
+content_margin/left = 8.0
+content_margin/right = 8.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0, 0.0627451, 0.0941176, 1 )
+light_color = Color( 0, 0, 0, 1 )
+dark_color = Color( 0, 0, 0, 1 )
+border_size = 0
+border_blend = false
+draw_bg = true
+
+[sub_resource type="StyleBoxFlat" id=12]
+
+content_margin/left = 8.0
+content_margin/right = 8.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0.0627451, 0.376471, 0.501961, 1 )
+light_color = Color( 0.0627451, 0.376471, 0.501961, 1 )
+dark_color = Color( 0.0627451, 0.376471, 0.501961, 1 )
+border_size = 4
+border_blend = false
+draw_bg = false
+
+[sub_resource type="StyleBoxTexture" id=13]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+texture = ExtResource( 1 )
+margin/left = 2.0
+margin/right = 2.0
+margin/top = 26.0
+margin/bottom = 2.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 24.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="Theme" id=14]
+
+Button/colors/font_color = Color( 0.878431, 0.878431, 0.878431, 1 )
+Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
+Button/colors/font_color_hover = Color( 0.941176, 0.941176, 0.941176, 1 )
+Button/colors/font_color_pressed = Color( 1, 1, 1, 1 )
+Button/constants/hseparation = 2
+Button/fonts/font = null
+Button/styles/disabled = SubResource( 1 )
+Button/styles/focus = SubResource( 2 )
+Button/styles/hover = SubResource( 3 )
+Button/styles/normal = SubResource( 4 )
+Button/styles/pressed = SubResource( 5 )
+HScrollBar/icons/decrement = null
+HScrollBar/icons/decrement_hilite = null
+HScrollBar/icons/increment = null
+HScrollBar/icons/increment_hilite = null
+HScrollBar/styles/grabber = SubResource( 6 )
+HScrollBar/styles/grabber_hilite = SubResource( 7 )
+HScrollBar/styles/scroll = SubResource( 8 )
+HScrollBar/styles/scroll_focus = SubResource( 9 )
+Panel/styles/panel = SubResource( 10 )
+Panel/styles/panelf = null
+Panel/styles/panelnc = null
+VScrollBar/icons/decrement = null
+VScrollBar/icons/decrement_hilite = null
+VScrollBar/icons/increment = null
+VScrollBar/icons/increment_hilite = null
+VScrollBar/styles/grabber = SubResource( 6 )
+VScrollBar/styles/grabber_hilite = SubResource( 7 )
+VScrollBar/styles/scroll = SubResource( 11 )
+VScrollBar/styles/scroll_focus = SubResource( 12 )
+WindowDialog/colors/title_color = Color( 1, 1, 1, 1 )
+WindowDialog/constants/close_h_ofs = 22
+WindowDialog/constants/close_v_ofs = 20
+WindowDialog/constants/title_height = 18
+WindowDialog/constants/titlebar_height = 22
+WindowDialog/fonts/title_font = null
+WindowDialog/icons/close = null
+WindowDialog/icons/close_hilite = null
+WindowDialog/styles/panel = SubResource( 13 )
+
+[sub_resource type="ImageTexture" id=15]
+
+flags = 7
+image = Image()
+size = Vector2( 0, 0 )
+storage = 0
+lossy_quality = 0.7
+
+[sub_resource type="StyleBoxTexture" id=16]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+margin/left = 10.0
+margin/right = 12.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=17]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+margin/left = 10.0
+margin/right = 12.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=18]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+margin/left = 25.0
+margin/right = 25.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=19]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+margin/left = 25.0
+margin/right = 25.0
+margin/top = 0.0
+margin/bottom = 0.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=20]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 12.0
+margin/bottom = 10.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="ImageTexture" id=21]
+
+flags = 4
+image = Image( 12, 12, 0, RGBA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 151, 208, 223, 37, 146, 203, 220, 173, 132, 187, 212, 241, 130, 186, 212, 255, 146, 202, 220, 173, 151, 208, 223, 37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 149, 208, 221, 39, 131, 187, 211, 239, 106, 162, 198, 255, 98, 154, 194, 255, 97, 154, 193, 255, 106, 162, 198, 255, 131, 187, 211, 239, 149, 208, 221, 39, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 139, 200, 215, 173, 104, 159, 194, 255, 93, 146, 187, 255, 93, 146, 187, 255, 93, 146, 187, 255, 93, 146, 187, 255, 104, 159, 194, 255, 139, 200, 215, 173, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 121, 181, 203, 241, 92, 146, 184, 255, 88, 141, 182, 255, 88, 141, 182, 255, 88, 141, 182, 255, 88, 141, 182, 255, 92, 146, 184, 255, 120, 180, 202, 243, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 115, 176, 199, 241, 89, 142, 179, 255, 86, 137, 176, 255, 86, 137, 176, 255, 86, 137, 176, 255, 86, 137, 176, 255, 89, 142, 179, 255, 115, 176, 199, 243, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 123, 192, 207, 173, 92, 145, 178, 255, 83, 132, 169, 255, 83, 132, 169, 255, 83, 132, 169, 255, 83, 132, 169, 255, 92, 145, 178, 255, 123, 192, 207, 173, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 121, 197, 209, 40, 107, 174, 193, 239, 88, 143, 174, 255, 84, 131, 164, 255, 84, 131, 164, 255, 87, 142, 173, 255, 107, 174, 193, 239, 121, 197, 209, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 117, 198, 207, 39, 112, 188, 202, 173, 100, 166, 188, 242, 100, 165, 186, 255, 113, 188, 201, 173, 117, 198, 207, 39, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
+size = Vector2( 12, 12 )
+storage = 0
+lossy_quality = 0.7
+
+[sub_resource type="StyleBoxTexture" id=22]
+
+content_margin/left = 2.0
+content_margin/right = 2.0
+content_margin/top = 2.0
+content_margin/bottom = 2.0
+texture = SubResource( 21 )
+margin/left = 5.0
+margin/right = 5.0
+margin/top = 5.0
+margin/bottom = 5.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=23]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 25.0
+margin/bottom = 25.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="StyleBoxTexture" id=24]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+margin/left = 0.0
+margin/right = 0.0
+margin/top = 12.0
+margin/bottom = 10.0
+expand_margin/left = 0.0
+expand_margin/right = 0.0
+expand_margin/top = 0.0
+expand_margin/bottom = 0.0
+draw_center = true
+
+[sub_resource type="Theme" id=25]
+
+HScrollBar/icons/decrement = SubResource( 15 )
+HScrollBar/icons/decrement_hilite = SubResource( 15 )
+HScrollBar/icons/increment = SubResource( 15 )
+HScrollBar/icons/increment_hilite = SubResource( 15 )
+HScrollBar/styles/grabber = SubResource( 16 )
+HScrollBar/styles/grabber_hilite = SubResource( 17 )
+HScrollBar/styles/scroll = SubResource( 18 )
+HScrollBar/styles/scroll_focus = SubResource( 19 )
+VScrollBar/icons/decrement = SubResource( 15 )
+VScrollBar/icons/decrement_hilite = SubResource( 15 )
+VScrollBar/icons/increment = SubResource( 15 )
+VScrollBar/icons/increment_hilite = SubResource( 15 )
+VScrollBar/styles/grabber = SubResource( 20 )
+VScrollBar/styles/grabber_hilite = SubResource( 22 )
+VScrollBar/styles/scroll = SubResource( 23 )
+VScrollBar/styles/scroll_focus = SubResource( 24 )
+
+[sub_resource type="DynamicFont" id=26]
+
+font/size = 24
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 5 )
+
+[node name="UI" type="CanvasLayer"]
+
+layer = 1
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+
+[node name="Cards1" type="ScrollContainer" parent="."]
+
+anchor/top = 1
+anchor/right = 1
+anchor/bottom = 1
+rect/scale = Vector2( 0.5, 0.5 )
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = SubResource( 14 )
+margin/left = 150.0
+margin/top = 250.0
+margin/right = -1130.0
+margin/bottom = -260.0
+scroll/horizontal = true
+scroll/vertical = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Cards1"]
+
+visibility/behind_parent = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 510.0
+alignment = 0
+
+[node name="Cards2" type="ScrollContainer" parent="."]
+
+anchor/right = 1
+rect/scale = Vector2( 0.5, -0.5 )
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = SubResource( 14 )
+margin/left = 0.0
+margin/top = 150.0
+margin/right = -976.0
+margin/bottom = 660.0
+scroll/horizontal = true
+scroll/vertical = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Cards2"]
+
+visibility/behind_parent = true
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 3
+theme/theme = SubResource( 25 )
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 510.0
+alignment = 0
+
+[node name="Panel" type="Panel" parent="."]
+
+visibility/self_opacity = 0.5
+anchor/top = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = SubResource( 14 )
+margin/left = 0.0
+margin/top = 180.0
+margin/right = 68.0
+margin/bottom = 0.0
+
+[node name="Icon" type="TextureFrame" parent="Panel"]
+
+anchor/right = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 20.0
+margin/top = 10.0
+margin/right = 20.0
+margin/bottom = 70.0
+expand = true
+stretch_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+
+anchor/right = 1
+anchor/bottom = 1
+rect/scale = Vector2( 0.75, 0.75 )
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = -72.0
+margin/bottom = -60.0
+alignment = 0
+
+[node name="Points" type="TextureFrame" parent="Panel/VBoxContainer"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 160.0
+margin/bottom = 90.0
+texture = ExtResource( 2 )
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Points"]
+
+anchor/right = 1
+hint/tooltip = "points"
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 83.0
+margin/top = 22.0
+margin/right = 13.0
+margin/bottom = 69.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "99"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Production" type="TextureFrame" parent="Panel/VBoxContainer"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 94.0
+margin/right = 160.0
+margin/bottom = 184.0
+texture = ExtResource( 4 )
+stretch_mode = 0
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer/Production"]
+
+anchor/right = 1
+hint/tooltip = "production"
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 83.0
+margin/top = 22.0
+margin/right = 13.0
+margin/bottom = 69.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "99"
+align = 2
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Button" type="Button" parent="Panel/VBoxContainer"]
+
+hint/tooltip = "End your turn."
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 188.0
+margin/right = 160.0
+margin/bottom = 240.0
+custom_fonts/font = SubResource( 26 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "End Turn"
+flat = false
+
+

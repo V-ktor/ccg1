@@ -1,0 +1,26 @@
+,en
+SKIRMISH,skirmish
+DECK,deck
+OPTIONS,options
+QUIT,quit
+BACK,back
+INVENTORY,inventory
+CARDS,cards
+OK,OK
+Cancel,Cancel
+QUIT?,Quit?
+SAVE,save
+LOAD,load
+FILENAME,filename
+default,default
+WON!,Won!
+LOST!,Lost!
+GAS_GIANT,Gas Giant
+ASTEROID_BELT,Asteroid Belt
+BARREN,Barren
+TUNDRA,Tundra
+DESERT,Desert
+TERRAN,Terran
+OCEAN,Ocean
+TOXIC,Toxic
+INFERNO,Inferno

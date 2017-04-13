@@ -1,0 +1,23 @@
+Laser_00.wav to Laser_09.wav:
+Copyright: Little Robot Sound Factory (www.littlerobotsoundfactory.com)
+License: CC-BY 3.0
+
+
+cg1.wav, flaunch.wav, iceball.wav, rlaunch.wav, slimeball.wav:
+Copyright: Michel Baradari (apollo-music.de)
+License: CC-BY 3.0
+
+
+synthetic_gunshot_2.wav:
+Copyright: Stephen M. Cameron
+License: CC BY-SA 3.0
+
+
+missile_launch01.wav, weapon_mg.wav, weapon_pa.wav, weapon_pb.wav, weapon_sg.wav, weapon_sh.wav:
+Copyright: Viktor Hahn
+License: CC-BY-SA 3.0
+
+1.wav, 4.wav, 12.wav, 14.wav, 15.wav, 16.wav, 17.wav, 18.wav, 34.wav:
+Copyright: HorrorPen
+License: CC-BY 3.0
+

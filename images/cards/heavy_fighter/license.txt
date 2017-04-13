@@ -1,0 +1,6 @@
+fighters_ships_bg.png:
+License: CC0
+
+fighters.png, fighters_bg.png, fighters_engine.png, fighters_glow.png:
+License: CC-BY-SA 3.0
+Copyright: Viktor Hahn

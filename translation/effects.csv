@@ -1,0 +1,27 @@
+,en
+cheap-self-,No upkeep cost.
+penetrate shield-self-attack,Ignore enemy shields.
+unmoveable-self-,Unable to move.
+reduce dmg 1-self-attack,Damage is reduced by 1 after attacking.
+no attack-self-,Unable to attack.
+counterattack-attacker-attacked,Counterattack.
+draw 2-player-spawn,Draw 2 cards.
+drydock-self-player turn,Repairs 2 points each turn.
+bombardment 2-self-attack,Bombardment damage +2.
+direct damage 6-enemy-,Deal 6 points of damage.
+draw 2-player-,Draw 2 cards.
+draw 3-player-,Draw 3 cards.
+points 2-player-,Generate 2 resource points.
+remove 2-opposite-,Remove 2 random cards from your opponents hand.
+increase dmg 2-friendly-,Increase damage by 2.
+armor 2-friendly-,Increase structure by 2.
+shield 1-friendly-,Increase shield by 1.
+repair 4-friendly-,Repairs a unit for 4 points.
+repair 6-friendly-,Repairs a unit for 6 points.
+terraform-friendly planet-,Change planet type.
+production 1-friendly planet-,Increase production by 1.
+production 2-friendly planet-,Increase production by 2.
+defense 6-friendly planet-,Increase planet defense by 6.
+shield 1-friendly planet-,Increase shield by 1.
+mines 1-friendly planet-player turn,Mines 1.
+drydock-friendly planet-player turn,Repairs 2 points each turn.

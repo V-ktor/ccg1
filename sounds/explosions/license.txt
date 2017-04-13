@@ -1,0 +1,3 @@
+explosion01.wav to explosion09.wav:
+Copyright: Viktor Hahn
+License: CC-BY-SA 3.0

@@ -1,0 +1,828 @@
+[gd_scene load_steps=27 format=1]
+
+[ext_resource path="res://scripts/cards/card_base.gd" type="Script" id=1]
+[ext_resource path="res://images/cards/card_base.png" type="Texture" id=2]
+[ext_resource path="res://images/cards/card_colored.png" type="Texture" id=3]
+[ext_resource path="res://images/cards/card_header_bg.png" type="Texture" id=4]
+[ext_resource path="res://fonts/Play-Bold.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://images/cards/card_level.png" type="Texture" id=6]
+[ext_resource path="res://fonts/font_digits.tres" type="BitmapFont" id=7]
+[ext_resource path="res://images/cards/card_hp.png" type="Texture" id=8]
+[ext_resource path="res://images/cards/card_damage.png" type="Texture" id=9]
+[ext_resource path="res://images/cards/card_shield.png" type="Texture" id=10]
+[ext_resource path="res://images/cards/card_production.png" type="Texture" id=11]
+[ext_resource path="res://images/weapons/exp02.png" type="Texture" id=12]
+[ext_resource path="res://images/weapons/exp06.png" type="Texture" id=13]
+[ext_resource path="res://images/weapons/explosion02.png" type="Texture" id=14]
+[ext_resource path="res://images/weapons/explosion_normal.png" type="Texture" id=15]
+[ext_resource path="res://sounds/explosions/explosions.tres" type="SampleLibrary" id=16]
+
+[sub_resource type="StyleBoxFlat" id=1]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0, 0, 0, 1 )
+light_color = Color( 0, 0, 0, 1 )
+dark_color = Color( 0, 0, 0, 1 )
+border_size = 0
+border_blend = false
+draw_bg = true
+
+[sub_resource type="DynamicFont" id=2]
+
+font/size = 30
+extra_spacing/top = -4
+extra_spacing/bottom = -4
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=3]
+
+font/size = 26
+font/use_mipmaps = false
+font/use_filter = false
+font/font = ExtResource( 5 )
+
+[sub_resource type="ColorRamp" id=4]
+
+offsets = FloatArray( 0, 0.1, 0.555556, 0.842105 )
+colors = ColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="ColorRamp" id=5]
+
+offsets = FloatArray( 0, 0.1, 0.7, 1 )
+colors = ColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="ColorRamp" id=6]
+
+offsets = FloatArray( 0, 0.187135, 0.584795, 1 )
+colors = ColorArray( 1, 1, 0, 0, 0.501961, 0.501961, 0.501961, 1, 0.12549, 0.12549, 0.12549, 1, 0, 0, 0, 0 )
+
+[sub_resource type="CanvasItemShader" id=7]
+
+_code = {
+"fragment": "vec4 normal = tex(TEXTURE,UV);
+vec2 offset = normal.xy*2.0-vec2(1.0);
+COLOR.rgb=texscreen(SCREEN_UV+offset*0.02);
+COLOR.a*=0.75*normal.a;",
+"fragment_ofs": 0,
+"light": "",
+"light_ofs": 0,
+"vertex": "",
+"vertex_ofs": 0
+}
+
+[sub_resource type="CanvasItemMaterial" id=8]
+
+shader/shader = SubResource( 7 )
+shader/shading_mode = 0
+
+[sub_resource type="ColorRamp" id=9]
+
+offsets = FloatArray( 0, 0.111111, 0.45614, 1 )
+colors = ColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="Animation" id=10]
+
+length = 6.0
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Explosion1:config/emitting")
+tracks/0/interp = 1
+tracks/0/imported = false
+tracks/0/keys = {
+"times": FloatArray( 0, 1.4, 1.5, 1.9, 2 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, true, false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Explosion2:config/emitting")
+tracks/1/interp = 1
+tracks/1/imported = false
+tracks/1/keys = {
+"times": FloatArray( 0, 1.4, 1.5, 1.9, 2 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, true, false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Explosion3:config/emitting")
+tracks/2/interp = 1
+tracks/2/imported = false
+tracks/2/keys = {
+"times": FloatArray( 0, 1.4, 1.5, 1.9, 2 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("BG:visibility/opacity")
+tracks/3/interp = 1
+tracks/3/imported = false
+tracks/3/keys = {
+"times": FloatArray( 1.7, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Name:visibility/opacity")
+tracks/4/interp = 1
+tracks/4/imported = false
+tracks/4/keys = {
+"times": FloatArray( 1.7, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("VBoxContainer/Level/Number:visibility/opacity")
+tracks/5/interp = 1
+tracks/5/imported = false
+tracks/5/keys = {
+"times": FloatArray( 1.7, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/6/type = "value"
+tracks/6/path = NodePath("Desc:visibility/opacity")
+tracks/6/interp = 1
+tracks/6/imported = false
+tracks/6/keys = {
+"times": FloatArray( 1.7, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Image:visibility/opacity")
+tracks/7/interp = 1
+tracks/7/imported = false
+tracks/7/keys = {
+"times": FloatArray( 1.7, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Header:visibility/opacity")
+tracks/8/interp = 1
+tracks/8/imported = false
+tracks/8/keys = {
+"times": FloatArray( 1.7, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Colored:visibility/opacity")
+tracks/9/interp = 1
+tracks/9/imported = false
+tracks/9/keys = {
+"times": FloatArray( 1.7, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("VBoxContainer/Production:visibility/opacity")
+tracks/10/interp = 1
+tracks/10/imported = false
+tracks/10/keys = {
+"times": FloatArray( 1.7, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/11/type = "value"
+tracks/11/path = NodePath("VBoxContainer/Level:visibility/opacity")
+tracks/11/interp = 1
+tracks/11/imported = false
+tracks/11/keys = {
+"times": FloatArray( 1.7, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/12/type = "value"
+tracks/12/path = NodePath("VBoxContainer/Structure:visibility/opacity")
+tracks/12/interp = 1
+tracks/12/imported = false
+tracks/12/keys = {
+"times": FloatArray( 1.7, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/13/type = "value"
+tracks/13/path = NodePath("VBoxContainer/Damage:visibility/opacity")
+tracks/13/interp = 1
+tracks/13/imported = false
+tracks/13/keys = {
+"times": FloatArray( 1.7, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/14/type = "value"
+tracks/14/path = NodePath("VBoxContainer/Shield:visibility/opacity")
+tracks/14/interp = 1
+tracks/14/imported = false
+tracks/14/keys = {
+"times": FloatArray( 1.7, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/15/type = "value"
+tracks/15/path = NodePath("Black:visibility/opacity")
+tracks/15/interp = 1
+tracks/15/imported = false
+tracks/15/keys = {
+"times": FloatArray( 1.7, 1.9 ),
+"transitions": FloatArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
+tracks/16/type = "value"
+tracks/16/path = NodePath("Distortion:config/emitting")
+tracks/16/interp = 1
+tracks/16/imported = false
+tracks/16/keys = {
+"times": FloatArray( 0, 1.6, 1.7, 1.9, 2 ),
+"transitions": FloatArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, false, true, true, false ]
+}
+tracks/17/type = "method"
+tracks/17/path = NodePath(".")
+tracks/17/interp = 1
+tracks/17/imported = false
+tracks/17/keys = {
+"times": FloatArray( 1.6, 6 ),
+"transitions": FloatArray( 1, 1 ),
+"values": [ {
+"args": [  ],
+"method": "create_explosion"
+}, {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+tracks/18/type = "value"
+tracks/18/path = NodePath("Particles:config/emitting")
+tracks/18/interp = 1
+tracks/18/imported = false
+tracks/18/keys = {
+"times": FloatArray( 2, 2.1, 3.9, 4 ),
+"transitions": FloatArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, true, false ]
+}
+tracks/19/type = "value"
+tracks/19/path = NodePath("Sound1:play/play")
+tracks/19/interp = 1
+tracks/19/imported = false
+tracks/19/keys = {
+"times": FloatArray( 1.6 ),
+"transitions": FloatArray( 1 ),
+"update": 2,
+"values": [ "explosion9" ]
+}
+tracks/20/type = "value"
+tracks/20/path = NodePath("Sound2:play/play")
+tracks/20/interp = 1
+tracks/20/imported = false
+tracks/20/keys = {
+"times": FloatArray( 1.6 ),
+"transitions": FloatArray( 1 ),
+"update": 2,
+"values": [ "explosion3" ]
+}
+
+[node name="Card" type="Node2D"]
+
+script/script = ExtResource( 1 )
+__meta__ = {
+"__editor_plugin_screen__": "2D",
+"_edit_lock_": true
+}
+
+[node name="Black" type="Panel" parent="."]
+
+visibility/behind_parent = true
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -169.0
+margin/top = -182.0
+margin/right = 169.0
+margin/bottom = 119.0
+custom_styles/panel = SubResource( 1 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BG" type="Sprite" parent="."]
+
+transform/scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Colored" type="Sprite" parent="."]
+
+visibility/opacity = 0.5
+transform/scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 3 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Header" type="Sprite" parent="."]
+
+transform/pos = Vector2( 0, -216 )
+transform/scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Name" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 0
+margin/left = -168.0
+margin/top = -250.0
+margin/right = 168.0
+margin/bottom = -182.0
+custom_fonts/font = SubResource( 2 )
+text = "Name"
+align = 1
+valign = 1
+autowrap = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+
+rect/scale = Vector2( 0.5, 0.5 )
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -170.0
+margin/top = -178.0
+margin/right = -2.0
+margin/bottom = 410.0
+custom_constants/separation = -10
+alignment = 1
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Level" type="TextureFrame" parent="VBoxContainer"]
+
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 249.0
+margin/right = 168.0
+margin/bottom = 339.0
+texture = ExtResource( 6 )
+stretch_mode = 0
+
+[node name="Number" type="Label" parent="VBoxContainer/Level"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 82.0
+margin/top = 21.0
+margin/right = 20.0
+margin/bottom = 21.0
+custom_fonts/font = ExtResource( 7 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "0"
+align = 2
+autowrap = true
+clip_text = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Structure" type="TextureFrame" parent="VBoxContainer"]
+
+visibility/visible = false
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 289.0
+margin/right = 168.0
+margin/bottom = 379.0
+texture = ExtResource( 8 )
+stretch_mode = 0
+
+[node name="Number" type="Label" parent="VBoxContainer/Structure"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 82.0
+margin/top = 21.0
+margin/right = 20.0
+margin/bottom = 21.0
+custom_fonts/font = ExtResource( 7 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "0"
+align = 2
+autowrap = true
+clip_text = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Damage" type="TextureFrame" parent="VBoxContainer"]
+
+visibility/visible = false
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 329.0
+margin/right = 168.0
+margin/bottom = 419.0
+texture = ExtResource( 9 )
+stretch_mode = 0
+
+[node name="Number" type="Label" parent="VBoxContainer/Damage"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 82.0
+margin/top = 21.0
+margin/right = 20.0
+margin/bottom = 21.0
+custom_fonts/font = ExtResource( 7 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "0"
+align = 2
+autowrap = true
+clip_text = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Shield" type="TextureFrame" parent="VBoxContainer"]
+
+visibility/visible = false
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 369.0
+margin/right = 168.0
+margin/bottom = 459.0
+texture = ExtResource( 10 )
+stretch_mode = 0
+
+[node name="Number" type="Label" parent="VBoxContainer/Shield"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 82.0
+margin/top = 21.0
+margin/right = 20.0
+margin/bottom = 21.0
+custom_fonts/font = ExtResource( 7 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "0"
+align = 2
+autowrap = true
+clip_text = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Production" type="TextureFrame" parent="VBoxContainer"]
+
+visibility/visible = false
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 289.0
+margin/right = 168.0
+margin/bottom = 379.0
+texture = ExtResource( 11 )
+stretch_mode = 0
+
+[node name="Number" type="Label" parent="VBoxContainer/Production"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 82.0
+margin/top = 21.0
+margin/right = 20.0
+margin/bottom = 21.0
+custom_fonts/font = ExtResource( 7 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "0"
+align = 2
+autowrap = true
+clip_text = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Desc" type="Label" parent="."]
+
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = -166.0
+margin/top = 128.0
+margin/right = 166.0
+margin/bottom = 241.0
+custom_fonts/font = SubResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "Description"
+align = 1
+valign = 1
+autowrap = true
+clip_text = true
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Image" type="Node2D" parent="."]
+
+visibility/behind_parent = true
+transform/pos = Vector2( 0, -30 )
+transform/scale = Vector2( 0.5, 0.5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Explosion2" type="Particles2D" parent="."]
+
+visibility/light_mask = 0
+z/z = 4
+config/amount = 384
+config/lifetime = 2.5
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 175, 250 )
+config/local_space = false
+config/texture = ExtResource( 12 )
+config/h_frames = 10
+config/v_frames = 10
+params/direction = 0.0
+params/spread = 180.0
+params/linear_velocity = 48.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 32.0
+params/initial_angle = 360.0
+params/initial_size = 2.0
+params/final_size = 4.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.2
+randomness/initial_angle = 1.0
+randomness/initial_size = 0.4
+randomness/final_size = 0.4
+color/color = Color( 1, 0.752941, 0.752941, 1 )
+color/color_ramp = SubResource( 4 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Explosion3" type="Particles2D" parent="."]
+
+visibility/blend_mode = 1
+visibility/light_mask = 0
+z/z = 4
+config/amount = 64
+config/lifetime = 2.0
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 125, 200 )
+config/local_space = false
+config/texture = ExtResource( 13 )
+config/h_frames = 10
+config/v_frames = 6
+params/direction = 0.0
+params/spread = 180.0
+params/linear_velocity = 48.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 32.0
+params/initial_angle = 360.0
+params/initial_size = 1.0
+params/final_size = 4.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.2
+randomness/initial_angle = 1.0
+randomness/initial_size = 0.4
+randomness/final_size = 0.4
+color/color = Color( 1, 0.752941, 0.752941, 1 )
+color/color_ramp = SubResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Explosion1" type="Particles2D" parent="."]
+
+visibility/blend_mode = 1
+visibility/light_mask = 0
+z/z = 4
+config/amount = 16
+config/lifetime = 1.0
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 125, 200 )
+config/local_space = false
+config/texture = ExtResource( 14 )
+params/direction = 0.0
+params/spread = 180.0
+params/linear_velocity = 48.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 32.0
+params/initial_angle = 360.0
+params/initial_size = 0.2
+params/final_size = 1.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.2
+randomness/initial_angle = 1.0
+randomness/initial_size = 0.4
+randomness/final_size = 0.4
+color/color = Color( 1, 0.752941, 0.752941, 1 )
+color/color_ramp = SubResource( 5 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Particles" type="Particles2D" parent="."]
+
+config/amount = 256
+config/lifetime = 2.0
+config/emitting = false
+config/process_mode = 1
+config/half_extents = Vector2( 125, 150 )
+params/direction = 0.0
+params/spread = 180.0
+params/linear_velocity = 32.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 50.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 0.0
+params/initial_size = 2.0
+params/final_size = 2.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+color/color_ramp = SubResource( 6 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="."]
+
+copy_mode = 2
+rect = Rect2( -1000, -1000, 2000, 2000 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Distortion" type="Particles2D" parent="."]
+
+visibility/light_mask = 0
+material/material = SubResource( 8 )
+config/amount = 2
+config/lifetime = 1.5
+config/time_scale = 3.0
+config/emitting = false
+config/process_mode = 1
+config/local_space = false
+config/texture = ExtResource( 15 )
+params/direction = 0.0
+params/spread = 0.0
+params/linear_velocity = 0.0
+params/spin_velocity = 0.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 0.0
+params/initial_angle = 360.0
+params/initial_size = 0.25
+params/final_size = 3.0
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/initial_angle = 1.0
+randomness/initial_size = 0.25
+randomness/final_size = 0.25
+color/color_ramp = SubResource( 9 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="Sound1" type="SamplePlayer2D" parent="."]
+
+params/volume_db = 2.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 8192.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = ExtResource( 16 )
+config/pitch_random = 0.0
+
+[node name="Sound2" type="SamplePlayer2D" parent="."]
+
+params/volume_db = 0.0
+params/pitch_scale = 1.0
+params/attenuation/min_distance = 1.0
+params/attenuation/max_distance = 8192.0
+params/attenuation/distance_exp = 1.0
+config/polyphony = 1
+config/samples = ExtResource( 16 )
+config/pitch_random = 0.0
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+
+playback/process_mode = 1
+playback/default_blend_time = 0.0
+root/root = NodePath("..")
+anims/explode = SubResource( 10 )
+playback/active = true
+playback/speed = 1.0
+blend_times = [  ]
+autoplay = ""
+
+

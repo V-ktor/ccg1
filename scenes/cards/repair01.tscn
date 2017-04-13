@@ -1,0 +1,116 @@
+[gd_scene load_steps=4 format=1]
+
+[ext_resource path="res://images/cards/repair01/repair01.png" type="Texture" id=1]
+[ext_resource path="res://images/cards/particles/smoke.png" type="Texture" id=2]
+
+[sub_resource type="ColorRamp" id=1]
+
+offsets = FloatArray( 0, 0.242469, 0.537105, 1 )
+colors = ColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[node name="Repair" type="Sprite"]
+
+texture = ExtResource( 1 )
+__meta__ = {
+"__editor_plugin_screen__": "2D"
+}
+
+[node name="Smoke1" type="Particles2D" parent="."]
+
+visibility/self_opacity = 0.75
+visibility/light_mask = 0
+transform/pos = Vector2( 64, -73 )
+config/amount = 8
+config/lifetime = 3.0
+config/time_scale = 0.75
+config/process_mode = 1
+config/texture = ExtResource( 2 )
+params/direction = 200.0
+params/spread = 2.0
+params/linear_velocity = 32.0
+params/spin_velocity = 2.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 12.0
+params/initial_angle = 360.0
+params/initial_size = 0.1
+params/final_size = 0.2
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.25
+randomness/spin_velocity = 1.0
+randomness/initial_angle = 1.0
+randomness/initial_size = 0.25
+randomness/final_size = 0.25
+color/color_ramp = SubResource( 1 )
+
+[node name="Smoke2" type="Particles2D" parent="."]
+
+visibility/self_opacity = 0.75
+visibility/light_mask = 0
+transform/pos = Vector2( 173, 72 )
+config/amount = 8
+config/lifetime = 3.0
+config/time_scale = 0.75
+config/process_mode = 1
+config/texture = ExtResource( 2 )
+params/direction = 160.0
+params/spread = 2.0
+params/linear_velocity = 32.0
+params/spin_velocity = 2.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 12.0
+params/initial_angle = 360.0
+params/initial_size = 0.1
+params/final_size = 0.2
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.25
+randomness/spin_velocity = 1.0
+randomness/initial_angle = 1.0
+randomness/initial_size = 0.25
+randomness/final_size = 0.25
+color/color_ramp = SubResource( 1 )
+
+[node name="Smoke3" type="Particles2D" parent="."]
+
+visibility/self_opacity = 0.75
+visibility/light_mask = 0
+transform/pos = Vector2( -74, 28 )
+config/amount = 6
+config/lifetime = 3.0
+config/process_mode = 1
+config/texture = ExtResource( 2 )
+params/direction = 300.0
+params/spread = 2.0
+params/linear_velocity = 26.0
+params/spin_velocity = 2.0
+params/orbit_velocity = 0.0
+params/gravity_direction = 0.0
+params/gravity_strength = 0.0
+params/radial_accel = 0.0
+params/tangential_accel = 0.0
+params/damping = 12.0
+params/initial_angle = 360.0
+params/initial_size = 0.08
+params/final_size = 0.13
+params/hue_variation = 0.0
+params/anim_speed_scale = 1.0
+params/anim_initial_pos = 0.0
+randomness/linear_velocity = 0.25
+randomness/spin_velocity = 1.0
+randomness/initial_angle = 1.0
+randomness/initial_size = 0.25
+randomness/final_size = 0.25
+color/color_ramp = SubResource( 1 )
+
+
