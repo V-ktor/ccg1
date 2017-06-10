@@ -34,6 +34,7 @@ const EMPTY_OR_ENEMY = 6
 
 # variables #
 
+var planets = []
 var player_is_ai = [false,true]
 var deck = [[],[]]
 var hand = [[],[]]
@@ -96,16 +97,6 @@ class Planet:
 	var planet
 	var image
 	
-	var planet_icons = {
-	PLANET_GAS:[preload("res://images/planets/gas01.png"),preload("res://images/planets/gas02.png"),preload("res://images/planets/gas03.png"),preload("res://images/planets/gas04.png"),preload("res://images/planets/gas05.png")],
-	PLANET_BARREN:[preload("res://images/planets/barren01.png"),preload("res://images/planets/barren02.png"),preload("res://images/planets/barren03.png"),preload("res://images/planets/barren04.png"),preload("res://images/planets/barren05.png")],
-	PLANET_TUNDRA:[preload("res://images/planets/tundra01.png"),preload("res://images/planets/tundra02.png"),preload("res://images/planets/tundra03.png"),preload("res://images/planets/tundra04.png"),preload("res://images/planets/tundra05.png")],
-	PLANET_DESERT:[preload("res://images/planets/desert01.png"),preload("res://images/planets/desert02.png"),preload("res://images/planets/desert03.png"),preload("res://images/planets/desert04.png"),preload("res://images/planets/desert05.png")],
-	PLANET_TERRAN:[preload("res://images/planets/terran01.png"),preload("res://images/planets/terran02.png"),preload("res://images/planets/terran03.png"),preload("res://images/planets/terran04.png"),preload("res://images/planets/terran05.png")],
-	PLANET_OCEAN:[preload("res://images/planets/ocean01.png"),preload("res://images/planets/ocean02.png"),preload("res://images/planets/ocean03.png"),preload("res://images/planets/ocean04.png"),preload("res://images/planets/ocean05.png")],
-	PLANET_TOXIC:[preload("res://images/planets/toxic01.png"),preload("res://images/planets/toxic02.png"),preload("res://images/planets/toxic03.png"),preload("res://images/planets/toxic04.png"),preload("res://images/planets/toxic05.png")],
-	PLANET_INFERNO:[preload("res://images/planets/inferno01.png"),preload("res://images/planets/inferno02.png"),preload("res://images/planets/inferno03.png"),preload("res://images/planets/inferno04.png"),preload("res://images/planets/inferno05.png")]}
-	
 	func _init(_root,_type,_structure,_damage,_shield,_level,_production,_owner,_image,pos):
 		var img = Sprite.new()
 		root = _root
@@ -133,7 +124,7 @@ class Planet:
 			node.get_node("VBoxContainer/Level").hide()
 		node.get_node("VBoxContainer/Structure").show()
 		node.get_node("Header").set_modulate(COLOURS[owner])
-		node.get_node("Image/Image").set_texture(planet_icons[planet][image])
+		node.get_node("Image/Image").set_texture(root.get_node("/root/Menu").planet_icons[planet][image])
 		if (type==""):
 			node.get_node("Name").set_text(tr(PLANET_TEXT[planet]))
 			node.get_node("Desc").set_text("")
@@ -376,17 +367,20 @@ func attack_card_unit(attacker,target,player,enemy,counterattack=false):
 					apply_effect(enemy,card_a["effect"][i])
 	for i in range(card_t["effects"].size()):
 		if (card_t["events"][i]=="attacked"):
-				if (card_t["targets"][i]=="attacker"):
-					if (card_t["effects"][i]=="counterattack"):
-						counter = true
-				elif (card_t["targets"][i]=="self"):
-					apply_effect_unit(card_t["effects"][i],enemy,attacker)
-				elif (card_t["targets"][i]=="target"):
-					apply_effect_unit(card_t["effects"][i],player,target)
-				elif (card_t["targets"][i]=="player"):
-					apply_effect(enemy,card_t["effect"][i])
-				elif (card_t["targets"][i]=="opposite"):
-					apply_effect(player,card_t["effect"][i])
+			print("when attacked")
+			if (card_t["targets"][i]=="attacker"):
+				print("target attacker")
+				if (card_t["effects"][i]=="counterattack"):
+					print("counter attack")
+					counter = true
+			elif (card_t["targets"][i]=="self"):
+				apply_effect_unit(card_t["effects"][i],enemy,attacker)
+			elif (card_t["targets"][i]=="target"):
+				apply_effect_unit(card_t["effects"][i],player,target)
+			elif (card_t["targets"][i]=="player"):
+				apply_effect(enemy,card_t["effect"][i])
+			elif (card_t["targets"][i]=="opposite"):
+				apply_effect(player,card_t["effect"][i])
 	
 	if (damage<=0):
 		return
@@ -425,6 +419,7 @@ func attack_card_unit(attacker,target,player,enemy,counterattack=false):
 	
 	print(str(counterattack)+", "+str(counter))
 	if (!counterattack && counter):
+		print("counter attack!")
 		attack_card_unit(target,attacker,enemy,player,true)
 	
 	calc_prod()
@@ -583,23 +578,30 @@ func next_turn():
 			num_units_left += 1
 	for x in range(SIZE*POSITIONS):
 		if (cards[player][x]!=null):
+			var pos = floor(x/POSITIONS)
 			var card = Data.data[cards[player][x].type]
 			cards[player][x].attacked = false
 			cards[player][x].moved = false
 			num_units += 1
 			for i in range(card["effects"].size()):
 				if (card["events"][i]=="player turn"):
+					print(str(x)+", "+str(pos)+": player turn event")
 					if (card["effects"][i]=="drydock"):
 						drydock(x,player,cards[player][x].type)
 					elif (card["effects"][i]=="mine damage"):
 						mines(x,1-player,field[x].type)
 					elif (card["effects"][i]=="self desctruction"):
-						destroy_unit(x,player)
+						destroy_unit(x,player,false)
 						num_units -= 1
-					elif (card["effects"][i]=="colonize"):
-						var pos = floor(pos/POSITIONS)*POSITIONS
-						if (field[pos]!=null && field[pos].owner==player && (field[pos].planet==PLANET_DESERT || field[pos].planet==PLANET_OCEAN)):
-							player_points[player] += 1
+					print(str(field[pos])+", "+card["targets"][i]+", "+str(field[pos].owner)+", "+str(player))
+					if (field[pos]!=null && card["targets"][i]=="friendly planet" && field[pos].owner==player):
+						print(str(x)+": friendly planet")
+						if (card["effects"][i]=="terraform"):
+							field[pos].planet = sign(PLANET_TERRAN-field[pos].planet)
+						elif (card["effects"][i]=="production 1"):
+							field[pos].production += 1
+						elif (card["effects"][i]=="production 2"):
+							field[pos].production += 2
 	for x in range(SIZE):
 		if (field[x]!=null && field[x].owner==player):
 			num_planets += 1
@@ -628,7 +630,7 @@ func next_turn():
 	
 	if (num_planets==0 || (num_units==0 && num_units_left==0)):
 		print("Player "+str(player)+" lost!")
-		get_node("/root/Menu").end_match(true)
+		get_node("/root/Menu").end_match(player!=PLAYER1)
 		queue_free()
 		return
 	
@@ -714,7 +716,7 @@ func remove_card(ID,player):
 
 # set up #
 
-func randomize_field():
+func init_field():
 	var size = SIZE*POSITIONS
 	var array_null = []
 	array_null.resize(size)
@@ -744,13 +746,7 @@ func randomize_field():
 		pi.show()
 	
 	for x in range(SIZE):
-		var type = (randi()%8)-1
-		var points = [5,3,4,5,6,5,4,3,4][type+1]
-		var structure = 0
-		if (field[x]==PLANET_TERRAN):
-			structure = 4
-		field[x] = Planet.new(self,type,structure,0,0,0,points,NEUTRAL,randi()%4,x)
-		
+		field[x] = Planet.new(self,planets[x]["type"],planets[x]["structure"],planets[x]["damage"],planets[x]["shield"],planets[x]["level"],planets[x]["points"],planets[x]["owner"],planets[x]["image"],x)
 	
 	var homeworld = 0
 	
@@ -1014,13 +1010,12 @@ func _process(delta):
 		get_node("UI/Panel/Income").add_color_override("font_color",Color(0.3,1.0,0.4))
 
 func _ready():
-	randomize()
 	set_process_input(true)
 	get_tree().connect("screen_resized",self,"_resize")
 	_resize()
 	add_user_signal("target_selected",[{"name":"target_selected","type":TYPE_OBJECT}])
 	
-	randomize_field()
+	init_field()
 	
 	# add 4 cards for each player
 	for p in range(NUM_PLAYERS):

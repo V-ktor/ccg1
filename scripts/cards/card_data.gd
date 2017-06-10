@@ -35,11 +35,11 @@ func load_data():
 			continue
 		data[currentline["name"]] = currentline
 		if (currentline.has("level")):
-			if (currentline["level"]<=6):
+			if (currentline["level"]<=5):
 				cards_tier1[currentline["grade"]].push_back(currentline["name"])
-			if (currentline["level"]>=2 && currentline["level"]<=8):
+			if (currentline["level"]>=3 && currentline["level"]<=8):
 				cards_tier2[currentline["grade"]].push_back(currentline["name"])
-			if (currentline["level"]>=4 && currentline["level"]<=10):
+			if (currentline["level"]>=5 && currentline["level"]<=10):
 				cards_tier3[currentline["grade"]].push_back(currentline["name"])
 		
 		for i in range(4-currentline["grade"]):
@@ -56,7 +56,7 @@ func calc_value(ID,value):
 	if (value=="level"):
 		return data[ID]["level"]
 	elif (value=="production"):
-		return ("production 1" in data[ID]["effects"])+2*("production 2" in data[ID])
+		return ("production 1" in data[ID]["effects"])+2*("production 2" in data[ID]["effects"])
 	elif (value=="dmg"):
 		return data[ID]["dmg"]
 	elif (value=="structure"):

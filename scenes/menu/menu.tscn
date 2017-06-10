@@ -1,7 +1,9 @@
-[gd_scene load_steps=18 format=1]
+[gd_scene load_steps=26 format=1]
 
 [ext_resource path="res://scripts/menu/menu.gd" type="Script" id=1]
 [ext_resource path="res://images/ui/window.png" type="Texture" id=2]
+[ext_resource path="res://images/background/galaxy.png" type="Texture" id=3]
+[ext_resource path="res://images/ui/arrow_up.png" type="Texture" id=4]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -235,6 +237,84 @@ expand_margin/top = 24.0
 expand_margin/bottom = 0.0
 draw_center = true
 
+[sub_resource type="StyleBoxFlat" id=16]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0, 0, 0, 1 )
+light_color = Color( 0, 0, 0, 1 )
+dark_color = Color( 0, 0, 0, 1 )
+border_size = 0
+border_blend = false
+draw_bg = true
+
+[sub_resource type="StyleBoxFlat" id=17]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0.6, 0.6, 0.6, 1 )
+light_color = Color( 1, 1, 1, 1 )
+dark_color = Color( 1, 1, 1, 1 )
+border_size = 4
+border_blend = false
+draw_bg = false
+
+[sub_resource type="StyleBoxFlat" id=18]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0.6, 0.6, 0.6, 1 )
+light_color = Color( 1, 0.501961, 0.501961, 1 )
+dark_color = Color( 1, 0.501961, 0.501961, 1 )
+border_size = 4
+border_blend = false
+draw_bg = false
+
+[sub_resource type="StyleBoxFlat" id=19]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0.6, 0.6, 0.6, 1 )
+light_color = Color( 0.752941, 0.878431, 1, 1 )
+dark_color = Color( 0.752941, 0.878431, 1, 1 )
+border_size = 2
+border_blend = false
+draw_bg = false
+
+[sub_resource type="StyleBoxFlat" id=20]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0.6, 0.6, 0.6, 1 )
+light_color = Color( 0.25098, 0.752941, 0.25098, 1 )
+dark_color = Color( 0.25098, 0.752941, 0.25098, 1 )
+border_size = 4
+border_blend = false
+draw_bg = false
+
+[sub_resource type="StyleBoxFlat" id=21]
+
+content_margin/left = -1.0
+content_margin/right = -1.0
+content_margin/top = -1.0
+content_margin/bottom = -1.0
+bg_color = Color( 0.6, 0.6, 0.6, 1 )
+light_color = Color( 0.752941, 0.25098, 0.25098, 1 )
+dark_color = Color( 0.752941, 0.25098, 0.25098, 1 )
+border_size = 4
+border_blend = false
+draw_bg = false
+
 [node name="Menu" type="CanvasLayer"]
 
 layer = 100
@@ -309,6 +389,7 @@ margin/bottom = 128.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
+text = "CAMPAIGN"
 flat = false
 
 [node name="Button7" type="Button" parent="Panel/VBoxContainer"]
@@ -487,6 +568,25 @@ margin/right = -350.0
 margin/bottom = 425.0
 custom_styles/panel = SubResource( 15 )
 
+[node name="Title" type="Label" parent="Deck/Card"]
+
+anchor/left = 1
+anchor/right = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 0
+margin/left = 298.0
+margin/top = -22.0
+margin/right = 2.0
+margin/bottom = -2.0
+text = "CARD"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="Panel" type="Panel" parent="Deck"]
 
 visibility/self_opacity = 0.75
@@ -646,7 +746,7 @@ percent_visible = 1.0
 lines_skipped = 0
 max_lines_visible = -1
 
-[node name="Title1" type="Label" parent="Deck"]
+[node name="Title" type="Label" parent="Deck"]
 
 anchor/right = 1
 focus/ignore_mouse = true
@@ -658,25 +758,6 @@ margin/top = -22.0
 margin/right = 2.0
 margin/bottom = -2.0
 text = "DECK"
-align = 1
-valign = 1
-percent_visible = 1.0
-lines_skipped = 0
-max_lines_visible = -1
-
-[node name="Title2" type="Label" parent="Deck"]
-
-anchor/left = 1
-anchor/right = 1
-focus/ignore_mouse = true
-focus/stop_mouse = true
-size_flags/horizontal = 3
-size_flags/vertical = 0
-margin/left = -52.0
-margin/top = -22.0
-margin/right = -348.0
-margin/bottom = -2.0
-text = "CARD"
 align = 1
 valign = 1
 percent_visible = 1.0
@@ -841,6 +922,691 @@ shortcut = null
 text = "BACK"
 flat = false
 
+[node name="Map" type="Panel" parent="."]
+
+editor/display_folded = true
+visibility/visible = false
+visibility/self_opacity = 0.75
+visibility/light_mask = 0
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = SubResource( 14 )
+margin/left = 50.0
+margin/top = 50.0
+margin/right = 400.0
+margin/bottom = 50.0
+custom_styles/panel = SubResource( 15 )
+
+[node name="Title" type="Label" parent="Map"]
+
+visibility/light_mask = 0
+anchor/right = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 0
+margin/left = 2.0
+margin/top = -22.0
+margin/right = 2.0
+margin/bottom = -2.0
+text = "MAP"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Black" type="Panel" parent="Map"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 4.0
+margin/top = 6.0
+margin/right = 4.0
+margin/bottom = 4.0
+custom_styles/panel = SubResource( 16 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Map"]
+
+visibility/light_mask = 0
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 4.0
+margin/top = 6.0
+margin/right = 4.0
+margin/bottom = 4.0
+scroll/horizontal = true
+scroll/vertical = true
+
+[node name="CenterContainer" type="CenterContainer" parent="Map/ScrollContainer"]
+
+visibility/light_mask = 0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1024.0
+margin/bottom = 896.0
+use_top_left = false
+
+[node name="Background" type="TextureFrame" parent="Map/ScrollContainer/CenterContainer"]
+
+visibility/light_mask = 0
+rect/min_size = Vector2( 1024, 896 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 1024.0
+margin/bottom = 896.0
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6
+
+[node name="Button" type="Button" parent="Map/ScrollContainer/CenterContainer/Background"]
+
+visibility/visible = false
+rect/min_size = Vector2( 48, 48 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 4.0
+margin/bottom = 18.0
+custom_styles/hover = SubResource( 17 )
+custom_styles/pressed = SubResource( 18 )
+custom_styles/focus = SubResource( 19 )
+custom_styles/disabled = SubResource( 20 )
+custom_styles/normal = SubResource( 21 )
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+
+[node name="Icon" type="TextureFrame" parent="Map/ScrollContainer/CenterContainer/Background/Button"]
+
+visibility/light_mask = 0
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 8.0
+margin/top = 8.0
+margin/right = 8.0
+margin/bottom = 8.0
+expand = true
+stretch_mode = 6
+
+[node name="System" type="Panel" parent="Map"]
+
+visibility/self_opacity = 0.75
+visibility/light_mask = 0
+anchor/left = 1
+anchor/top = 1
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -50.0
+margin/top = 354.0
+margin/right = -350.0
+margin/bottom = 204.0
+custom_styles/panel = SubResource( 15 )
+
+[node name="Title" type="Label" parent="Map/System"]
+
+visibility/light_mask = 0
+anchor/right = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = -22.0
+margin/right = 0.0
+margin/bottom = -2.0
+text = "SYSTEM"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Icon" type="TextureFrame" parent="Map/System"]
+
+visibility/light_mask = 0
+anchor/right = 1
+rect/min_size = Vector2( 128, 128 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 4.0
+margin/top = 6.0
+margin/right = 168.0
+margin/bottom = 134.0
+expand = true
+stretch_mode = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Map/System"]
+
+visibility/light_mask = 0
+anchor/right = 1
+rect/scale = Vector2( -1, 1 )
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 296.0
+margin/top = 64.0
+margin/right = -288.0
+margin/bottom = 128.0
+alignment = 0
+
+[node name="Planet0" type="TextureFrame" parent="Map/System/HBoxContainer"]
+
+visibility/visible = false
+visibility/light_mask = 0
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 144.0
+margin/bottom = 64.0
+expand = true
+stretch_mode = 6
+
+[node name="Space" type="Control" parent="Map/System/HBoxContainer"]
+
+visibility/light_mask = 0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 292.0
+margin/bottom = 64.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Map/System"]
+
+visibility/light_mask = 0
+anchor/right = 1
+rect/scale = Vector2( -1, 1 )
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 2
+margin/left = 296.0
+margin/top = 112.0
+margin/right = -288.0
+margin/bottom = 144.0
+alignment = 0
+
+[node name="Planet0" type="TextureFrame" parent="Map/System/HBoxContainer2"]
+
+visibility/visible = false
+visibility/light_mask = 0
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 144.0
+margin/bottom = 32.0
+texture = ExtResource( 4 )
+expand = true
+stretch_mode = 6
+
+[node name="Space" type="Control" parent="Map/System/HBoxContainer2"]
+
+visibility/light_mask = 0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 292.0
+margin/bottom = 32.0
+
+[node name="Status" type="Panel" parent="Map"]
+
+visibility/self_opacity = 0.75
+visibility/light_mask = 0
+anchor/left = 1
+anchor/right = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -50.0
+margin/top = 0.0
+margin/right = -350.0
+margin/bottom = 238.0
+custom_styles/panel = SubResource( 15 )
+
+[node name="Title" type="Label" parent="Map/Status"]
+
+visibility/light_mask = 0
+anchor/right = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = -22.0
+margin/right = 0.0
+margin/bottom = -2.0
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Map/Status"]
+
+visibility/light_mask = 0
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 4.0
+margin/top = 6.0
+margin/right = 4.0
+margin/bottom = 4.0
+alignment = 0
+
+[node name="Text1" type="Label" parent="Map/Status/VBoxContainer"]
+
+visibility/light_mask = 0
+rect/min_size = Vector2( 0, 16 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 292.0
+margin/bottom = 16.0
+text = "CREDITS"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Text2" type="Label" parent="Map/Status/VBoxContainer"]
+
+visibility/light_mask = 0
+rect/min_size = Vector2( 0, 16 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 20.0
+margin/right = 292.0
+margin/bottom = 36.0
+text = "NUMBER_OF_PLANETS"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Text3" type="Label" parent="Map/Status/VBoxContainer"]
+
+visibility/light_mask = 0
+rect/min_size = Vector2( 0, 16 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 40.0
+margin/right = 292.0
+margin/bottom = 56.0
+text = "NUMBER_OF_CARDS"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Text4" type="Label" parent="Map/Status/VBoxContainer"]
+
+visibility/light_mask = 0
+rect/min_size = Vector2( 0, 16 )
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = 60.0
+margin/right = 292.0
+margin/bottom = 76.0
+text = "MAX_DECK_SIZE"
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="Panel" type="Panel" parent="Map"]
+
+visibility/self_opacity = 0.75
+visibility/light_mask = 0
+anchor/left = 1
+anchor/top = 1
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = -50.0
+margin/top = 200.0
+margin/right = -350.0
+margin/bottom = 0.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Map/Panel"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 4.0
+margin/top = 4.0
+margin/right = 4.0
+margin/bottom = 4.0
+custom_constants/separation = 4
+alignment = 0
+
+[node name="ButtonAttack" type="Button" parent="Map/Panel/VBoxContainer"]
+
+visibility/light_mask = 0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 292.0
+margin/bottom = 45.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "ATTACK"
+flat = false
+
+[node name="ButtonDeck" type="Button" parent="Map/Panel/VBoxContainer"]
+
+visibility/light_mask = 0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 49.0
+margin/right = 292.0
+margin/bottom = 94.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "DECK"
+flat = false
+
+[node name="ButtonShop" type="Button" parent="Map/Panel/VBoxContainer"]
+
+visibility/light_mask = 0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 98.0
+margin/right = 292.0
+margin/bottom = 143.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "SHOP"
+flat = false
+
+[node name="ButtonBack" type="Button" parent="Map/Panel/VBoxContainer"]
+
+visibility/light_mask = 0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 147.0
+margin/right = 292.0
+margin/bottom = 192.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "BACK"
+flat = false
+
+[node name="Shop" type="Panel" parent="."]
+
+editor/display_folded = true
+visibility/visible = false
+visibility/self_opacity = 0.75
+visibility/light_mask = 0
+anchor/left = 1
+anchor/top = 1
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = SubResource( 14 )
+margin/left = 350.0
+margin/top = 230.0
+margin/right = 50.0
+margin/bottom = 50.0
+custom_styles/panel = SubResource( 15 )
+
+[node name="Title" type="Label" parent="Shop"]
+
+visibility/light_mask = 0
+anchor/right = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = -22.0
+margin/right = 0.0
+margin/bottom = -2.0
+text = "SHOP"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Shop"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 4.0
+margin/top = 6.0
+margin/right = 4.0
+margin/bottom = 4.0
+alignment = 0
+
+[node name="ButtonTier1" type="Button" parent="Shop/VBoxContainer"]
+
+visibility/light_mask = 0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 292.0
+margin/bottom = 39.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "BUY_TIER1_CARD"
+flat = false
+
+[node name="ButtonTier2" type="Button" parent="Shop/VBoxContainer"]
+
+visibility/light_mask = 0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 43.0
+margin/right = 292.0
+margin/bottom = 82.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "BUY_TIER2_CARD"
+flat = false
+
+[node name="ButtonTier3" type="Button" parent="Shop/VBoxContainer"]
+
+visibility/light_mask = 0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 86.0
+margin/right = 292.0
+margin/bottom = 125.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "BUY_TIER3_CARD"
+flat = false
+
+[node name="ButtonBack" type="Button" parent="Shop/VBoxContainer"]
+
+visibility/light_mask = 0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 129.0
+margin/right = 292.0
+margin/bottom = 170.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "BACK"
+flat = false
+
+[node name="Card" type="Panel" parent="."]
+
+editor/display_folded = true
+visibility/visible = false
+visibility/self_opacity = 0.75
+visibility/light_mask = 0
+anchor/left = 1
+anchor/top = 1
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = SubResource( 14 )
+margin/left = 350.0
+margin/top = 525.0
+margin/right = 50.0
+margin/bottom = 50.0
+custom_styles/panel = SubResource( 15 )
+
+[node name="Card" type="Control" parent="Card"]
+
+visibility/light_mask = 0
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 4.0
+margin/top = 6.0
+margin/right = 4.0
+margin/bottom = 56.0
+
+[node name="Title" type="Label" parent="Card"]
+
+visibility/light_mask = 0
+anchor/right = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 0
+margin/left = 0.0
+margin/top = -22.0
+margin/right = 0.0
+margin/bottom = -2.0
+text = "NEW_CARD"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
+[node name="ButtonBack" type="Button" parent="Card"]
+
+visibility/light_mask = 0
+anchor/top = 1
+anchor/bottom = 1
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 4.0
+margin/top = 54.0
+margin/right = 296.0
+margin/bottom = 4.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "BACK"
+flat = false
+
 [node name="BattleEnd" type="AcceptDialog" parent="."]
 
 visibility/visible = false
@@ -860,6 +1626,24 @@ margin/bottom = -50.0
 popup/exclusive = true
 window/title = ""
 dialog/hide_on_ok = true
+
+[node name="Text" type="Label" parent="BattleEnd"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 0
+margin/left = 4.0
+margin/top = 6.0
+margin/right = 4.0
+margin/bottom = 30.0
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
 
 [node name="Quit" type="ConfirmationDialog" parent="."]
 
@@ -881,7 +1665,9 @@ popup/exclusive = true
 window/title = "QUIT?"
 dialog/hide_on_ok = true
 
-[connection signal="pressed" from="Panel/VBoxContainer/Button1" to="." method="start"]
+[connection signal="pressed" from="Panel/VBoxContainer/Button1" to="." method="_skirmish"]
+
+[connection signal="pressed" from="Panel/VBoxContainer/Button5" to="." method="start_campaign"]
 
 [connection signal="pressed" from="Panel/VBoxContainer/Button2" to="." method="show_deck"]
 
@@ -891,7 +1677,7 @@ dialog/hide_on_ok = true
 
 [connection signal="pressed" from="Deck/Panel/VBoxContainer/ButtonLoad" to="." method="_show_deck_load"]
 
-[connection signal="pressed" from="Deck/Panel/VBoxContainer/ButtonBack" to="." method="show_main"]
+[connection signal="pressed" from="Deck/Panel/VBoxContainer/ButtonBack" to="." method="hide_deck"]
 
 [connection signal="pressed" from="Deck/Add" to="." method="add_card"]
 
@@ -904,6 +1690,26 @@ dialog/hide_on_ok = true
 [connection signal="pressed" from="Deck/Load/HBoxContainer/ButtonSave" to="." method="_deck_save"]
 
 [connection signal="pressed" from="Deck/Load/HBoxContainer/ButtonBack" to="Deck/Load" method="hide"]
+
+[connection signal="input_event" from="Map/ScrollContainer/CenterContainer/Background" to="." method="_map_input"]
+
+[connection signal="pressed" from="Map/Panel/VBoxContainer/ButtonAttack" to="." method="_campaign"]
+
+[connection signal="pressed" from="Map/Panel/VBoxContainer/ButtonDeck" to="." method="show_deck_campaign"]
+
+[connection signal="pressed" from="Map/Panel/VBoxContainer/ButtonShop" to="." method="show_shop"]
+
+[connection signal="pressed" from="Map/Panel/VBoxContainer/ButtonBack" to="." method="show_main"]
+
+[connection signal="pressed" from="Shop/VBoxContainer/ButtonTier1" to="." method="buy_tier1"]
+
+[connection signal="pressed" from="Shop/VBoxContainer/ButtonTier2" to="." method="buy_tier2"]
+
+[connection signal="pressed" from="Shop/VBoxContainer/ButtonTier3" to="." method="buy_tier3"]
+
+[connection signal="pressed" from="Shop/VBoxContainer/ButtonBack" to="." method="hide_shop"]
+
+[connection signal="pressed" from="Card/ButtonBack" to="." method="hide_card"]
 
 [connection signal="confirmed" from="Quit" to="." method="quit"]
 

@@ -1,11 +1,21 @@
 ,en
 SKIRMISH,skirmish
+CAMPAIGN,campaign
 DECK,deck
 OPTIONS,options
 QUIT,quit
 BACK,back
+ATTACK,attack
+SHOP,shop
+MAP,map
+SYSTEM,system
+BUY_TIER1_CARD,buy tier 1 card
+BUY_TIER2_CARD,buy tier 2 card
+BUY_TIER3_CARD,buy tier 3 card
 INVENTORY,inventory
+CARD,card
 CARDS,cards
+NEW_CARD,New Card!
 OK,OK
 Cancel,Cancel
 QUIT?,Quit?
@@ -15,6 +25,7 @@ FILENAME,filename
 default,default
 WON!,Won!
 LOST!,Lost!
+GAINED,gained
 GAS_GIANT,Gas Giant
 ASTEROID_BELT,Asteroid Belt
 BARREN,Barren
@@ -24,3 +35,7 @@ TERRAN,Terran
 OCEAN,Ocean
 TOXIC,Toxic
 INFERNO,Inferno
+CREDITS,Credits
+NUMBER_OF_PLANETS,number of planets
+NUMBER_OF_CARDS,total number of cards
+MAX_DECK_SIZE,max. deck size
