@@ -342,7 +342,7 @@ func apply_effect_unit(effect,player,target):
 
 
 func attack_card_unit(attacker,target,player,enemy,counterattack=false):
-	if (cards[player][attacker].attacked || cards[player][attacker]==null || cards[enemy][target]==null || (player_points[player]<Data.calc_value(cards[player][attacker].type,"attack cost") && !counterattack) || "no attack" in Data.data[cards[player][attacker].type]["effects"] || counterattack || floor(attacker/POSITIONS)!=floor(target/POSITIONS)):
+	if ((cards[player][attacker].attacked && !counterattack) || cards[player][attacker]==null || cards[enemy][target]==null || (player_points[player]<Data.calc_value(cards[player][attacker].type,"attack cost") && !counterattack) || ("no attack" in Data.data[cards[player][attacker].type]["effects"] && !counterattack) || floor(attacker/POSITIONS)!=floor(target/POSITIONS)):
 		return
 	
 	var card_a = Data.data[cards[player][attacker].type]
@@ -367,11 +367,8 @@ func attack_card_unit(attacker,target,player,enemy,counterattack=false):
 					apply_effect(enemy,card_a["effect"][i])
 	for i in range(card_t["effects"].size()):
 		if (card_t["events"][i]=="attacked"):
-			print("when attacked")
 			if (card_t["targets"][i]=="attacker"):
-				print("target attacker")
 				if (card_t["effects"][i]=="counterattack"):
-					print("counter attack")
 					counter = true
 			elif (card_t["targets"][i]=="self"):
 				apply_effect_unit(card_t["effects"][i],enemy,attacker)
@@ -417,9 +414,7 @@ func attack_card_unit(attacker,target,player,enemy,counterattack=false):
 			destroy_unit(target,enemy)
 			counter = false
 	
-	print(str(counterattack)+", "+str(counter))
 	if (!counterattack && counter):
-		print("counter attack!")
 		attack_card_unit(target,attacker,enemy,player,true)
 	
 	calc_prod()
@@ -585,7 +580,6 @@ func next_turn():
 			num_units += 1
 			for i in range(card["effects"].size()):
 				if (card["events"][i]=="player turn"):
-					print(str(x)+", "+str(pos)+": player turn event")
 					if (card["effects"][i]=="drydock"):
 						drydock(x,player,cards[player][x].type)
 					elif (card["effects"][i]=="mine damage"):
@@ -593,9 +587,7 @@ func next_turn():
 					elif (card["effects"][i]=="self desctruction"):
 						destroy_unit(x,player,false)
 						num_units -= 1
-					print(str(field[pos])+", "+card["targets"][i]+", "+str(field[pos].owner)+", "+str(player))
 					if (field[pos]!=null && card["targets"][i]=="friendly planet" && field[pos].owner==player):
-						print(str(x)+": friendly planet")
 						if (card["effects"][i]=="terraform"):
 							field[pos].planet = sign(PLANET_TERRAN-field[pos].planet)
 						elif (card["effects"][i]=="production 1"):

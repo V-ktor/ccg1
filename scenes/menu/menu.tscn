@@ -1,9 +1,10 @@
-[gd_scene load_steps=26 format=1]
+[gd_scene load_steps=27 format=1]
 
 [ext_resource path="res://scripts/menu/menu.gd" type="Script" id=1]
 [ext_resource path="res://images/ui/window.png" type="Texture" id=2]
 [ext_resource path="res://images/background/galaxy.png" type="Texture" id=3]
-[ext_resource path="res://images/ui/arrow_up.png" type="Texture" id=4]
+[ext_resource path="res://scripts/menu/map_borders.gd" type="Script" id=4]
+[ext_resource path="res://images/ui/arrow_up.png" type="Texture" id=5]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -309,8 +310,8 @@ content_margin/right = -1.0
 content_margin/top = -1.0
 content_margin/bottom = -1.0
 bg_color = Color( 0.6, 0.6, 0.6, 1 )
-light_color = Color( 0.752941, 0.25098, 0.25098, 1 )
-dark_color = Color( 0.752941, 0.25098, 0.25098, 1 )
+light_color = Color( 0.752941, 0.313726, 0.25098, 1 )
+dark_color = Color( 0.752941, 0.313726, 0.25098, 1 )
 border_size = 4
 border_blend = false
 draw_bg = false
@@ -368,7 +369,7 @@ size_flags/vertical = 3
 margin/left = 0.0
 margin/top = 0.0
 margin/right = 292.0
-margin/bottom = 62.0
+margin/bottom = 52.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -383,9 +384,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 3
 size_flags/vertical = 3
 margin/left = 0.0
-margin/top = 66.0
+margin/top = 56.0
 margin/right = 292.0
-margin/bottom = 128.0
+margin/bottom = 108.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -400,9 +401,26 @@ focus/stop_mouse = true
 size_flags/horizontal = 3
 size_flags/vertical = 3
 margin/left = 0.0
-margin/top = 132.0
+margin/top = 112.0
 margin/right = 292.0
-margin/bottom = 194.0
+margin/bottom = 164.0
+toggle_mode = false
+enabled_focus_mode = 2
+shortcut = null
+text = "NEW_CAMPAIGN"
+flat = false
+
+[node name="Button8" type="Button" parent="Panel/VBoxContainer"]
+
+visibility/light_mask = 0
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 168.0
+margin/right = 292.0
+margin/bottom = 220.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -416,9 +434,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 3
 size_flags/vertical = 3
 margin/left = 0.0
-margin/top = 198.0
+margin/top = 224.0
 margin/right = 292.0
-margin/bottom = 260.0
+margin/bottom = 276.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -433,9 +451,9 @@ focus/stop_mouse = true
 size_flags/horizontal = 3
 size_flags/vertical = 3
 margin/left = 0.0
-margin/top = 264.0
+margin/top = 280.0
 margin/right = 292.0
-margin/bottom = 326.0
+margin/bottom = 332.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
@@ -450,7 +468,7 @@ focus/stop_mouse = true
 size_flags/horizontal = 3
 size_flags/vertical = 3
 margin/left = 0.0
-margin/top = 330.0
+margin/top = 336.0
 margin/right = 292.0
 margin/bottom = 392.0
 toggle_mode = false
@@ -999,25 +1017,40 @@ size_flags/horizontal = 3
 size_flags/vertical = 3
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 1024.0
-margin/bottom = 896.0
+margin/right = 1536.0
+margin/bottom = 1344.0
 use_top_left = false
 
 [node name="Background" type="TextureFrame" parent="Map/ScrollContainer/CenterContainer"]
 
 visibility/light_mask = 0
-rect/min_size = Vector2( 1024, 896 )
+rect/min_size = Vector2( 1536, 1344 )
 focus/ignore_mouse = false
 focus/stop_mouse = true
 size_flags/horizontal = 2
 size_flags/vertical = 2
 margin/left = 0.0
 margin/top = 0.0
-margin/right = 1024.0
-margin/bottom = 896.0
+margin/right = 1536.0
+margin/bottom = 1344.0
 texture = ExtResource( 3 )
 expand = true
 stretch_mode = 6
+
+[node name="Borders" type="Control" parent="Map/ScrollContainer/CenterContainer/Background"]
+
+visibility/light_mask = 0
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = false
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 0.0
+margin/bottom = 0.0
+script/script = ExtResource( 4 )
 
 [node name="Button" type="Button" parent="Map/ScrollContainer/CenterContainer/Background"]
 
@@ -1179,7 +1212,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 144.0
 margin/bottom = 32.0
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 expand = true
 stretch_mode = 6
 
@@ -1607,6 +1640,44 @@ shortcut = null
 text = "BACK"
 flat = false
 
+[node name="ResetCampaign" type="ConfirmationDialog" parent="."]
+
+visibility/visible = false
+anchor/left = 3
+anchor/top = 3
+anchor/right = 3
+anchor/bottom = 3
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+theme/theme = SubResource( 14 )
+margin/left = 150.0
+margin/top = 50.0
+margin/right = -150.0
+margin/bottom = -50.0
+popup/exclusive = true
+window/title = "NEW_CAMPAIGN"
+dialog/hide_on_ok = true
+
+[node name="Text" type="Label" parent="ResetCampaign"]
+
+anchor/right = 1
+anchor/bottom = 1
+focus/ignore_mouse = true
+focus/stop_mouse = true
+size_flags/horizontal = 3
+size_flags/vertical = 3
+margin/left = 4.0
+margin/top = 6.0
+margin/right = 4.0
+margin/bottom = 28.0
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+
 [node name="BattleEnd" type="AcceptDialog" parent="."]
 
 visibility/visible = false
@@ -1669,6 +1740,8 @@ dialog/hide_on_ok = true
 
 [connection signal="pressed" from="Panel/VBoxContainer/Button5" to="." method="start_campaign"]
 
+[connection signal="pressed" from="Panel/VBoxContainer/Button7" to="ResetCampaign" method="popup_centered"]
+
 [connection signal="pressed" from="Panel/VBoxContainer/Button2" to="." method="show_deck"]
 
 [connection signal="pressed" from="Panel/VBoxContainer/Button4" to="." method="show_quit"]
@@ -1710,6 +1783,8 @@ dialog/hide_on_ok = true
 [connection signal="pressed" from="Shop/VBoxContainer/ButtonBack" to="." method="hide_shop"]
 
 [connection signal="pressed" from="Card/ButtonBack" to="." method="hide_card"]
+
+[connection signal="confirmed" from="ResetCampaign" to="." method="reset_campaign"]
 
 [connection signal="confirmed" from="Quit" to="." method="quit"]
 

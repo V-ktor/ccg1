@@ -21,8 +21,6 @@ PLANET_TERRAN:[preload("res://images/planets/terran01.png"),preload("res://image
 PLANET_OCEAN:[preload("res://images/planets/ocean01.png"),preload("res://images/planets/ocean02.png"),preload("res://images/planets/ocean03.png"),preload("res://images/planets/ocean04.png"),preload("res://images/planets/ocean05.png")],
 PLANET_TOXIC:[preload("res://images/planets/toxic01.png"),preload("res://images/planets/toxic02.png"),preload("res://images/planets/toxic03.png"),preload("res://images/planets/toxic04.png"),preload("res://images/planets/toxic05.png")],
 PLANET_INFERNO:[preload("res://images/planets/inferno01.png"),preload("res://images/planets/inferno02.png"),preload("res://images/planets/inferno03.png"),preload("res://images/planets/inferno04.png"),preload("res://images/planets/inferno05.png")]}
-const FACTION_COLOUR = [
-Color(0.75,0.75,0.75),Color(0.1,1.0,0.2),Color(1.0,0.2,0.1),Color(0.9,0.4,0.0),Color(0.8,0.0,0.6),Color(0.2,0.1,0.8)]
 
 
 var card_selected
@@ -39,9 +37,9 @@ var map_scroll = false
 var last_mouse_pos = Vector2(0,0)
 var star_selected = -1
 var campaign = false
-var campaign_battle = false
+var enemy
 var add_credits = 0
-
+var faction_stylebox = []
 
 var main_scene = preload("res://scenes/main/main.tscn")
 
@@ -52,25 +50,28 @@ func end_match(win):
 		if (campaign):
 			Campaign.stars[star_selected].owner = 1
 			Campaign.credits += add_credits
-			Campaign.update_deck()
 			get_node("BattleEnd/Text").set_text(str(add_credits)+tr("CREDITS")+" "+tr("GAINED")+"!")
 		else:
 			get_node("BattleEnd/Text").set_text("")
 	else:
+		if (campaign):
+			Campaign.stars[star_selected].owner = enemy
 		get_node("BattleEnd").set_title(tr("LOST!"))
 		get_node("BattleEnd/Text").set_text("")
 	if (campaign):
+		Campaign.update_deck()
 		Campaign._save()
 		_select_star(-1)
-		update_map()
+#		update_map()
 		show_map()
+		Campaign.next_turn()
 	else:
 		show_main()
 	get_node("BattleEnd").popup()
 
 func _skirmish():
 	var mi = main_scene.instance()
-	campaign_battle = false
+	campaign = false
 	
 	mi.SIZE = 4				# number of planets
 	mi.POSITIONS = 3		# number of fields per planet
@@ -85,16 +86,18 @@ func _campaign():
 	if (!campaign || star_selected<0):
 		return
 	
+	if (Campaign.turn==0):
+		end_match(true)
+		return
+	
 	var system = Campaign.stars[star_selected]
-	var ai_cards = 25
+	var ai_cards = Campaign.get_num_cards(system.owner)+5
 	var planets = []
 	var num_enemy_planets = 0
 	var mi = main_scene.instance()
-	campaign_battle = true
+	campaign = true
+	enemy = system.owner
 	Campaign._save()
-	
-	if (system.owner>1):
-		ai_cards = Campaign.get_num_cards(system.owner)+5
 	
 	mi.SIZE = system.planets.size()
 	mi.POSITIONS = 3
@@ -261,6 +264,7 @@ func show_map():
 	get_node("Deck").hide()
 	get_node("Map").show()
 	get_node("Panel").hide()
+	update_map()
 
 func show_main():
 	campaign = false
@@ -407,6 +411,18 @@ func _ready():
 	_load()
 	
 	update_cards()
+	
+	faction_stylebox.resize(Campaign.FACTION_COLOUR.size())
+	for i in range(Campaign.FACTION_COLOUR.size()):
+		var stylebox = StyleBoxFlat.new()
+		stylebox.set_light_color(Campaign.FACTION_COLOUR[i])
+		stylebox.set_dark_color(Campaign.FACTION_COLOUR[i])
+		stylebox.set_border_size(4)
+		stylebox.set_border_blend(false)
+		stylebox.set_draw_center(false)
+		faction_stylebox[i] = stylebox
+	faction_stylebox[0].set_light_color(Color(0.75,0.35,0.25))
+	faction_stylebox[0].set_dark_color(Color(0.75,0.35,0.25))
 
 
 func _show_deck_load():
@@ -531,7 +547,10 @@ func update_map():
 			button = get_node("Map/ScrollContainer/CenterContainer/Background/Button"+str(i))
 		button.get_node("Icon").set_texture(load("res://images/star_icons/"+s.type+".png"))
 		button.set_disabled(s.owner==1)
-		button.set_pos(get_node("Map/ScrollContainer/CenterContainer/Background").get_size()/2+s.position)
+		button.add_style_override("normal",faction_stylebox[s.owner])
+		button.set_pos(get_node("Map/ScrollContainer/CenterContainer/Background").get_size()/2+s.position-button.get_size()/2.0)
+	
+	get_node("Map/ScrollContainer/CenterContainer/Background/Borders").update()
 	
 	get_node("Map/Status/VBoxContainer/Text1").set_text(tr("CREDITS")+": "+str(Campaign.credits))
 	get_node("Map/Status/VBoxContainer/Text2").set_text(tr("NUMBER_OF_PLANETS")+": "+str(planets_controled)+" / "+str(Campaign.stars.size()))
@@ -541,6 +560,8 @@ func update_map():
 func _select_star(ID):
 	var planets
 	var num_planets
+	var min_dist = 0.0
+	var attackable = false
 	star_selected = ID
 	if (ID>=0):
 		planets = Campaign.stars[ID].planets
@@ -571,18 +592,36 @@ func _select_star(ID):
 		var icon = get_node("Map/System/HBoxContainer/Planet"+str(i))
 		icon.set_texture(planet_icons[planets[num_planets-1-i].type][planets[num_planets-1-i].image])
 		icon.show()
-		arrow.set_modulate(FACTION_COLOUR[planets[num_planets-1-i].owner])
+		arrow.set_modulate(Campaign.FACTION_COLOUR[planets[num_planets-1-i].owner])
 		arrow.show()
 	
-	get_node("Map/Panel/VBoxContainer/ButtonAttack").set_disabled(false)
+	for s in Campaign.stars:
+		var dist = s.position.distance_squared_to(Campaign.stars[ID].position)
+		if (dist<min_dist || dist==0.0):
+			min_dist = 1.1*dist
+	if (min_dist<25000):
+		min_dist = 25000
+	for s in Campaign.stars:
+		if (s.owner==1):
+			var dist = s.position.distance_squared_to(Campaign.stars[ID].position)
+			if (dist<=min_dist):
+				attackable = true
+				break
+	get_node("Map/Panel/VBoxContainer/ButtonAttack").set_disabled(!attackable && Campaign.turn==0)
 
 func start_campaign():
 	var loaded = Campaign._load()
 	if (!loaded):
 		Campaign.new(100)
-	update_map()
+	elif (Campaign.turn>0):
+		Campaign.next_turn()
+#	update_map()
 	show_map()
 
+func reset_campaign():
+	Campaign.new(100)
+#	update_map()
+	show_map()
 
 func buy_tier1():
 	if (Campaign.credits<100):

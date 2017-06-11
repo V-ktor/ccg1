@@ -7,12 +7,16 @@ const star_type = [
 "star_white01","star_white02","star_white03","star_white04",
 "star_yellow01","star_yellow02","star_yellow03","star_yellow04"]
 const POS = [Vector2(50,250),Vector2(-50,-250),Vector2(300,-50),Vector2(-300,50),Vector2(0,0)]
+const FACTION_COLOUR = [
+Color(0.75,0.75,0.75),Color(0.1,1.0,0.2),Color(0.8,0.1,0.0),Color(0.9,0.4,0.0),Color(0.8,0.0,0.6),Color(0.2,0.1,0.8)]
+const NUM_FACTIONS = 5
 
 var stars = []
 var credits = 0
 var max_deck_size = 20
 var inventory = []
 var deck = []
+var turn = false
 
 class Star:
 	var type
@@ -59,10 +63,9 @@ class Planet:
 
 func _save():
 	var file = File.new()
-	print("SAVE CAMPAIGN")
 	get_node("/root/Menu").create_save_dir()
 	file.open("user://campaign.sav",File.WRITE)
-	file.store_line({"credits":credits,"inventory":inventory,"deck":deck}.to_json())
+	file.store_line({"credits":credits,"inventory":inventory,"deck":deck,"turn":turn}.to_json())
 	for s in stars:
 		file.store_line(s.to_dict().to_json())
 	file.close()
@@ -80,6 +83,7 @@ func _load():
 	credits = currentline["credits"]
 	inventory = currentline["inventory"]
 	deck = currentline["deck"]
+	turn = currentline["turn"]
 	
 	while (!file.eof_reached()):
 		var currentline = {}
@@ -109,7 +113,7 @@ func new(num_stars):
 	for i in range(num_stars):
 		var planets = []
 		var num_planets = randi()%3+3
-		var pos = rand_pos(Vector2(0,0),256)
+		var pos = rand_pos(Vector2(0,0),350)
 		var faction = 0
 		for i in range(POS.size()):
 			if (POS[i].distance_squared_to(pos)<100*100):
@@ -135,6 +139,7 @@ func new(num_stars):
 	deck = ["fighter","fighter","light_fighter","light_fighter","freighter","freighter","space_station","defender","corvette","cruiser","destroyer","asteroid_ship",
 	"draw_3","points_2","upgrade_weapons","planetary_defense_6","repair_4","repair_4","factory_world","planetary_barrier"]
 	credits = 50
+	turn = 0
 	update_deck()
 
 func update_deck():
@@ -144,14 +149,62 @@ func update_deck():
 		deck.remove(i)
 
 func get_num_cards(ID):
+	if (ID==0):
+		return 25
+	
 	var num_planets = 0
 	var num_planets = 0
 	for s in stars:
 		if (s.owner==ID):
 			num_planets += 1
 	
-	return 20+floor(max(num_planets-1,0)/2)
+	if (num_planets<1):
+		return 0
+	else:
+		return 20+floor(max(num_planets-1,0)/2)
 
+func enemy_turn(ID):
+	var num_cards = get_num_cards(ID)
+	if (num_cards==0):
+		next_turn()
+		return
+	
+	var enemy_cards = 0
+	var target
+	for s in stars:
+		if (s.owner==ID):
+			var dist = 250000
+			for j in range(stars.size()):
+				if (stars[j].owner!=ID):
+					var n = get_num_cards(stars[j].owner)
+					var d = s.position.distance_squared_to(stars[j].position)*rand_range(0.9,1.1)+rand_range(-2000,2000)+2*n+5000*(stars[j].owner==1)
+					if (d<=dist):
+						target = j
+						dist = d
+						enemy_cards = n
+	if (target==null):
+		next_turn()
+		return
+	
+	if (stars[target].owner==1):
+		print("AI "+str(ID)+" attacks player!")
+		get_node("/root/Menu").star_selected = target
+		get_node("/root/Menu").enemy = ID
+		get_node("/root/Menu")._campaign()
+		return
+	
+	if (randf()<=chance):
+		stars[target].owner = ID
+	
+	get_node("/root/Menu").update_map()
+	next_turn()
+
+func next_turn():
+	turn += 1
+	if (Campaign.turn>Campaign.NUM_FACTIONS):
+		Campaign.turn = 0
+	if (turn>0):
+		enemy_turn(turn+2)
 
 
 # random star position
@@ -161,7 +214,7 @@ func rand_pos(m,s):
 	var c = true
 	while c:
 		pos = randg(m,s)
-		c = pos.x<-500 || pos.x>500 || pos.y<-400 || pos.y>400
+		c = pos.x<-725 || pos.x>725 || pos.y<-650 || pos.y>650
 		if (!c):
 			for s in stars:
 				if (pos.distance_squared_to(s.position)<50*50):
