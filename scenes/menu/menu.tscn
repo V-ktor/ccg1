@@ -1,10 +1,11 @@
-[gd_scene load_steps=27 format=1]
+[gd_scene load_steps=32 format=1]
 
 [ext_resource path="res://scripts/menu/menu.gd" type="Script" id=1]
 [ext_resource path="res://images/ui/window.png" type="Texture" id=2]
-[ext_resource path="res://images/background/galaxy.png" type="Texture" id=3]
-[ext_resource path="res://scripts/menu/map_borders.gd" type="Script" id=4]
-[ext_resource path="res://images/ui/arrow_up.png" type="Texture" id=5]
+[ext_resource path="res://scripts/cards/card_inventory.gd" type="Script" id=3]
+[ext_resource path="res://images/background/galaxy.png" type="Texture" id=4]
+[ext_resource path="res://scripts/menu/map_borders.gd" type="Script" id=5]
+[ext_resource path="res://images/ui/arrow_up.png" type="Texture" id=6]
 
 [sub_resource type="StyleBoxFlat" id=1]
 
@@ -237,6 +238,58 @@ expand_margin/right = 0.0
 expand_margin/top = 24.0
 expand_margin/bottom = 0.0
 draw_center = true
+
+[sub_resource type="StyleBoxFlat" id=22]
+
+content_margin/left = 2.0
+content_margin/right = 2.0
+content_margin/top = 2.0
+content_margin/bottom = 2.0
+bg_color = Color( 0.12549, 0.25098, 0.313726, 1 )
+light_color = Color( 0.121569, 0.247059, 0.313726, 1 )
+dark_color = Color( 0.121569, 0.247059, 0.313726, 1 )
+border_size = 16
+border_blend = false
+draw_bg = false
+
+[sub_resource type="StyleBoxFlat" id=25]
+
+content_margin/left = 2.0
+content_margin/right = 2.0
+content_margin/top = 2.0
+content_margin/bottom = 2.0
+bg_color = Color( 0.0627451, 0.0941176, 0.12549, 1 )
+light_color = Color( 0.188235, 0.0941176, 0.0627451, 1 )
+dark_color = Color( 0.188235, 0.0941176, 0.0627451, 1 )
+border_size = 16
+border_blend = false
+draw_bg = false
+
+[sub_resource type="StyleBoxFlat" id=26]
+
+content_margin/left = 8.0
+content_margin/right = 8.0
+content_margin/top = 8.0
+content_margin/bottom = 8.0
+bg_color = Color( 0.12549, 0.25098, 0.313726, 1 )
+light_color = Color( 0.188235, 0.313726, 0.376471, 1 )
+dark_color = Color( 0.188235, 0.313726, 0.376471, 1 )
+border_size = 4
+border_blend = false
+draw_bg = false
+
+[sub_resource type="StyleBoxFlat" id=24]
+
+content_margin/left = 2.0
+content_margin/right = 2.0
+content_margin/top = 2.0
+content_margin/bottom = 2.0
+bg_color = Color( 0.12549, 0.188235, 0.25098, 1 )
+light_color = Color( 0.121569, 0.184314, 0.247059, 1 )
+dark_color = Color( 0.121569, 0.184314, 0.247059, 1 )
+border_size = 16
+border_blend = false
+draw_bg = false
 
 [sub_resource type="StyleBoxFlat" id=16]
 
@@ -538,7 +591,9 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 822.0
 margin/bottom = 284.0
-columns = 6
+custom_constants/vseparation = -450
+custom_constants/hseparation = -175
+columns = 4
 
 [node name="Cards" type="ScrollContainer" parent="Deck"]
 
@@ -568,6 +623,8 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 822.0
 margin/bottom = 284.0
+custom_constants/vseparation = -450
+custom_constants/hseparation = -175
 columns = 6
 
 [node name="Card" type="Panel" parent="Deck"]
@@ -940,6 +997,29 @@ shortcut = null
 text = "BACK"
 flat = false
 
+[node name="ButtonCard" type="Button" parent="Deck"]
+
+visibility/visible = false
+rect/min_size = Vector2( 350, 500 )
+rect/scale = Vector2( 0.5, 0.5 )
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 32.0
+margin/right = 175.0
+margin/bottom = 282.0
+custom_styles/hover = SubResource( 22 )
+custom_styles/pressed = SubResource( 25 )
+custom_styles/focus = SubResource( 26 )
+custom_styles/normal = SubResource( 24 )
+toggle_mode = true
+enabled_focus_mode = 2
+shortcut = null
+flat = false
+script/script = ExtResource( 3 )
+
 [node name="Map" type="Panel" parent="."]
 
 editor/display_folded = true
@@ -1033,7 +1113,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 1536.0
 margin/bottom = 1344.0
-texture = ExtResource( 3 )
+texture = ExtResource( 4 )
 expand = true
 stretch_mode = 6
 
@@ -1050,7 +1130,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 0.0
 margin/bottom = 0.0
-script/script = ExtResource( 4 )
+script/script = ExtResource( 5 )
 
 [node name="Button" type="Button" parent="Map/ScrollContainer/CenterContainer/Background"]
 
@@ -1212,7 +1292,7 @@ margin/left = 0.0
 margin/top = 0.0
 margin/right = 144.0
 margin/bottom = 32.0
-texture = ExtResource( 5 )
+texture = ExtResource( 6 )
 expand = true
 stretch_mode = 6
 
