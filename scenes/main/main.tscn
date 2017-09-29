@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://scripts/main/main.gd" type="Script" id=1]
 [ext_resource path="res://images/background/galaxy.png" type="Texture" id=2]
 [ext_resource path="res://images/ui/card_outline.png" type="Texture" id=3]
-[ext_resource path="res://images/ui/card_select.png" type="Texture" id=4]
-[ext_resource path="res://scenes/main/ui.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scripts/main/field.gd" type="Script" id=4]
+[ext_resource path="res://images/ui/card_select.png" type="Texture" id=5]
+[ext_resource path="res://scenes/main/ui.tscn" type="PackedScene" id=6]
 
 [sub_resource type="Environment" id=1]
 
@@ -81,12 +82,12 @@ environment = SubResource( 1 )
 
 [node name="Card" type="Sprite" parent="."]
 
-editor/display_folded = true
 visibility/visible = false
 visibility/light_mask = 0
 transform/pos = Vector2( 450, 550 )
 z/z = 10
 texture = ExtResource( 3 )
+script/script = ExtResource( 4 )
 
 [node name="Button" type="TextureButton" parent="Card"]
 
@@ -103,7 +104,7 @@ margin/bottom = 270.0
 toggle_mode = false
 enabled_focus_mode = 2
 shortcut = null
-textures/hover = ExtResource( 4 )
+textures/hover = ExtResource( 5 )
 params/resize_mode = 0
 params/stretch_mode = 0
 
@@ -111,7 +112,7 @@ params/stretch_mode = 0
 
 visibility/visible = false
 z/z = 5
-texture = ExtResource( 4 )
+texture = ExtResource( 5 )
 
 [node name="Camera" type="Camera2D" parent="."]
 
@@ -146,9 +147,13 @@ wait_time = 1.0
 one_shot = true
 autostart = false
 
-[node name="UI" parent="." instance=ExtResource( 5 )]
+[node name="UI" parent="." instance=ExtResource( 6 )]
 
 layer = 90
+
+[connection signal="input_event" from="Card/Button" to="Card" method="_input_event"]
+
+[connection signal="mouse_exit" from="Card/Button" to="Card" method="_mouse_exit"]
 
 [connection signal="timeout" from="TimerNextTurn" to="." method="next_turn"]
 

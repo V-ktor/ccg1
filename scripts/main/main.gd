@@ -50,6 +50,9 @@ var turn = -1
 var select = NONE
 var ai_phase = 0
 var selected_target
+var hand_offset = 0
+
+var script_card_hand = preload("res://scripts/cards/card_hand.gd")
 
 
 class Card:
@@ -649,27 +652,36 @@ func draw_card(player):
 		var ci = TextureFrame.new()
 		ci.set_texture(card_back)
 		ci.set_name("Card"+str(hand[player].size()-1))
-		get_node("UI/Cards"+str(player+1)+"/HBoxContainer").add_child(ci)
+		ci.set_ignore_mouse(false)
+		ci.set_stop_mouse(true)
+		ci.set_script(script_card_hand)
+		ci.connect("mouse_enter",ci,"_mouse_enter")
+		ci.connect("mouse_exit",ci,"_mouse_exit")
+		ci.set_pos(Vector2(get_node("UI/Cards2").get_size().x+250,0))
+		get_node("UI/Cards"+str(player+1)).add_child(ci)
 	deck[player].remove(ID)
 
 
 # display cards #
 
 func update_cards():
-	for c in get_node("UI/Cards1/HBoxContainer").get_children()+get_node("UI/Cards2/HBoxContainer").get_children():
+	for c in get_node("UI/Cards1").get_children()+get_node("UI/Cards2").get_children():
 		c.set_name("deleted")
 		c.queue_free()
 	
-#	for p in range(NUM_PLAYERS):
-#		for i in range(hand[p].size()):
-#			add_card(i,hand[p][i],p)
 	for i in range(hand[PLAYER1].size()):
 		add_card(i,hand[PLAYER1][i],PLAYER1)
 	for i in range(hand[PLAYER2].size()):
 		var ci = TextureFrame.new()
 		ci.set_texture(card_back)
 		ci.set_name("Card"+str(i))
-		get_node("UI/Cards"+str(PLAYER2+1)+"/HBoxContainer").add_child(ci)
+		ci.set_ignore_mouse(false)
+		ci.set_stop_mouse(true)
+		ci.set_script(script_card_hand)
+		ci.connect("mouse_enter",ci,"_mouse_enter")
+		ci.connect("mouse_exit",ci,"_mouse_exit")
+		ci.set_pos(Vector2(get_node("UI/Cards2").get_size().x+250,0))
+		get_node("UI/Cards"+str(PLAYER2+1)).add_child(ci)
 	
 
 func add_card(index,ID,player):
@@ -684,7 +696,11 @@ func add_card(index,ID,player):
 	bi.set_custom_minimum_size(Vector2(350,500))
 	bi.set_name("Card"+str(index))
 	bi.set_hover_texture(select_green)
-	get_node("UI/Cards"+str(player+1)+"/HBoxContainer").add_child(bi)
+	bi.set_script(script_card_hand)
+	bi.connect("mouse_enter",bi,"_mouse_enter")
+	bi.connect("mouse_exit",bi,"_mouse_exit")
+	bi.set_pos(Vector2(-250,0))
+	get_node("UI/Cards"+str(player+1)).add_child(bi)
 	outline.set_expand(true)
 	outline.set_texture(select_outline)
 	outline.set_modulate(Color(0.0,0.5,1.0))
@@ -698,12 +714,12 @@ func add_card(index,ID,player):
 
 func remove_card(ID,player):
 	# remove a card from the container
-	get_node("UI/Cards"+str(player+1)+"/HBoxContainer/Card"+str(ID)).queue_free()
-	get_node("UI/Cards"+str(player+1)+"/HBoxContainer/Card"+str(ID)).set_name("deleted")
+	get_node("UI/Cards"+str(player+1)+"/Card"+str(ID)).queue_free()
+	get_node("UI/Cards"+str(player+1)+"/Card"+str(ID)).set_name("deleted")
 	for i in range(ID+1,hand[player].size()+1):
-		get_node("UI/Cards"+str(player+1)+"/HBoxContainer/Card"+str(i)).disconnect("pressed",self,"select_hand")
-		get_node("UI/Cards"+str(player+1)+"/HBoxContainer/Card"+str(i)).connect("pressed",self,"select_hand",[i-1,player])
-		get_node("UI/Cards"+str(player+1)+"/HBoxContainer/Card"+str(i)).set_name("Card"+str(i-1))
+		get_node("UI/Cards"+str(player+1)+"/Card"+str(i)).disconnect("pressed",self,"select_hand")
+		get_node("UI/Cards"+str(player+1)+"/Card"+str(i)).connect("pressed",self,"select_hand",[i-1,player])
+		get_node("UI/Cards"+str(player+1)+"/Card"+str(i)).set_name("Card"+str(i-1))
 
 
 # set up #
@@ -778,7 +794,6 @@ func _resize():
 	var zoom = max((395.0*SIZE*POSITIONS+150.0)/OS.get_video_mode_size().x,2800.0/OS.get_video_mode_size().y)
 	get_node("Camera").make_current()
 	get_node("Camera").set_zoom(zoom*Vector2(1,1))
-	get_node("UI/Cards1").set_size(Vector2(OS.get_video_mode_size().x/0.5-300,510))
 
 # input #
 
@@ -798,7 +813,7 @@ func select_hand(index,player):
 	if (select==CARD && Data.calc_value(hand[player][index],"level")<=player_points[player]):
 		var type = Data.data[hand[player][index]]["type"]
 		selected_hand = index
-		get_node("UI/Cards"+str(player+1)+"/HBoxContainer/Card"+str(index)+"/Outline").show()
+		get_node("UI/Cards"+str(player+1)+"/Card"+str(index)+"/Outline").show()
 		if (type=="unit"):
 			select = EMPTY
 			for x in range(SIZE*POSITIONS):
@@ -874,7 +889,7 @@ func select_hand(index,player):
 
 func unselect_hand():
 	if (selected_hand!=null):
-		get_node("UI/Cards"+str(player+1)+"/HBoxContainer/Card"+str(selected_hand)+"/Outline").hide()
+		get_node("UI/Cards"+str(player+1)+"/Card"+str(selected_hand)+"/Outline").hide()
 		selected_hand = null
 		select = CARD
 		for x in range(SIZE*POSITIONS):
@@ -994,14 +1009,43 @@ func _input(event):
 			select = CARD
 
 func _process(delta):
-	get_node("UI/Panel/Points").set_text(str(player_points[PLAYER1]))
-	get_node("UI/Panel/Income").set_text(str(player_prod[PLAYER1]-player_cost[PLAYER1]))
-	if (player_prod[PLAYER1]<player_cost[PLAYER1]):
-		get_node("UI/Panel/Income").add_color_override("font_color",Color(1.0,0.3,0.4))
-	else:
-		get_node("UI/Panel/Income").add_color_override("font_color",Color(0.3,1.0,0.4))
+	var last_pos = Vector2(0,200)
+	var max_length = get_node("UI/Cards1").get_size().x
+	
+	for c in get_node("UI/Cards1").get_children():
+		c.target_pos = last_pos+Vector2(c.get_size().x*(c.get_scale().x-0.5)/2.0,0)
+		last_pos.x += c.get_size().x*c.get_scale().x+8
+	if (last_pos.x+350>max_length):
+		var offset = ceil((last_pos.x+350-max_length)/(get_node("UI/Cards1").get_child_count()-1))
+		for c in get_node("UI/Cards1").get_children():
+			c.target_pos.x -= offset
+	
+	last_pos = Vector2(0,200)
+	max_length = get_node("UI/Cards2").get_size().x
+	for c in get_node("UI/Cards2").get_children():
+		c.target_pos = last_pos+Vector2(c.get_size().x*(c.get_scale().x-0.5)/2.0,0)
+		last_pos.x += c.get_size().x*c.get_scale().x+8
+	if (last_pos.x+350>max_length):
+		var offset = ceil((last_pos.x+350-max_length)/(get_node("UI/Cards2").get_child_count()-1))
+		for c in get_node("UI/Cards2").get_children():
+			c.target_pos.x -= offset
+	
+	var pos = get_node("UI/Cards1").get_margin(MARGIN_BOTTOM)
+	pos = pos+delta*10*(-hand_offset-pos)
+	get_node("UI/Cards1").set_margin(MARGIN_BOTTOM,pos)
+	pos = get_node("UI/Cards1").get_margin(MARGIN_TOP)
+	pos = pos+delta*10*(200-hand_offset-pos)
+	get_node("UI/Cards1").set_margin(MARGIN_TOP,pos)
+	pos = get_node("UI/Cards2").get_margin(MARGIN_BOTTOM)
+	pos = pos+delta*10*(300-hand_offset-pos)
+	get_node("UI/Cards2").set_margin(MARGIN_BOTTOM,pos)
+	pos = get_node("UI/Cards2").get_margin(MARGIN_TOP)
+	pos = pos+delta*10*(100-hand_offset-pos)
+	get_node("UI/Cards2").set_margin(MARGIN_TOP,pos)
+	
 
 func _ready():
+	set_process(true)
 	set_process_input(true)
 	get_tree().connect("screen_resized",self,"_resize")
 	_resize()

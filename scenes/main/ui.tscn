@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=1]
+[gd_scene load_steps=21 format=1]
 
 [ext_resource path="res://images/ui/window.png" type="Texture" id=1]
 [ext_resource path="res://images/cards/card_level.png" type="Texture" id=2]
@@ -221,170 +221,6 @@ WindowDialog/icons/close = null
 WindowDialog/icons/close_hilite = null
 WindowDialog/styles/panel = SubResource( 13 )
 
-[sub_resource type="ImageTexture" id=15]
-
-flags = 7
-image = Image()
-size = Vector2( 0, 0 )
-storage = 0
-lossy_quality = 0.7
-
-[sub_resource type="StyleBoxTexture" id=16]
-
-content_margin/left = -1.0
-content_margin/right = -1.0
-content_margin/top = -1.0
-content_margin/bottom = -1.0
-margin/left = 10.0
-margin/right = 12.0
-margin/top = 0.0
-margin/bottom = 0.0
-expand_margin/left = 0.0
-expand_margin/right = 0.0
-expand_margin/top = 0.0
-expand_margin/bottom = 0.0
-draw_center = true
-
-[sub_resource type="StyleBoxTexture" id=17]
-
-content_margin/left = -1.0
-content_margin/right = -1.0
-content_margin/top = -1.0
-content_margin/bottom = -1.0
-margin/left = 10.0
-margin/right = 12.0
-margin/top = 0.0
-margin/bottom = 0.0
-expand_margin/left = 0.0
-expand_margin/right = 0.0
-expand_margin/top = 0.0
-expand_margin/bottom = 0.0
-draw_center = true
-
-[sub_resource type="StyleBoxTexture" id=18]
-
-content_margin/left = -1.0
-content_margin/right = -1.0
-content_margin/top = -1.0
-content_margin/bottom = -1.0
-margin/left = 25.0
-margin/right = 25.0
-margin/top = 0.0
-margin/bottom = 0.0
-expand_margin/left = 0.0
-expand_margin/right = 0.0
-expand_margin/top = 0.0
-expand_margin/bottom = 0.0
-draw_center = true
-
-[sub_resource type="StyleBoxTexture" id=19]
-
-content_margin/left = -1.0
-content_margin/right = -1.0
-content_margin/top = -1.0
-content_margin/bottom = -1.0
-margin/left = 25.0
-margin/right = 25.0
-margin/top = 0.0
-margin/bottom = 0.0
-expand_margin/left = 0.0
-expand_margin/right = 0.0
-expand_margin/top = 0.0
-expand_margin/bottom = 0.0
-draw_center = true
-
-[sub_resource type="StyleBoxTexture" id=20]
-
-content_margin/left = -1.0
-content_margin/right = -1.0
-content_margin/top = -1.0
-content_margin/bottom = -1.0
-margin/left = 0.0
-margin/right = 0.0
-margin/top = 12.0
-margin/bottom = 10.0
-expand_margin/left = 0.0
-expand_margin/right = 0.0
-expand_margin/top = 0.0
-expand_margin/bottom = 0.0
-draw_center = true
-
-[sub_resource type="ImageTexture" id=21]
-
-flags = 4
-image = Image( 12, 12, 0, RGBA, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 151, 208, 223, 37, 146, 203, 220, 173, 132, 187, 212, 241, 130, 186, 212, 255, 146, 202, 220, 173, 151, 208, 223, 37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 149, 208, 221, 39, 131, 187, 211, 239, 106, 162, 198, 255, 98, 154, 194, 255, 97, 154, 193, 255, 106, 162, 198, 255, 131, 187, 211, 239, 149, 208, 221, 39, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 139, 200, 215, 173, 104, 159, 194, 255, 93, 146, 187, 255, 93, 146, 187, 255, 93, 146, 187, 255, 93, 146, 187, 255, 104, 159, 194, 255, 139, 200, 215, 173, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 121, 181, 203, 241, 92, 146, 184, 255, 88, 141, 182, 255, 88, 141, 182, 255, 88, 141, 182, 255, 88, 141, 182, 255, 92, 146, 184, 255, 120, 180, 202, 243, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 115, 176, 199, 241, 89, 142, 179, 255, 86, 137, 176, 255, 86, 137, 176, 255, 86, 137, 176, 255, 86, 137, 176, 255, 89, 142, 179, 255, 115, 176, 199, 243, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 123, 192, 207, 173, 92, 145, 178, 255, 83, 132, 169, 255, 83, 132, 169, 255, 83, 132, 169, 255, 83, 132, 169, 255, 92, 145, 178, 255, 123, 192, 207, 173, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 121, 197, 209, 40, 107, 174, 193, 239, 88, 143, 174, 255, 84, 131, 164, 255, 84, 131, 164, 255, 87, 142, 173, 255, 107, 174, 193, 239, 121, 197, 209, 40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 117, 198, 207, 39, 112, 188, 202, 173, 100, 166, 188, 242, 100, 165, 186, 255, 113, 188, 201, 173, 117, 198, 207, 39, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
-size = Vector2( 12, 12 )
-storage = 0
-lossy_quality = 0.7
-
-[sub_resource type="StyleBoxTexture" id=22]
-
-content_margin/left = 2.0
-content_margin/right = 2.0
-content_margin/top = 2.0
-content_margin/bottom = 2.0
-texture = SubResource( 21 )
-margin/left = 5.0
-margin/right = 5.0
-margin/top = 5.0
-margin/bottom = 5.0
-expand_margin/left = 0.0
-expand_margin/right = 0.0
-expand_margin/top = 0.0
-expand_margin/bottom = 0.0
-draw_center = true
-
-[sub_resource type="StyleBoxTexture" id=23]
-
-content_margin/left = -1.0
-content_margin/right = -1.0
-content_margin/top = -1.0
-content_margin/bottom = -1.0
-margin/left = 0.0
-margin/right = 0.0
-margin/top = 25.0
-margin/bottom = 25.0
-expand_margin/left = 0.0
-expand_margin/right = 0.0
-expand_margin/top = 0.0
-expand_margin/bottom = 0.0
-draw_center = true
-
-[sub_resource type="StyleBoxTexture" id=24]
-
-content_margin/left = -1.0
-content_margin/right = -1.0
-content_margin/top = -1.0
-content_margin/bottom = -1.0
-margin/left = 0.0
-margin/right = 0.0
-margin/top = 12.0
-margin/bottom = 10.0
-expand_margin/left = 0.0
-expand_margin/right = 0.0
-expand_margin/top = 0.0
-expand_margin/bottom = 0.0
-draw_center = true
-
-[sub_resource type="Theme" id=25]
-
-HScrollBar/icons/decrement = SubResource( 15 )
-HScrollBar/icons/decrement_hilite = SubResource( 15 )
-HScrollBar/icons/increment = SubResource( 15 )
-HScrollBar/icons/increment_hilite = SubResource( 15 )
-HScrollBar/styles/grabber = SubResource( 16 )
-HScrollBar/styles/grabber_hilite = SubResource( 17 )
-HScrollBar/styles/scroll = SubResource( 18 )
-HScrollBar/styles/scroll_focus = SubResource( 19 )
-VScrollBar/icons/decrement = SubResource( 15 )
-VScrollBar/icons/decrement_hilite = SubResource( 15 )
-VScrollBar/icons/increment = SubResource( 15 )
-VScrollBar/icons/increment_hilite = SubResource( 15 )
-VScrollBar/styles/grabber = SubResource( 20 )
-VScrollBar/styles/grabber_hilite = SubResource( 22 )
-VScrollBar/styles/scroll = SubResource( 23 )
-VScrollBar/styles/scroll_focus = SubResource( 24 )
-
 [sub_resource type="DynamicFont" id=26]
 
 font/size = 24
@@ -399,66 +235,34 @@ offset = Vector2( 0, 0 )
 rotation = 0.0
 scale = Vector2( 1, 1 )
 
-[node name="Cards1" type="ScrollContainer" parent="."]
+[node name="Cards1" type="Control" parent="."]
 
 anchor/top = 1
 anchor/right = 1
 anchor/bottom = 1
-rect/scale = Vector2( 0.5, 0.5 )
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 theme/theme = SubResource( 14 )
-margin/left = 150.0
-margin/top = 250.0
-margin/right = -1130.0
-margin/bottom = -260.0
-scroll/horizontal = true
-scroll/vertical = false
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Cards1"]
-
-visibility/behind_parent = true
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 3
-margin/left = 0.0
-margin/top = 0.0
+margin/left = 225.0
+margin/top = 200.0
 margin/right = 0.0
-margin/bottom = 510.0
-alignment = 0
+margin/bottom = 0.0
 
-[node name="Cards2" type="ScrollContainer" parent="."]
+[node name="Cards2" type="Control" parent="."]
 
 anchor/right = 1
-rect/scale = Vector2( 0.5, -0.5 )
+rect/scale = Vector2( 1, -1 )
 focus/ignore_mouse = false
 focus/stop_mouse = false
 size_flags/horizontal = 2
 size_flags/vertical = 2
 theme/theme = SubResource( 14 )
-margin/left = 0.0
-margin/top = 150.0
-margin/right = -976.0
-margin/bottom = 660.0
-scroll/horizontal = true
-scroll/vertical = false
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Cards2"]
-
-visibility/behind_parent = true
-focus/ignore_mouse = false
-focus/stop_mouse = false
-size_flags/horizontal = 2
-size_flags/vertical = 3
-theme/theme = SubResource( 25 )
-margin/left = 0.0
-margin/top = 0.0
+margin/left = 100.0
+margin/top = 100.0
 margin/right = 0.0
-margin/bottom = 510.0
-alignment = 0
+margin/bottom = 300.0
 
 [node name="Panel" type="Panel" parent="."]
 

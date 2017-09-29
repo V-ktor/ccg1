@@ -193,7 +193,7 @@ func enemy_turn(ID):
 		get_node("/root/Menu")._campaign()
 		return
 	
-	if (randf()<=chance):
+	if (randf()<=0.5):
 		stars[target].owner = ID
 	
 	get_node("/root/Menu").update_map()
