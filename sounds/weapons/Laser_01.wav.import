@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Laser_01.wav-342097b531fe6b8fd3ad2efcb140cc79.sample"
+
+[deps]
+
+source_file="res://sounds/weapons/Laser_01.wav"
+source_md5="799e145d57ea5b402c55df8cfa71d992"
+
+dest_files=[ "res://.import/Laser_01.wav-342097b531fe6b8fd3ad2efcb140cc79.sample" ]
+dest_md5="64f187904b00ff21fecb4bc66be15a86"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

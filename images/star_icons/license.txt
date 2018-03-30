@@ -1,0 +1,2 @@
+Copyright: Viktor Hahn
+License: CC-BY-SA 3.0

@@ -1,28 +1,36 @@
 ,en
 SKIRMISH,skirmish
-CAMPAIGN,campaign
+TUTORIAL,tutorial
 DECK,deck
+MULTIPLAYER,multiplayer
 OPTIONS,options
 QUIT,quit
 BACK,back
-ATTACK,attack
 SHOP,shop
-MAP,map
-SYSTEM,system
-BUY_TIER1_CARD,buy tier 1 card
-BUY_TIER2_CARD,buy tier 2 card
-BUY_TIER3_CARD,buy tier 3 card
+BUY_TIER1_CARDS,buy tier 1 card pack
+BUY_TIER2_CARDS,buy tier 2 card pack
+BUY_TIER3_CARDS,buy tier 3 card pack
 INVENTORY,inventory
 CARD,card
 CARDS,cards
-NEW_CARD,New Card!
+NEW_CARDS,New Cards!
 OK,OK
 Cancel,Cancel
+CANCEL,cancel
 QUIT?,Quit?
 SAVE,save
 LOAD,load
 FILENAME,filename
+PLAYER,player
+RESOLUTION,resolution
+AUDIO,audio
+NAME,name
+HOST,host
+JOIN,join
 default,default
+END_TURN,End Turn
+CONFIRM,Confirm
+DISMANTLE,Dismantle
 WON!,Won!
 LOST!,Lost!
 GAINED,gained
@@ -36,6 +44,33 @@ OCEAN,Ocean
 TOXIC,Toxic
 INFERNO,Inferno
 CREDITS,Credits
+SKIRMISH_AI,Skirmish AI
 NUMBER_OF_PLANETS,number of planets
 NUMBER_OF_CARDS,total number of cards
 MAX_DECK_SIZE,max. deck size
+FILTER,filter
+EMPIRE,empire
+REBELS,rebels
+PIRATES,pirates
+LOBBY,Lobby
+WAITING_FOR_PLAYER,"Waiting for player"
+CONNECTING,"Connecting"
+IP_INVALID,"IP address is invalid."
+ADRESS_IN_USE,"Can't host, address in use."
+PLAYER_DISCONNECTED,"Player disconnected!"
+SERVER_DISCONNECTED,"Server disconnected!"
+DISCONNECTED,Disconnected
+TUTORIAL_START,"Welcome!"
+TUTORIAL_INIT_1,"Chose cards to be put back to your deck and draw a new card."
+TUTORIAL_INIT_2,"You should chose to keep units of level 3 and below."
+TUTORIAL_POINTS,"You have currently 3 points available. They are spend to use cards."
+TUTORIAL_UNITS_1,"You should start playing a unit card you can afford."
+TUTORIAL_UNITS_2,"Each unit needs resources to be summoned and reduces the availbale ammount of resources."
+TUTORIAL_UNITS_MOVE,"Move your unit by clicking on it and then on an empty field."
+TUTORIAL_UNITS_BOMBARD_1,"Select your unit and click on the planet to invade."
+TUTORIAL_UNITS_BOMBARD_2,"For each planet controled you'll draw one additional card at the beginning of your turn."
+TUTORIAL_UNITS_BOMBARD_3,"Also you win the game once you control all planets."
+TUTORIAL_RESOURCES_1,"In order to increase the ammount of resources you have to discard cards."
+TUTORIAL_RESOURCES_2,"Chose cards that are too expensive right now or you don't need and discard them."
+TUTORIAL_END_TURN,"Now press the 'End Turn' button to finish your turn."
+

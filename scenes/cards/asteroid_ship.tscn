@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=1]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://images/cards/asteroid_ship/asteroid_ship_bg.png" type="Texture" id=1]
 [ext_resource path="res://images/cards/asteroid_ship/asteroid_ship_asteroid01_n.png" type="Texture" id=2]
@@ -11,189 +11,200 @@
 [ext_resource path="res://images/cards/asteroid_ship/asteroid_ship_asteroid04.png" type="Texture" id=9]
 [ext_resource path="res://images/cards/asteroid_ship/asteroid_ship.png" type="Texture" id=10]
 
-[sub_resource type="CanvasItemShader" id=1]
+[sub_resource type="Shader" id=1]
 
-_code = {
-"fragment": "uniform texture normal;
+code = "shader_type canvas_item;
+
+uniform sampler2D normal;
 uniform float rot;
-vec3 light_vec = -normalize(vec3(vec2(-1.0,-1.0)*mat2(vec2(cos(rot),sin(rot)),vec2(-sin(rot),cos(rot))),0));
 
-vec2 normal2 = tex(normal,UV).ag*vec2(2.0,2.0)-vec2(1.0,1.0);
-NORMAL = vec3(normal2,(sqrt(1.0-normal2.x*normal2.x-normal2.y*normal2.y)));
-float dp = 0.5*dot(normalize(NORMAL),light_vec)+0.33;
-COLOR = tex(TEXTURE,UV)*vec4(vec3(dp),1.0);
-",
-"fragment_ofs": 0,
-"light": "",
-"light_ofs": 0,
-"vertex": "",
-"vertex_ofs": 0
-}
+void fragment()
+{
+	vec3 light_vec = -normalize(vec3(vec2(-1.0,-1.0)*mat2(vec2(cos(rot),sin(rot)),vec2(-sin(rot),cos(rot))),0));
+	vec2 normal2 = texture(normal,UV).ag*vec2(2.0,2.0)-vec2(1.0,1.0);
+	NORMAL = vec3(normal2,(sqrt(1.0-normal2.x*normal2.x-normal2.y*normal2.y)));
+	float dp = 0.5*dot(normalize(NORMAL),light_vec)+0.33;
+	COLOR = texture(TEXTURE,UV)*vec4(vec3(dp),1.0);
+}"
 
-[sub_resource type="CanvasItemMaterial" id=2]
+[sub_resource type="ShaderMaterial" id=2]
 
-shader/shader = SubResource( 1 )
-shader/shading_mode = 0
+render_priority = 0
+shader = SubResource( 1 )
+shader_param/rot = 12.566
 shader_param/normal = ExtResource( 2 )
-shader_param/rot = 12.2868
+_sections_unfolded = [ "shader_param" ]
 
-[sub_resource type="CanvasItemMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=3]
 
-shader/shader = SubResource( 1 )
-shader/shading_mode = 0
+render_priority = 0
+shader = SubResource( 1 )
+shader_param/rot = 0.0
 shader_param/normal = ExtResource( 4 )
-shader_param/rot = 0.279244
+_sections_unfolded = [ "shader_param" ]
 
-[sub_resource type="CanvasItemMaterial" id=4]
+[sub_resource type="ShaderMaterial" id=4]
 
-shader/shader = SubResource( 1 )
-shader/shading_mode = 0
+render_priority = 0
+shader = SubResource( 1 )
+shader_param/rot = 0.0
 shader_param/normal = ExtResource( 6 )
-shader_param/rot = 6.14338
+_sections_unfolded = [ "shader_param" ]
 
-[sub_resource type="CanvasItemMaterial" id=5]
+[sub_resource type="ShaderMaterial" id=5]
 
-shader/shader = SubResource( 1 )
-shader/shading_mode = 0
+render_priority = 0
+shader = SubResource( 1 )
+shader_param/rot = 0.0
 shader_param/normal = ExtResource( 8 )
-shader_param/rot = 0.139622
+_sections_unfolded = [ "shader_param" ]
 
-[sub_resource type="CanvasItemMaterial" id=6]
-
-shader/shader = SubResource( 1 )
-shader/shading_mode = 0
-shader_param/normal = ExtResource( 2 )
-shader_param/rot = 12.2868
-
-[sub_resource type="CanvasItemMaterial" id=7]
-
-shader/shader = SubResource( 1 )
-shader/shading_mode = 0
-shader_param/normal = ExtResource( 6 )
-shader_param/rot = 0.279244
-
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=6]
 
 length = 45.0
 loop = true
 step = 1.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("Asteroid1:transform/rot")
+tracks/0/path = NodePath("Asteroid1:rotation_degrees")
 tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
-"times": FloatArray( 0, 45 ),
-"transitions": FloatArray( 1, 1 ),
+"times": PoolRealArray( 0, 45 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0.0, 720.0 ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Asteroid2:transform/rot")
+tracks/1/path = NodePath("Asteroid2:rotation_degrees")
 tracks/1/interp = 1
+tracks/1/loop_wrap = true
 tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/keys = {
-"times": FloatArray( 0, 45 ),
-"transitions": FloatArray( 1, 1 ),
+"times": PoolRealArray( 0, 45 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 720.0, 0.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Asteroid3:transform/rot")
+tracks/2/path = NodePath("Asteroid3:rotation_degrees")
 tracks/2/interp = 1
+tracks/2/loop_wrap = true
 tracks/2/imported = false
+tracks/2/enabled = true
 tracks/2/keys = {
-"times": FloatArray( 0, 45 ),
-"transitions": FloatArray( 1, 1 ),
+"times": PoolRealArray( 0, 45 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0.0, 360.0 ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Asteroid1:material/material:shader_param/rot")
+tracks/3/path = NodePath("Asteroid4:rotation_degrees")
 tracks/3/interp = 1
+tracks/3/loop_wrap = true
 tracks/3/imported = false
+tracks/3/enabled = true
 tracks/3/keys = {
-"times": FloatArray( 0, 45 ),
-"transitions": FloatArray( 1, 1 ),
-"update": 0,
-"values": [ 12.566, 0.0 ]
-}
-tracks/4/type = "value"
-tracks/4/path = NodePath("Asteroid2:material/material:shader_param/rot")
-tracks/4/interp = 1
-tracks/4/imported = false
-tracks/4/keys = {
-"times": FloatArray( 0, 45 ),
-"transitions": FloatArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 12.566 ]
-}
-tracks/5/type = "value"
-tracks/5/path = NodePath("Asteroid3:material/material:shader_param/rot")
-tracks/5/interp = 1
-tracks/5/imported = false
-tracks/5/keys = {
-"times": FloatArray( 0, 45 ),
-"transitions": FloatArray( 1, 1 ),
-"update": 0,
-"values": [ 6.283, 0.0 ]
-}
-tracks/6/type = "value"
-tracks/6/path = NodePath("Asteroid4:transform/rot")
-tracks/6/interp = 1
-tracks/6/imported = false
-tracks/6/keys = {
-"times": FloatArray( 0, 45 ),
-"transitions": FloatArray( 1, 1 ),
+"times": PoolRealArray( 0, 45 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 360.0, 0.0 ]
 }
-tracks/7/type = "value"
-tracks/7/path = NodePath("Asteroid4:material/material:shader_param/rot")
-tracks/7/interp = 1
-tracks/7/imported = false
-tracks/7/keys = {
-"times": FloatArray( 0, 45 ),
-"transitions": FloatArray( 1, 1 ),
-"update": 0,
-"values": [ 0.0, 6.283 ]
-}
-tracks/8/type = "value"
-tracks/8/path = NodePath("Asteroid5:transform/rot")
-tracks/8/interp = 1
-tracks/8/imported = false
-tracks/8/keys = {
-"times": FloatArray( 0, 45 ),
-"transitions": FloatArray( 1, 1 ),
+tracks/4/type = "value"
+tracks/4/path = NodePath("Asteroid5:rotation_degrees")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 45 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0.0, 720.0 ]
 }
-tracks/9/type = "value"
-tracks/9/path = NodePath("Asteroid5:material/material:shader_param/rot")
-tracks/9/interp = 1
-tracks/9/imported = false
-tracks/9/keys = {
-"times": FloatArray( 0, 45 ),
-"transitions": FloatArray( 1, 1 ),
-"update": 0,
-"values": [ 12.566, 0.0 ]
-}
-tracks/10/type = "value"
-tracks/10/path = NodePath("Asteroid6:transform/rot")
-tracks/10/interp = 1
-tracks/10/imported = false
-tracks/10/keys = {
-"times": FloatArray( 0, 45 ),
-"transitions": FloatArray( 1, 1 ),
+tracks/5/type = "value"
+tracks/5/path = NodePath("Asteroid6:rotation_degrees")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0, 45 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 720.0, 0.0 ]
 }
+tracks/6/type = "value"
+tracks/6/path = NodePath("Asteroid1:material:shader_param/rot")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/keys = {
+"times": PoolRealArray( 0, 45 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 12.566, 0.0 ]
+}
+tracks/7/type = "value"
+tracks/7/path = NodePath("Asteroid2:material:shader_param/rot")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/keys = {
+"times": PoolRealArray( 0, 45 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 12.566 ]
+}
+tracks/8/type = "value"
+tracks/8/path = NodePath("Asteroid3:material:shader_param/rot")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/keys = {
+"times": PoolRealArray( 0, 45 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 6.283, 0.0 ]
+}
+tracks/9/type = "value"
+tracks/9/path = NodePath("Asteroid4:material:shader_param/rot")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/keys = {
+"times": PoolRealArray( 0, 45 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 6.283 ]
+}
+tracks/10/type = "value"
+tracks/10/path = NodePath("Asteroid5:material:shader_param/rot")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/keys = {
+"times": PoolRealArray( 0, 45 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 12.566, 0.0 ]
+}
 tracks/11/type = "value"
-tracks/11/path = NodePath("Asteroid6:material/material:shader_param/rot")
+tracks/11/path = NodePath("Asteroid6:material:shader_param/rot")
 tracks/11/interp = 1
+tracks/11/loop_wrap = true
 tracks/11/imported = false
+tracks/11/enabled = true
 tracks/11/keys = {
-"times": FloatArray( 0, 45 ),
-"transitions": FloatArray( 1, 1 ),
+"times": PoolRealArray( 0, 45 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 0.0, 12.566 ]
 }
@@ -205,74 +216,81 @@ __meta__ = {
 "__editor_plugin_screen__": "2D"
 }
 
-[node name="Asteroid1" type="Sprite" parent="."]
+[node name="Asteroid1" type="Sprite" parent="." index="0"]
 
-visibility/light_mask = 1024
-material/material = SubResource( 2 )
-transform/pos = Vector2( -249.17, -138.756 )
-transform/rot = 16.0
-transform/scale = Vector2( 1.5, 1.5 )
+light_mask = 1024
+material = SubResource( 2 )
+position = Vector2( -249.17, -138.756 )
+scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 3 )
+normal_map = ExtResource( 2 )
+_sections_unfolded = [ "Material" ]
 
-[node name="Asteroid2" type="Sprite" parent="."]
+[node name="Asteroid2" type="Sprite" parent="." index="1"]
 
-visibility/light_mask = 1024
-material/material = SubResource( 3 )
-transform/pos = Vector2( -273.5, 219.5 )
-transform/rot = 704.0
-transform/scale = Vector2( 1.5, 1.5 )
+light_mask = 1024
+material = SubResource( 3 )
+position = Vector2( -273.5, 219.5 )
+rotation = 12.5664
+scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 5 )
+normal_map = ExtResource( 4 )
+_sections_unfolded = [ "Material" ]
 
-[node name="Asteroid3" type="Sprite" parent="."]
+[node name="Asteroid3" type="Sprite" parent="." index="2"]
 
-visibility/light_mask = 1024
-material/material = SubResource( 4 )
-transform/pos = Vector2( 112, 246 )
-transform/rot = 8.0
-transform/scale = Vector2( 1.5, 1.5 )
+light_mask = 1024
+material = SubResource( 4 )
+position = Vector2( 112, 246 )
+scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 7 )
+normal_map = ExtResource( 6 )
+_sections_unfolded = [ "Material" ]
 
-[node name="Asteroid4" type="Sprite" parent="."]
+[node name="Asteroid4" type="Sprite" parent="." index="3"]
 
-visibility/light_mask = 1024
-material/material = SubResource( 5 )
-transform/pos = Vector2( 263.5, 196.5 )
-transform/rot = 352.0
-transform/scale = Vector2( 1.5, 1.5 )
+light_mask = 1024
+material = SubResource( 5 )
+position = Vector2( 263.5, 196.5 )
+rotation = 6.28319
+scale = Vector2( 1.5, 1.5 )
 texture = ExtResource( 9 )
+normal_map = ExtResource( 8 )
+_sections_unfolded = [ "Material" ]
 
-[node name="Asteroid5" type="Sprite" parent="."]
+[node name="Asteroid5" type="Sprite" parent="." index="4"]
 
-visibility/light_mask = 1024
-material/material = SubResource( 6 )
-transform/pos = Vector2( 247.5, -234 )
-transform/rot = 16.0
-transform/scale = Vector2( 1.5, 1 )
+light_mask = 1024
+material = SubResource( 2 )
+position = Vector2( 247.5, -234 )
+scale = Vector2( 1.5, 1 )
 texture = ExtResource( 3 )
+normal_map = ExtResource( 2 )
 
-[node name="Asteroid6" type="Sprite" parent="."]
+[node name="Asteroid6" type="Sprite" parent="." index="5"]
 
-visibility/light_mask = 1024
-material/material = SubResource( 7 )
-transform/pos = Vector2( -121.661, -230.547 )
-transform/rot = 704.0
-transform/scale = Vector2( 1.2, 1.5 )
+light_mask = 1024
+material = SubResource( 4 )
+position = Vector2( -121.661, -230.547 )
+rotation = 12.5664
+scale = Vector2( 1.2, 1.5 )
 texture = ExtResource( 7 )
+normal_map = ExtResource( 6 )
+_sections_unfolded = [ "Material" ]
 
-[node name="Ship" type="Sprite" parent="."]
+[node name="Ship" type="Sprite" parent="." index="6"]
 
-transform/pos = Vector2( 26, 0 )
+position = Vector2( 26, 0 )
 texture = ExtResource( 10 )
 
-[node name="Anim" type="AnimationPlayer" parent="."]
+[node name="Anim" type="AnimationPlayer" parent="." index="7"]
 
-playback/process_mode = 1
-playback/default_blend_time = 0.0
-root/root = NodePath("..")
-anims/rotate = SubResource( 8 )
-playback/active = true
-playback/speed = 1.0
-blend_times = [  ]
+root_node = NodePath("..")
 autoplay = "rotate"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/rotate = SubResource( 6 )
+blend_times = [  ]
 
 

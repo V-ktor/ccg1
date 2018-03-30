@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+
+[deps]
+
+files=[ "res://translation/text.en.translation" ]
+
+source_file="res://translation/text.csv"
+source_md5="4cbc051028a822d428fa3815465a04af"
+
+dest_files=[ "res://translation/text.en.translation" ]
+dest_md5="ceaec96a7181641602ab5bde19df96cf"
+
+[params]
+
+compress=true
+delimiter=0

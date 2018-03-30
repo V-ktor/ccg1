@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://images/cards/pirate_fighters/bg.png" type="Texture" id=1]
+
+[node name="Fighters" type="Sprite"]
+
+texture = ExtResource( 1 )
+
+

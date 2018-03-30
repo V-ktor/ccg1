@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/slimeball.wav-11ea9c13b7fb23e30259ff6928d16c53.sample"
+
+[deps]
+
+source_file="res://sounds/weapons/slimeball.wav"
+source_md5="534603daa178226b55ce302dc5aeb382"
+
+dest_files=[ "res://.import/slimeball.wav-11ea9c13b7fb23e30259ff6928d16c53.sample" ]
+dest_md5="8281758b0eeaa14a16679ec84eed9afd"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

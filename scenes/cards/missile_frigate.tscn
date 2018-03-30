@@ -1,13 +1,7 @@
-[gd_scene load_steps=5 format=1]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://images/cards/missile_frigate/missile_frigate_bg.png" type="Texture" id=1]
 [ext_resource path="res://images/cards/missile_frigate/missile_frigate.png" type="Texture" id=2]
-[ext_resource path="res://images/weapons/grey01.png" type="Texture" id=3]
-
-[sub_resource type="ColorRamp" id=1]
-
-offsets = FloatArray( 0, 0.0701754, 0.51462, 1 )
-colors = ColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 0.752941, 0.752941, 0.752941, 1, 0.0627451, 0.0627451, 0.0627451, 0 )
 
 [node name="Frigate" type="Sprite"]
 
@@ -16,143 +10,118 @@ __meta__ = {
 "__editor_plugin_screen__": "2D"
 }
 
-[node name="Ship" type="Sprite" parent="."]
+[node name="Ship" type="Sprite" parent="." index="0"]
 
 texture = ExtResource( 2 )
 
-[node name="Smoke1" type="Particles2D" parent="."]
+[node name="Smoke1" type="Particles2D" parent="." index="1"]
 
-visibility/self_opacity = 0.75
-transform/pos = Vector2( 49.3405, -180.059 )
-config/amount = 48
-config/lifetime = 2.0
-config/time_scale = 2.0
-config/process_mode = 1
-config/texture = ExtResource( 3 )
-params/direction = 320.0
-params/spread = 0.0
-params/linear_velocity = 72.0
-params/spin_velocity = 0.0
-params/orbit_velocity = 0.0
-params/gravity_direction = 45.0
-params/gravity_strength = 15.0
-params/radial_accel = 0.0
-params/tangential_accel = 0.0
-params/damping = 0.0
-params/initial_angle = 0.0
-params/initial_size = 1.25
-params/final_size = 2.5
-params/hue_variation = 0.0
-params/anim_speed_scale = 1.0
-params/anim_initial_pos = 0.0
-color/color_ramp = SubResource( 1 )
+position = Vector2( 49.3405, -180.059 )
+emitting = true
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = null
+texture = null
+normal_map = null
+h_frames = 1
+v_frames = 1
 
-[node name="Smoke2" type="Particles2D" parent="."]
+[node name="Smoke2" type="Particles2D" parent="." index="2"]
 
-visibility/self_opacity = 0.75
-transform/pos = Vector2( 132.967, -217.117 )
-config/amount = 48
-config/lifetime = 2.0
-config/time_scale = 2.0
-config/process_mode = 1
-config/texture = ExtResource( 3 )
-params/direction = 260.0
-params/spread = 0.0
-params/linear_velocity = 80.0
-params/spin_velocity = 0.0
-params/orbit_velocity = 0.0
-params/gravity_direction = 0.0
-params/gravity_strength = 64.0
-params/radial_accel = 0.0
-params/tangential_accel = 0.0
-params/damping = 0.0
-params/initial_angle = 0.0
-params/initial_size = 1.0
-params/final_size = 4.0
-params/hue_variation = 0.0
-params/anim_speed_scale = 1.0
-params/anim_initial_pos = 0.0
-color/color_ramp = SubResource( 1 )
+position = Vector2( 132.967, -217.117 )
+emitting = true
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = null
+texture = null
+normal_map = null
+h_frames = 1
+v_frames = 1
 
-[node name="Smoke3" type="Particles2D" parent="."]
+[node name="Smoke3" type="Particles2D" parent="." index="3"]
 
-visibility/self_opacity = 0.75
-transform/pos = Vector2( 208.679, -178.131 )
-config/amount = 48
-config/lifetime = 2.0
-config/time_scale = 2.0
-config/process_mode = 1
-config/texture = ExtResource( 3 )
-params/direction = 290.0
-params/spread = 0.0
-params/linear_velocity = 112.0
-params/spin_velocity = 0.0
-params/orbit_velocity = 0.0
-params/gravity_direction = 60.0
-params/gravity_strength = 32.0
-params/radial_accel = 0.0
-params/tangential_accel = 0.0
-params/damping = 0.0
-params/initial_angle = 0.0
-params/initial_size = 1.2
-params/final_size = 2.5
-params/hue_variation = 0.0
-params/anim_speed_scale = 1.0
-params/anim_initial_pos = 0.0
-color/color_ramp = SubResource( 1 )
+position = Vector2( 208.679, -178.131 )
+emitting = true
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = null
+texture = null
+normal_map = null
+h_frames = 1
+v_frames = 1
 
-[node name="Smoke5" type="Particles2D" parent="."]
+[node name="Smoke5" type="Particles2D" parent="." index="4"]
 
-visibility/self_opacity = 0.75
-transform/pos = Vector2( 306.013, -131.228 )
-config/amount = 64
-config/lifetime = 2.0
-config/time_scale = 2.0
-config/process_mode = 1
-config/texture = ExtResource( 3 )
-params/direction = 285.0
-params/spread = 0.0
-params/linear_velocity = 102.0
-params/spin_velocity = 0.0
-params/orbit_velocity = 0.0
-params/gravity_direction = 30.0
-params/gravity_strength = 48.0
-params/radial_accel = 0.0
-params/tangential_accel = 0.0
-params/damping = 0.0
-params/initial_angle = 0.0
-params/initial_size = 1.0
-params/final_size = 2.5
-params/hue_variation = 0.0
-params/anim_speed_scale = 1.0
-params/anim_initial_pos = 0.0
-color/color_ramp = SubResource( 1 )
+position = Vector2( 306.013, -131.228 )
+emitting = true
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = null
+texture = null
+normal_map = null
+h_frames = 1
+v_frames = 1
 
-[node name="Smoke4" type="Particles2D" parent="."]
+[node name="Smoke4" type="Particles2D" parent="." index="5"]
 
-visibility/self_opacity = 0.75
-transform/pos = Vector2( 267.709, -92.3286 )
-config/amount = 32
-config/lifetime = 2.0
-config/time_scale = 2.0
-config/process_mode = 1
-config/texture = ExtResource( 3 )
-params/direction = 300.0
-params/spread = 0.0
-params/linear_velocity = 108.0
-params/spin_velocity = 0.0
-params/orbit_velocity = 0.0
-params/gravity_direction = 60.0
-params/gravity_strength = 38.0
-params/radial_accel = 0.0
-params/tangential_accel = 0.0
-params/damping = 0.0
-params/initial_angle = 0.0
-params/initial_size = 2.0
-params/final_size = 5.0
-params/hue_variation = 0.0
-params/anim_speed_scale = 1.0
-params/anim_initial_pos = 0.0
-color/color_ramp = SubResource( 1 )
+position = Vector2( 267.709, -92.3286 )
+emitting = true
+amount = 8
+lifetime = 1.0
+one_shot = false
+preprocess = 0.0
+speed_scale = 1.0
+explosiveness = 0.0
+randomness = 0.0
+fixed_fps = 0
+fract_delta = true
+visibility_rect = Rect2( -100, -100, 200, 200 )
+local_coords = true
+draw_order = 0
+process_material = null
+texture = null
+normal_map = null
+h_frames = 1
+v_frames = 1
 
 

@@ -1,27 +1,72 @@
 ,en
-cheap-self-,No upkeep cost.
-penetrate shield-self-attack,Ignore enemy shields.
-unmoveable-self-,Unable to move.
-reduce dmg 1-self-attack,Damage is reduced by 1 after attacking.
-no attack-self-,Unable to attack.
-counterattack-attacker-attacked,Counterattack.
-draw 2-player-spawn,Draw 2 cards.
-drydock-self-player turn,Repairs 2 points each turn.
-bombardment 2-self-attack,Bombardment damage +2.
-direct damage 6-enemy-,Deal 6 points of damage.
-draw 2-player-,Draw 2 cards.
-draw 3-player-,Draw 3 cards.
-points 2-player-,Generate 2 resource points.
-remove 2-opposite-,Remove 2 random cards from your opponents hand.
-increase dmg 2-friendly-,Increase damage by 2.
-armor 2-friendly-,Increase structure by 2.
-shield 1-friendly-,Increase shield by 1.
-repair 4-friendly-,Repairs a unit for 4 points.
-repair 6-friendly-,Repairs a unit for 6 points.
-terraform-friendly planet-,Change planet type.
-production 1-friendly planet-,Increase production by 1.
-production 2-friendly planet-,Increase production by 2.
-defense 6-friendly planet-,Increase planet defense by 6.
-shield 1-friendly planet-,Increase shield by 1.
-mines 1-friendly planet-player turn,Mines 1.
-drydock-friendly planet-player turn,Repairs 2 points each turn.
+CHEAP-SELF-SPAWN,cheap
+CHEAP-SELF-SPAWN_DESC,"No upkeep cost."
+CHEAP-FRIENDLY_PLANET-,cheap
+CHEAP-FRIENDLY_PLANET-_DESC,"No upkeep cost."
+PENETRATE_SHIELD-SELF-ATTACK,penetrate shields
+PENETRATE_SHIELD-SELF-ATTACK_DESC,"Ignore enemy shields."
+UNMOVEABLE-SELF-,unmoveable
+UNMOVEABLE-SELF-_DESC,"Unable to move."
+REDUCE_DMG_1-SELF-ATTACK,lose damage
+REDUCE_DMG_1-SELF-ATTACK_DESC,"Damage is reduced by 1 after attacking."
+NO_ATTACK-SELF-,no attack
+NO_ATTACK-SELF-_DESC,"Unable to attack."
+COUNTERATTACK-ATTACKER-ATTACKED,counterattack
+COUNTERATTACK-ATTACKER-ATTACKED_DESC,"Counterattacks when enemy attack is survived."
+DRAW_2-PLAYER-SPAWN,draw 2 cards
+DRAW_2-PLAYER-SPAWN_DESC,"Draw 2 cards."
+DRAW_2-PLAYER-,draw 2 card.
+DRAW_2-PLAYER-_DESC,"Draw 2 cards."
+DRAW_3-PLAYER-,draw 3 cards
+DRAW_3-PLAYER-_DESC,"Draw 3 cards."
+REMOVE_2-OPPOSITE-,discard 2 cards
+REMOVE_2-OPPOSITE-_DESC,"Remove 2 random cards from your opponents hand."
+DRYDOCK-SELF-PLAYER_TURN,drydock
+DRYDOCK-SELF-PLAYER_TURN_DESC,"Repairs 2 points each turn."
+DRYDOCK-FRIENDLY_PLANET-PLAYER_TURN,drydock
+DRYDOCK-FRIENDLY_PLANET-PLAYER_TURN_DESC,"Repairs 2 points each turn."
+BOMBARDMENT_2-SELF-ATTACK,bombardment damage +2.
+BOMBARDMENT_2-SELF-ATTACK_DESC,"+2 damage against planets."
+DIRECT_DAMAGE_4-ENEMY-,4 damage
+DIRECT_DAMAGE_4-ENEMY-_DESC,"Deal 4 points of damage to any enemy unit."
+DIRECT_DAMAGE_6-ENEMY-,6 damage
+DIRECT_DAMAGE_6-ENEMY-_DESC,"Deal 6 points of damage to any enemy unit."
+INCREASE_DMG_2-FRIENDLY-,damage +2
+INCREASE_DMG_2-FRIENDLY-_DESC,"Increase damage by 2."
+ARMOR_2-FRIENDLY-,structure +2
+ARMOR_2-FRIENDLY-_DESC,"Increase structure by 2."
+SHIELD_1-FRIENDLY-,shield +1
+SHIELD_1-FRIENDLY-_DESC,"Increase shield by 1."
+JAM_1-ENEMY-,jam shields
+JAM_1-ENEMY-_DESC,"Reduces shields by 1."
+REDUCE_DMG_2-ENEMY-,damage -2
+REDUCE_DMG_2-ENEMY-_DESC,"Reduces damage by 2."
+REPAIR_4-FRIENDLY-,repair 4
+REPAIR_4-FRIENDLY-_DESC,"Repairs a unit for 4 points."
+REPAIR_6-FRIENDLY-,repair 6
+REPAIR_6-FRIENDLY-_DESC,"Repairs a unit for 6 points."
+PRODUCTION_1-FRIENDLY_PLANET-,1 resource points
+PRODUCTION_1-FRIENDLY_PLANET-_DESC,"Generate 1 resource point."
+PRODUCTION_2-FRIENDLY_PLANET-,2 resource points
+PRODUCTION_2-FRIENDLY_PLANET-_DESC,"Generate 2 resource points."
+DEFENSE_6-FRIENDLY_PLANET-,defense +6
+DEFENSE_6-FRIENDLY_PLANET-_DESC,"Increase planet defense by 6."
+SHIELD_1-FRIENDLY_PLANET-,shield +1
+SHIELD_1-FRIENDLY_PLANET-_DESC,"Increase shield by 1."
+MINES_1-FRIENDLY_PLANET-PLAYER_TURN,mines 1
+MINES_1-FRIENDLY_PLANET-PLAYER_TURN_DESC,"Deal 1 point of damage to each enemy unit orbiting the planet."
+MINES_2-FRIENDLY_PLANET-PLAYER_TURN,mines 2
+MINES_2-FRIENDLY_PLANET-PLAYER_TURN_DESC,"Deal 2 points of damage to each enemy unit orbiting the planet."
+REDUCE_STRUCTURE_1-FRIENDLY-,structure -1
+REDUCE_STRUCTURE_1-FRIENDLY-_DESC,"Reduces structure by 1."
+REDUCE_COST_4-FRIENDLY-,upkeep cost -4
+REDUCE_COST_4-FRIENDLY-_DESC,"Reduces upkeep cost by 4."
+CAPTURE-TARGET-ATTACK,capture
+CAPTURE-TARGET-ATTACK_DESC,"Gain control over the attacked enemy unit if damage is greater than or equal to structure."
+TAKE_OVER-ENEMY_PLANET-,take over planet
+TAKE_OVER-ENEMY_PLANET-_DESC,"Gain control of an enemy planet. Only useable if the opposite player controls at least 2 planets."
+SPAWN_LIGHT_FIGHTER-FRIENDLY_PLANET-PLAYER_TURN,spawn fighters
+SPAWN_LIGHT_FIGHTER-FRIENDLY_PLANET-PLAYER_TURN_DESC,"Spawns a light fighter each turn if free space is available."
+POINTS_2-PLAYER-ATTACK,plunder
+POINTS_2-PLAYER-ATTACK_DESC,"Gain 2 resource points on attack."
+

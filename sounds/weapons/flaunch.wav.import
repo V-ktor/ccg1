@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/flaunch.wav-ef762b15b517414b78271fa697e148fd.sample"
+
+[deps]
+
+source_file="res://sounds/weapons/flaunch.wav"
+source_md5="53a31255a523c372d6a04b55511aaa44"
+
+dest_files=[ "res://.import/flaunch.wav-ef762b15b517414b78271fa697e148fd.sample" ]
+dest_md5="a1ac726da58e1166f9a6dfbbd230213f"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

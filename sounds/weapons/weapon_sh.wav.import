@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/weapon_sh.wav-7872bf30c8b3c814db6861ff973312df.sample"
+
+[deps]
+
+source_file="res://sounds/weapons/weapon_sh.wav"
+source_md5="4ab86310df74dbf37f20c37ce6faaa15"
+
+dest_files=[ "res://.import/weapon_sh.wav-7872bf30c8b3c814db6861ff973312df.sample" ]
+dest_md5="ce3ebcbec531f556c99ecbe78d8ee9c6"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

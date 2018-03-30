@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://images/cards/pirate_corvette/bg.png" type="Texture" id=1]
+
+[node name="Corvette" type="Sprite"]
+
+texture = ExtResource( 1 )
+
+

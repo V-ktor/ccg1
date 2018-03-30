@@ -1,35 +1,57 @@
 ,en
-fighter,Fighter
-heavy_fighter,Heavy Fighter
-light_fighter,Light Fighter
-fighter_flamer,Fighter
-bomber,Bomber
-freighter,Freighter
-colony_ship,Colony Ship
-space_station,Space Station
-asteroid_ship,Asteroid Ship
-corvette,Corvette
-missile_frigate,Missile Frigate
-destroyer,Destroyer
-carrier,Carrier
-cruiser,Cruiser
-assault_carrier,Assault Carrier
-battleship,Battleship
-planetary_defense_network,Planetary Defense Network
-factory,Factory
-repair_ship,Repair Ship
-heavy_bomber,Heavy Bomber
-defender,Defender
-long_range_torpedos,Long Range Torpedo
-sabotage,Sabotage
-upgrade_weapons,Upgrade Weapons
-armor_plating,Armor Plating
-upgrade_shields,Upgrade Shields
-repair_4,Repair
-repair_6,Repair
-terraforming,Terraforming
-planetary_defense_6,Planetary Defense
-factory_world,Factory World
-planetary_barrier,Planetary Barrier
-orbital_mine_field,Orbital Mine Field
-orbital_drydock,Orbital Drydock
+FIGHTER,Fighter
+HEAVY_FIGHTER,Heavy Fighter
+LIGHT_FIGHTER,Light Fighter
+FIGHTER_FLAMER,Fighter
+STEALTH_FIGHTER,Stealth Fighter
+PIRATE_FIGHTER,Fighter
+BOMBER,Bomber
+FREIGHTER,Freighter
+STOLEN_FREIGHTER,Stolen Freighter
+LOOTER,Looter
+COLONY_SHIP,Colony Ship
+TROOP_SHIP,Troop Ship
+SPACE_STATION,Space Station
+ABANDONED_SPACE_STATION,Abandoned Space Station
+ASTEROID_SHIP,Asteroid Ship
+CORVETTE,Corvette
+IRONCLAD,Ironclad
+MILITIA,Militia
+PIRATE_CORVETTE,Corvette
+MISSILE_FRIGATE,Missile Frigate
+DESTROYER,Destroyer
+CARRIER,Carrier
+REBELS_CARRIER,Carrier
+PIRATE_CARRIER,Carrier
+CRUISER,Cruiser
+ASSAULT_CARRIER,Assault Carrier
+BATTLESHIP,Battleship
+REBELS_BATTLESHIP,Battleship
+PLANETARY_DEFENSE_NETWORK,Planetary Defense Network
+FACTORY,Factory
+REPAIR_SHIP,Repair Ship
+HEAVY_BOMBER,Heavy Bomber
+DEFENDER,Defender
+LONG_RANGE_TORPEDOS,Long Range Torpedo
+BOOBY_TRAB,Booby Trap
+SABOTAGE,Sabotage
+UPGRADE_WEAPONS,Upgrade Weapons
+ARMOR_PLATING,Armor Plating
+UPGRADE_SHIELDS,Upgrade Shields
+REPAIR_4,Repair
+REPAIR_5,Repair
+REPAIR_6,Repair
+JAM_SHIELDS,Shield Jammer
+CRIPPLE,Cripple
+VIRUS,Virus
+DOWNGRADE,Downgrade
+REVOLT,Revolt
+REBELLION,Rebellion
+PLANETARY_DEFENSE_6,Planetary Defense
+FACTORY_WORLD,Factory World
+PLANETARY_BARRIER,Planetary Barrier
+ORBITAL_MINE_FIELD,Orbital Mine Field
+LARGE_MINE_FIELD,Large Mine Field
+ORBITAL_DRYDOCK,Orbital Drydock
+SHIPYARD,Shipyard
+BUNKER_COMPLEX,Bunker Complex

@@ -1,0 +1,349 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://scripts/main/help.gd" type="Script" id=1]
+[ext_resource path="res://theme.tres" type="Theme" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+
+content_margin_left = -1.0
+content_margin_right = -1.0
+content_margin_top = -1.0
+content_margin_bottom = -1.0
+bg_color = Color( 0.0627451, 0.12549, 0.188235, 0.752941 )
+draw_center = true
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 0
+border_color = Color( 0.8, 0.8, 0.8, 1 )
+border_blend = false
+corner_radius_top_left = 0
+corner_radius_top_right = 0
+corner_radius_bottom_right = 32
+corner_radius_bottom_left = 0
+corner_detail = 1
+expand_margin_left = 0.0
+expand_margin_right = 0.0
+expand_margin_top = 0.0
+expand_margin_bottom = 0.0
+shadow_color = Color( 0, 0, 0, 0.6 )
+shadow_size = 0
+anti_aliasing = true
+anti_aliasing_size = 1
+_sections_unfolded = [ "Corner Radius" ]
+
+[sub_resource type="Animation" id=2]
+
+resource_name = "fade_in"
+length = 0.2
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=3]
+
+resource_name = "fade_out"
+length = 0.2
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[sub_resource type="GDScript" id=4]
+
+script/source = "extends Control
+
+
+func _draw():
+	for i in range(get_node(\"/root/Main\").hand[get_node(\"/root/Main\").main_player].size()):
+		var card = Data.data[get_node(\"/root/Main\").hand[get_node(\"/root/Main\").main_player][i]]
+		if (card[\"level\"]<=3 && card[\"type\"]==\"unit\"):
+			continue
+		
+		var c = get_node(\"../../UI/HBoxContainer/Button\"+str(i))
+		var pos3 = c.get_global_position()+Vector2(75,100)
+		var pos0 = Vector2(pos3.x+200,200)
+		var pos1 = pos0+Vector2(0,50)
+		var pos2 = pos3-Vector2(0,100)
+		draw_line(pos0,pos1,Color(0.2,0.4,0.8,0.5),8.0)
+		draw_line(pos1,pos2,Color(0.2,0.4,0.8,0.5),8.0)
+		draw_line(pos2,pos3,Color(0.2,0.4,0.8,0.5),8.0)
+"
+
+[sub_resource type="GDScript" id=5]
+
+script/source = "extends Control
+
+
+func _draw():
+	draw_line(get_node(\"../TextBox\").get_global_position()+Vector2(5,get_node(\"../TextBox\").get_size().y-25),get_node(\"/root/Main/UI/Player1/VBoxContainer\").get_global_position()+Vector2(64,32),Color(0.2,0.4,0.8,0.5),8.0)
+
+func _ready():
+	update()
+"
+
+[sub_resource type="GDScript" id=6]
+
+script/source = "extends Control
+
+
+func _draw():
+	for i in range(get_node(\"/root/Main\").hand[get_node(\"/root/Main\").main_player].size()):
+		var card = Data.data[get_node(\"/root/Main\").hand[get_node(\"/root/Main\").main_player][i]]
+		if (card[\"level\"]>get_node(\"/root/Main\").player_points[get_node(\"/root/Main\").main_player][card[\"faction\"]]-get_node(\"/root/Main\").player_used_points[get_node(\"/root/Main\").main_player][card[\"faction\"]] || card[\"type\"]!=\"unit\"):
+			continue
+		
+		var c = get_node(\"../../UI/Cards1/Card\"+str(i))
+		var pos3 = c.get_global_position()+Vector2(75,100)
+		var pos0 = Vector2(pos3.x+200,200)
+		var pos1 = pos0+Vector2(0,50)
+		var pos2 = pos3-Vector2(0,100)
+		draw_line(pos0,pos1,Color(0.2,0.4,0.8,0.5),8.0)
+		draw_line(pos1,pos2,Color(0.2,0.4,0.8,0.5),8.0)
+		draw_line(pos2,pos3,Color(0.2,0.4,0.8,0.5),8.0)
+"
+
+[sub_resource type="GDScript" id=7]
+
+script/source = "extends Control
+
+
+func _draw():
+	set_size(get_size())
+	for i in range(get_node(\"/root/Main\").hand[get_node(\"/root/Main\").main_player].size()):
+		var card = Data.data[get_node(\"/root/Main\").hand[get_node(\"/root/Main\").main_player][i]]
+		if (card[\"level\"]<=get_node(\"/root/Main\").player_points[get_node(\"/root/Main\").main_player][card[\"faction\"]] && card[\"type\"]==\"unit\"):
+			continue
+		
+		var c = get_node(\"../../UI/Cards1/Card\"+str(i))
+		var pos3 = c.get_global_position()+Vector2(75,100)
+		var pos0 = Vector2(pos3.x+200,200)
+		var pos1 = pos0+Vector2(0,50)
+		var pos2 = pos3-Vector2(0,100)
+		draw_line(pos0,pos1,Color(0.2,0.4,0.8,0.5),8.0)
+		draw_line(pos1,pos2,Color(0.2,0.4,0.8,0.5),8.0)
+		draw_line(pos2,pos3,Color(0.2,0.4,0.8,0.5),8.0)
+"
+
+[sub_resource type="GDScript" id=8]
+
+script/source = "extends Control
+
+var move = true
+var attack = false
+var invade = false
+
+
+func _draw():
+	for i in range(get_node(\"/root/Main\").SIZE*get_node(\"/root/Main\").POSITIONS):
+		var unit = get_node(\"/root/Main\").cards[get_node(\"/root/Main\").main_player][i]
+		if (unit==null || (move && unit.moved) || ((attack || invade) && unit.attacked)):
+			continue
+		
+		var pos3 = unit.node.get_global_position()/get_node(\"/root/Main/Camera\").get_zoom()+OS.get_window_size()/2
+		var pos0 = Vector2(pos3.x+200,200)
+		var pos1 = pos0+Vector2(0,50)
+		var pos2 = pos3-Vector2(0,100)
+		draw_line(pos0,pos1,Color(0.2,0.4,0.8,0.5),8.0)
+		draw_line(pos1,pos2,Color(0.2,0.4,0.8,0.5),8.0)
+		draw_line(pos2,pos3,Color(0.2,0.4,0.8,0.5),8.0)
+"
+
+[node name="Help" type="CanvasLayer" index="0"]
+
+layer = 95
+offset = Vector2( 0, 0 )
+rotation = 0.0
+scale = Vector2( 1, 1 )
+transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+script = ExtResource( 1 )
+
+[node name="TextBox" type="Panel" parent="." index="0"]
+
+visible = false
+modulate = Color( 1, 1, 1, 0 )
+light_mask = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = 150.0
+margin_top = 50.0
+margin_right = -150.0
+margin_bottom = 250.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+theme = ExtResource( 2 )
+custom_styles/panel = SubResource( 1 )
+_sections_unfolded = [ "Anchor", "Margin", "Mouse", "Theme", "Visibility", "custom_styles" ]
+
+[node name="Text" type="RichTextLabel" parent="TextBox" index="0"]
+
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 15.0
+margin_top = 15.0
+margin_right = -15.0
+margin_bottom = -15.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = true
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+bbcode_enabled = false
+bbcode_text = ""
+visible_characters = -1
+percent_visible = 1.0
+meta_underlined = true
+tab_size = 4
+text = ""
+scroll_active = true
+scroll_following = true
+selection_enabled = false
+override_selected_font_color = false
+_sections_unfolded = [ "Anchor", "Margin", "Mouse" ]
+
+[node name="Animation" type="AnimationPlayer" parent="TextBox" index="1"]
+
+root_node = NodePath("..")
+autoplay = ""
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/fade_in = SubResource( 2 )
+anims/fade_out = SubResource( 3 )
+blend_times = [  ]
+
+[node name="DrawInit" type="Control" parent="." index="1"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = SubResource( 4 )
+_sections_unfolded = [ "Anchor", "Margin", "Mouse" ]
+
+[node name="DrawPoints" type="Control" parent="." index="2"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = SubResource( 5 )
+_sections_unfolded = [ "Anchor", "Margin", "Mouse" ]
+
+[node name="DrawUnitsHand" type="Control" parent="." index="3"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = SubResource( 6 )
+_sections_unfolded = [ "Anchor", "Margin", "Mouse" ]
+
+[node name="DrawDiscard" type="Control" parent="." index="4"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = SubResource( 7 )
+_sections_unfolded = [ "Anchor", "Margin", "Mouse" ]
+
+[node name="DrawUnits" type="Control" parent="." index="5"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = SubResource( 8 )
+_sections_unfolded = [ "Anchor", "Margin", "Mouse" ]
+
+

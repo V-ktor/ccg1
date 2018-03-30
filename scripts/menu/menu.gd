@@ -22,9 +22,9 @@ PLANET_OCEAN:[preload("res://images/planets/ocean01.png"),preload("res://images/
 PLANET_TOXIC:[preload("res://images/planets/toxic01.png"),preload("res://images/planets/toxic02.png"),preload("res://images/planets/toxic03.png"),preload("res://images/planets/toxic04.png"),preload("res://images/planets/toxic05.png")],
 PLANET_INFERNO:[preload("res://images/planets/inferno01.png"),preload("res://images/planets/inferno02.png"),preload("res://images/planets/inferno03.png"),preload("res://images/planets/inferno04.png"),preload("res://images/planets/inferno05.png")]}
 
+const FACTIONS_SKIRMISH = ["empire","rebels"]
+const COST = [150,250,400]
 
-var card_selected
-var deck_selected
 var resolution = Vector2(1280,720)
 var fullscreen = false
 var maximized = false
@@ -33,95 +33,88 @@ var sound = 100
 var mode = SAVE
 var deck_file
 var last_file_button
-var map_scroll = false
 var last_mouse_pos = Vector2(0,0)
 var star_selected = -1
-var campaign = false
 var enemy
 var add_credits = 0
 var faction_stylebox = []
+var filter = {"empire":true,"rebels":true,"pirates":true}
+var player_name = tr("PLAYER")
+var name_new = ""
+var credits = 0
 
 var main_scene = preload("res://scenes/main/main.tscn")
+var tutorial_scene = preload("res://scenes/main/help.tscn")
 
 
-func end_match(win):
+func end_match(win,player=null):
+	if (has_node("/root/Main")):
+		get_node("/root/Main").queue_free()
 	if (win):
 		get_node("BattleEnd").set_title(tr("WON!"))
-		if (campaign):
-			Campaign.stars[star_selected].owner = 1
-			Campaign.credits += add_credits
-			get_node("BattleEnd/Text").set_text(str(add_credits)+tr("CREDITS")+" "+tr("GAINED")+"!")
-		else:
-			get_node("BattleEnd/Text").set_text("")
+		credits += add_credits
+		get_node("BattleEnd/Text").set_text(str(add_credits)+tr("CREDITS")+" "+tr("GAINED")+"!")
 	else:
-		if (campaign):
-			Campaign.stars[star_selected].owner = enemy
+		credits += 50
 		get_node("BattleEnd").set_title(tr("LOST!"))
-		get_node("BattleEnd/Text").set_text("")
-	if (campaign):
-		Campaign.update_deck()
-		Campaign._save()
-		_select_star(-1)
-#		update_map()
-		show_map()
-		Campaign.next_turn()
-	else:
-		show_main()
+		get_node("BattleEnd/Text").set_text("50"+tr("CREDITS")+" "+tr("GAINED")+"!")
+	show_main()
+	if (player!=null):
+		rpc("end_match",player)
+	get_node("Lobby")._cancel()
 	get_node("BattleEnd").popup()
 
-func _skirmish():
+func start_game(planets,size,positions,player1_deck,player2_deck,player1_name,player2_name,player1_is_ai,player2_is_ai,id1=1,id2=0):
 	var mi = main_scene.instance()
-	campaign = false
 	
-	mi.SIZE = 4				# number of planets
-	mi.POSITIONS = 3		# number of fields per planet
-	mi.deck[0] = []+Data.deck
-	mi.randomize_deck(mi.PLAYER2,Data.MAX_CARDS)
-	mi.planets = randomize_planets(mi.SIZE)
+	mi.SIZE = size # number of planets
+	mi.POSITIONS = positions # number of fields per planet
+	mi.deck[0] = get_deck(player1_deck)
+	mi.deck[1] = get_deck(player2_deck)
+	mi.planets = planets
+	mi.player_name = [player1_name,player2_name]
+	mi.set_name("Main")
+	mi.get_node("UI/Player1/VBoxContainer/Name").set_text(player1_name)
+	mi.get_node("UI/Player2/Name").set_text(player2_name)
+	mi.player_is_ai[0] = player1_is_ai
+	mi.player_is_ai[1] = player2_is_ai
+	mi.main_player = get_node("Lobby").player_self
+	if (get_node("Lobby").player_self==0):
+		mi.ID = id1
+		mi.ID_enemy = id2
+	else:
+		mi.ID = id2
+		mi.ID_enemy = id1
 	
+	if (has_node("/root/Main")):
+		get_node("/root/Main").queue_free()
+		get_node("/root/Main").set_name("deleted")
 	get_tree().get_root().add_child(mi)
 	get_node("Panel").hide()
 
-func _campaign():
-	if (!campaign || star_selected<0):
-		return
+func _skirmish():
+	var factions = [FACTIONS_SKIRMISH[randi()%FACTIONS_SKIRMISH.size()]]
 	
-	if (Campaign.turn==0):
-		end_match(true)
-		return
+	if (randf()<0.3):
+		factions.push_back(FACTIONS_SKIRMISH[randi()%FACTIONS_SKIRMISH.size()])
+	elif (randf()<0.2):
+		factions.push_back("pirates")
 	
-	var system = Campaign.stars[star_selected]
-	var ai_cards = Campaign.get_num_cards(system.owner)+5
-	var planets = []
-	var num_enemy_planets = 0
-	var mi = main_scene.instance()
-	campaign = true
-	enemy = system.owner
-	Campaign._save()
-	
-	mi.SIZE = system.planets.size()
-	mi.POSITIONS = 3
-	
-	planets.resize(system.planets.size())
-	for i in range(system.planets.size()):
-		var p = system.planets[i]
-		planets[i] = {"type":p.type,"image":p.image,"points":p.points,"owner":p.owner-1,"structure":p.structure,"damage":p.damage,"shield":p.shield,"level":0}
-		if (p.owner>1):
-			num_enemy_planets += 1
-	
-	mi.deck[0] = []+Campaign.deck
-	mi.randomize_deck(mi.PLAYER2,ai_cards+5*(system.planets.size()-3))
-	mi.planets = planets
-	get_tree().get_root().add_child(mi)
-	add_credits = 250+randi()%50+200*int(system.owner>1)+50*num_enemy_planets
-	get_node("Map").hide()
+	add_credits = 150
+	start_game(randomize_planets(4),4,3,Data.deck,randomize_deck(Data.MAX_CARDS,factions),player_name,tr("SKIRMISH_AI"),false,true)
+
+func _tutorial():
+	var ti = tutorial_scene.instance()
+	add_credits = 50
+	start_game([{"type":PLANET_TERRAN,"image":randi()%5,"cards":1,"owner":-1,"structure":0,"damage":0,"shield":0,"level":0},{"type":randi()%7,"image":randi()%5,"cards":1,"owner":-1,"structure":0,"damage":0,"shield":0,"level":0},{"type":PLANET_TERRAN,"image":randi()%5,"cards":1,"owner":-1,"structure":0,"damage":0,"shield":0,"level":0}],3,3,Data.DECK_DEFAULT["empire"],randomize_deck(Data.MAX_CARDS-10,["rebels"]),player_name,tr("SKIRMISH_AI"),false,true)
+	get_node("/root/Main").tutorial = true
+	get_node("/root/Main").add_child(ti)
 
 func randomize_planets(size):
 	var planets = []
 	planets.resize(size)
 	for i in range(size):
 		var type = (randi()%8)-1
-		var points = [5,3,4,5,6,5,4,3,4][type+1]
 		var structure = 0
 		var owner = -1
 		if (type==PLANET_TERRAN):
@@ -130,180 +123,194 @@ func randomize_planets(size):
 			owner = 0
 		elif (i==size-1):
 			owner = 1
-		planets[i] = {"type":type,"image":randi()%5,"points":points,"owner":owner,"structure":structure,"damage":0,"shield":0,"level":0}
+		planets[i] = {"type":type,"image":randi()%5,"cards":1,"owner":owner,"structure":structure,"damage":0,"shield":0,"level":0}
 	return planets
 
+func randomize_deck(number,factions):
+	var deck = []
+	var ID = 0
+	deck.resize(number)
+	for i in range(0.3*number):
+		deck[ID] = Data.get_tier1_unit(factions[randi()%factions.size()])
+		ID += 1
+	for i in range(0.2*number):
+		deck[ID] = Data.get_tier1_card(factions[randi()%factions.size()])
+		ID += 1
+	for i in range(0.2*number):
+		deck[ID] = Data.get_tier2_unit(factions[randi()%factions.size()])
+		ID += 1
+	for i in range(0.1*number):
+		deck[ID] = Data.get_tier2_card(factions[randi()%factions.size()])
+		ID += 1
+	for i in range(0.1*number):
+		deck[ID] = Data.get_tier3_unit(factions[randi()%factions.size()])
+		ID += 1
+	for i in range(0.1*number):
+		deck[ID] = Data.get_tier3_card(factions[randi()%factions.size()])
+		ID += 1
+	
+	return deck
 
-func add_card():
+func get_deck(from):
+	printt(from,typeof(from))
+	if (typeof(from)==TYPE_ARRAY):
+		return from
+	
+	var deck = []
+	
+	for ID in from.keys():
+		for i in range(from[ID]):
+			deck.push_back(ID)
+	
+	return deck
+
+func _add_card(ID):
 	var deck
-	var inventory
+	var num_cards = 0
 	var max_cards
-	if (campaign):
-		deck = Campaign.deck
-		inventory = Campaign.inventory
-		max_cards = Campaign.max_deck_size
-	else:
-		deck = Data.deck
-		inventory = Data.inventory
-		max_cards = Data.MAX_CARDS
-	if (card_selected!=null && deck.size()<max_cards):
-		deck.push_back(inventory[card_selected])
-		inventory.remove(card_selected)
-		update_cards()
-		card_selected = null
-
-func remove_card():
-	var deck
-	var inventory
-	if (campaign):
-		deck = Campaign.deck
-		inventory = Campaign.inventory
-	else:
-		deck = Data.deck
-		inventory = Data.inventory
-	if (deck_selected!=null):
-		inventory.push_back(deck[deck_selected])
-		deck.remove(deck_selected)
-		update_cards()
-		deck_selected = null
-
-func select_deck(ID):
-	unselect()
-	card_selected = null
-	deck_selected = ID
+	deck = Data.deck
+	max_cards = Data.MAX_CARDS
 	
-	for c in get_node("Deck/Card").get_children():
-		c.queue_free()
+	for n in deck.values():
+		num_cards += n
+	if (num_cards>max_cards):
+		return false
+	if (deck.has(ID) && (deck[ID]>2 || deck[ID]>=min(Data.inventory[ID],3))):
+		return false
 	
-	var card
-	if (campaign):
-		card = Campaign.deck[ID]
+	if (deck.has(ID)):
+		deck[ID] += 1
 	else:
-		card = Data.deck[ID]
-	var ci = Cards.create_card(card)
-	ci.set_scale(Vector2(0.75,0.75))
-	ci.set_pos(Vector2(152,214))
-	get_node("Deck/Card").add_child(ci)
+		deck[ID] = 1
+	update_cards()
+	
+	return true
 
-func select_card(ID):
-	unselect()
-	card_selected = ID
-	deck_selected = null
+func _remove_card(ID):
+	if (!Data.deck.has(ID)):
+		return false
 	
-	for c in get_node("Deck/Card").get_children():
-		c.queue_free()
-	
-	var card
-	if (campaign):
-		card = Campaign.inventory[ID]
+	if (Data.deck[ID]<2):
+		Data.deck.erase(ID)
 	else:
-		card = Data.inventory[ID]
-	var ci = Cards.create_card(card)
-	ci.set_scale(Vector2(0.75,0.75))
-	ci.set_pos(Vector2(152,214))
-	get_node("Deck/Card").add_child(ci)
-
-func unselect():
-	if (card_selected!=null and get_node("Deck/Cards/GridContainer/Card"+str(card_selected))):
-		get_node("Deck/Cards/GridContainer/Card"+str(card_selected)).set_pressed(false)
-	if (deck_selected!=null and get_node("Deck/Deck/GridContainer/Card"+str(deck_selected))):
-		get_node("Deck/Deck/GridContainer/Card"+str(deck_selected)).set_pressed(false)
+		Data.deck[ID] -= 1
+	update_cards()
+	
+	return true
 
 func update_cards():
-	var deck
-	var inventory
-	var max_cards
-	if (campaign):
-		deck = Campaign.deck
-		inventory = Campaign.inventory
-		max_cards = Campaign.max_deck_size
-	else:
-		deck = Data.deck
-		inventory = Data.inventory
-		max_cards = Data.MAX_CARDS
+	var num_cards = 0
+	var pos = 0
+	var cols = int((get_node("Deck").get_size().x-8)/175)
 	
-	for c in get_node("Deck/Cards/GridContainer").get_children()+get_node("Deck/Deck/GridContainer").get_children():
-		c.set_name("deleted")
-		c.queue_free()
+	for n in Data.deck.values():
+		num_cards += n
 	
-	for i in range(deck.size()):
-		var bi = get_node("Deck/ButtonCard").duplicate()
-		var ci = Cards.create_card(deck[i])
-		bi.connect("pressed",self,"select_deck",[i])
-		bi.set_name("Card"+str(i))
-		bi.connect("input_event",bi,"_input_event")
-		bi.connect("mouse_exit",bi,"_mouse_exit")
+	for c in get_node("Deck/Deck").get_children():
+		c.hide()
+	for c in get_node("Deck/Cards/Control").get_children():
+		c.hide()
+	
+	for i in range(Data.inventory.size()):
+		var bi
+		var ID = Data.inventory.keys()[i]
+		var ci = Cards.create_card(ID)
+		var cards = 0
+		var visible = filter[Data.data[ID]["faction"]]
+		if (has_node("Deck/Cards/Control/Card"+str(i))):
+			bi = get_node("Deck/Cards/Control/Card"+str(i))
+			bi.get_node("Card").queue_free()
+			bi.get_node("Card").set_name("deleted")
+		else:
+			bi = get_node("Deck/ButtonCard").duplicate()
+			bi.set_name("Card"+str(i))
+			bi.connect("gui_input",bi,"_input_event")
+			bi.connect("mouse_exited",bi,"_mouse_exited")
+			get_node("Deck/Cards/Control").add_child(bi)
+		ci.set_position(Vector2(175,250))
 		ci.set_draw_behind_parent(true)
-		ci.set_pos(Vector2(175,250))
+		bi.set_position(Vector2(175*(pos%cols),250*floor(pos/cols)))
 		bi.add_child(ci)
-		bi.show()
-		get_node("Deck/Deck/GridContainer").add_child(bi)
+		if (Data.deck.has(ID)):
+			cards = Data.deck[ID]
+		bi.get_node("HBoxContainer/Label").set_text(str(cards)+" / "+str(min(Data.inventory.values()[i],3)))
+		if (Data.deck.has(ID)):
+			bi.get_node("HBoxContainer/ButtonAdd").set_disabled(num_cards>=Data.MAX_CARDS || Data.deck[ID]>=min(Data.inventory[ID],3))
+		else:
+			bi.get_node("HBoxContainer/ButtonAdd").set_disabled(num_cards>=Data.MAX_CARDS)
+		bi.get_node("HBoxContainer/ButtonSub").set_disabled(!Data.deck.has(ID))
+		if (bi.get_node("HBoxContainer/ButtonAdd").is_connected("pressed",self,"_add_card")):
+			bi.get_node("HBoxContainer/ButtonAdd").disconnect("pressed",self,"_add_card")
+		if (bi.get_node("HBoxContainer/ButtonSub").is_connected("pressed",self,"_remove_card")):
+			bi.get_node("HBoxContainer/ButtonSub").disconnect("pressed",self,"_remove_card")
+		bi.get_node("HBoxContainer/ButtonAdd").connect("pressed",self,"_add_card",[ID])
+		bi.get_node("HBoxContainer/ButtonSub").connect("pressed",self,"_remove_card",[ID])
+		bi.set_visible(visible)
+		pos += int(visible)
+	for ID in Data.deck.keys():
+		get_node("Deck/Deck/"+Data.data[ID]["faction"].capitalize()).show()
 	
-	for i in range(inventory.size()):
-		var bi = get_node("Deck/ButtonCard").duplicate()
-		var ci = Cards.create_card(inventory[i])
-		bi.connect("pressed",self,"select_card",[i])
-		bi.set_name("Card"+str(i))
-		bi.connect("input_event",bi,"_input_event")
-		bi.connect("mouse_exit",bi,"_mouse_exit")
-		ci.set_pos(Vector2(175,250))
-		ci.set_draw_behind_parent(true)
-		bi.add_child(ci)
-		bi.show()
-		get_node("Deck/Cards/GridContainer").add_child(bi)
-	
-	get_node("Deck/Text1").set_text(tr("DECK")+": "+str(deck.size())+" / "+str(max_cards)+" "+tr("CARDS"))
-	get_node("Deck/Text2").set_text(tr("INVENTORY")+": "+str(inventory.size())+" "+tr("CARDS"))
+	get_node("Deck/Cards/Control").set_custom_minimum_size(Vector2(cols*175,ceil(pos/cols+1)*250))
+	get_node("Deck/Deck/Label").set_text(tr("DECK")+": "+str(num_cards)+" / "+str(Data.MAX_CARDS)+" "+tr("CARDS"))
+	get_node("Deck/Deck/Label").show()
 
 func show_deck():
-	campaign = false
 	update_cards()
 	get_node("Deck").show()
-	get_node("Deck/Panel/VBoxContainer/ButtonSave").show()
-	get_node("Deck/Panel/VBoxContainer/ButtonLoad").show()
-	get_node("Map").hide()
+	get_node("Deck/HBoxContainer/ButtonSave").show()
+	get_node("Deck/HBoxContainer/ButtonLoad").show()
 	get_node("Panel").hide()
-
-func show_map():
-	campaign = true
-	get_node("Map/Panel/VBoxContainer/ButtonAttack").set_disabled(star_selected<0)
-	get_node("Deck").hide()
-	get_node("Map").show()
-	get_node("Panel").hide()
-	update_map()
 
 func show_main():
-	campaign = false
 	get_node("Deck").hide()
-	get_node("Map").hide()
 	get_node("Panel").show()
 
 func show_shop():
+	get_node("Shop/VBoxContainer/Label").set_text(tr("CREDITS")+": "+str(credits))
+	for i in range(3):
+		get_node("Shop/VBoxContainer/ButtonTier"+str(i+1)).set_text(tr("BUY_TIER"+str(i+1)+"_CARDS")+" ("+str(COST[i])+")")
 	get_node("Shop").show()
+
+func show_settings():
+	_set_music(100*db2linear(AudioServer.get_bus_volume_db(1)))
+	_set_sound(100*db2linear(AudioServer.get_bus_volume_db(2)))
+	get_node("Settings").show()
 
 func hide_shop():
 	get_node("Shop").hide()
 
-func show_deck_campaign():
-	campaign = true
-	update_cards()
-	get_node("Deck").show()
-	get_node("Deck/Panel/VBoxContainer/ButtonSave").hide()
-	get_node("Deck/Panel/VBoxContainer/ButtonLoad").hide()
-	get_node("Map").hide()
-	get_node("Panel").hide()
-
 func hide_deck():
-	if (campaign):
-		show_map()
-	else:
-		show_main()
+	_save()
+	show_main()
+
+func hide_settings():
+	get_node("Settings").hide()
+
+func accept_settings():
+	apply_settings()
+	hide_settings()
+	save_config()
+
+func settings_show_player():
+	get_node("Settings/Player").show()
+	get_node("Settings/Resolution").hide()
+	get_node("Settings/Audio").hide()
+
+func settings_show_resolution():
+	get_node("Settings/Player").hide()
+	get_node("Settings/Resolution").show()
+	get_node("Settings/Audio").hide()
+
+func settings_show_audio():
+	get_node("Settings/Player").hide()
+	get_node("Settings/Resolution").hide()
+	get_node("Settings/Audio").show()
 
 func show_quit():
 	get_node("Quit").popup_centered(Vector2(0,0))
 
 func quit():
-	Campaign._save()
+	_save()
 	save_config()
 	get_tree().quit()
 
@@ -313,30 +320,54 @@ func create_save_dir():
 		dir.make_dir_recursive("user://decks")
 
 func _load():
-	return
 	var file = File.new()
-	
-	Campaign._load()
 	
 	if (!file.file_exists("user://cards.save")):
 		print("No save file found!")
 		return 
-	var error = file.open_encrypted_with_pass("user://cards.save",File.READ,OS.get_unique_ID())
+	var error = file.open("user://cards.save",File.READ)
 	
-	if (error==OK):
-		while (!file.eof_reached()):
-			var currentline = {}
-			currentline.parse_json(file.get_line())
-			if (currentline.has("deck")):
-				Data.deck = currentline["deck"]
+	if (error!=OK):
+		print("Can't open save file!")
+		return
+	
+	while (!file.eof_reached()):
+		var currentline = JSON.parse(file.get_line()).get_result()
+		if (currentline==null):
+			continue
+		if (currentline.has("deck")):
+			Data.deck = currentline["deck"]
+		elif (currentline.has("inventory")):
+			Data.inventory = currentline["inventory"]
+			credits = currentline["credits"]
+
+func _save():
+	var dir = Directory.new()
+	if (!dir.dir_exists("user://")):
+		dir.make_dir_recursive("user://")
+	
+	var file = File.new()
+	var error = file.open("user://cards.save",File.WRITE)
+	if (error!=OK):
+		print("Can't write save file!")
+		return
+	
+	file.store_line(JSON.print({"deck":Data.deck}))
+	file.store_line(JSON.print({"inventory":Data.inventory,"credits":credits}))
+	
+	file.close()
 
 func _default():
 	resolution = OS.get_screen_size()
 	fullscreen = false
 	maximized = true
+	music = 100
+	sound = 100
 	
 	apply_settings()
 	save_config()
+	show_settings()
+	settings_show_player()
 
 func load_config():
 	var file = File.new()
@@ -349,8 +380,9 @@ func load_config():
 	
 	if (error==OK):
 		while (!file.eof_reached()):
-			var currentline = {}
-			currentline.parse_json(file.get_line())
+			var currentline = JSON.parse(file.get_line()).get_result()
+			if (currentline==null):
+				continue
 			if currentline.has("resolution_x"):
 				resolution = Vector2(currentline["resolution_x"],currentline["resolution_y"])
 			elif currentline.has("fullscreen"):
@@ -359,6 +391,9 @@ func load_config():
 			elif currentline.has("music"):
 				music = currentline["music"]
 				sound = currentline["sound"]
+			elif (currentline.has("name")):
+				player_name = currentline["name"]
+				name_new = player_name
 	
 	file.close()
 	apply_settings()
@@ -369,13 +404,16 @@ func save_config():
 	var file = File.new()
 	var error = file.open("user://settings.cfg",File.WRITE)
 	
-	resolution = OS.get_video_mode_size()
+	resolution = OS.get_window_size()
 	fullscreen = OS.is_window_fullscreen()
 	maximized = OS.is_window_maximized()
+	music = 100*db2linear(AudioServer.get_bus_volume_db(1))
+	sound = 100*db2linear(AudioServer.get_bus_volume_db(2))
 	
-	file.store_line({"resolution_x":resolution.x,"resolution_y":resolution.y}.to_json())
-	file.store_line({"fullscreen":fullscreen,"maximized":maximized}.to_json())
-	file.store_line({"music":music,"sound":sound}.to_json())
+	file.store_line(JSON.print({"resolution_x":resolution.x,"resolution_y":resolution.y}))
+	file.store_line(JSON.print({"fullscreen":fullscreen,"maximized":maximized}))
+	file.store_line(JSON.print({"music":music,"sound":sound}))
+	file.store_line(JSON.print({"name":player_name}))
 	
 	file.close()
 
@@ -383,53 +421,28 @@ func apply_settings():
 	OS.set_window_size(resolution)
 	OS.set_window_fullscreen(fullscreen)
 	OS.set_window_maximized(maximized)
-	AudioServer.set_stream_global_volume_scale(music/100.0)
-	AudioServer.set_fx_global_volume_scale(sound/100.0)
-
-func _resize():
-	var c = int(OS.get_video_mode_size().x*4.0/1024.0)
-	get_node("Deck/Cards/GridContainer").set_columns(c)
-	get_node("Deck/Deck/GridContainer").set_columns(c)
+	AudioServer.set_bus_volume_db(1,linear2db(music/100.0))
+	AudioServer.set_bus_volume_db(2,linear2db(sound/100.0))
+	player_name = name_new
+	
+	get_node("Settings/Player/Name/LineEdit").set_text(player_name)
 
 func _input(event):
 	if (event.is_action_pressed("cancel")):
-		if (get_node("Panel").is_hidden()):
+		if (!get_node("Panel").is_visible()):
 			show_main()
-		elif (get_node("Quit").is_hidden()):
+		elif (!get_node("Quit").is_visible()):
 			show_quit()
 		else:
 			quit()
 
-func _process(delta):
-	if (map_scroll):
-		var offset = get_node("Map/ScrollContainer").get_global_mouse_pos()-last_mouse_pos
-		get_node("Map/ScrollContainer").set_h_scroll(get_node("Map/ScrollContainer").get_h_scroll()-delta*100.0*offset.x)
-		get_node("Map/ScrollContainer").set_v_scroll(get_node("Map/ScrollContainer").get_v_scroll()-delta*100.0*offset.y)
-		last_mouse_pos = get_node("Map/ScrollContainer").get_global_mouse_pos()
-
 func _ready():
 	randomize()
-	set_process(true)
 	set_process_input(true)
-	get_tree().connect("screen_resized",self,"_resize")
 	load_config()
-	_resize()
 	_load()
 	
 	update_cards()
-	
-	faction_stylebox.resize(Campaign.FACTION_COLOUR.size())
-	for i in range(Campaign.FACTION_COLOUR.size()):
-		var stylebox = StyleBoxFlat.new()
-		stylebox.set_light_color(Campaign.FACTION_COLOUR[i])
-		stylebox.set_dark_color(Campaign.FACTION_COLOUR[i])
-		stylebox.set_border_size(4)
-		stylebox.set_border_blend(false)
-		stylebox.set_draw_center(false)
-		faction_stylebox[i] = stylebox
-	faction_stylebox[0].set_light_color(Color(0.75,0.35,0.25))
-	faction_stylebox[0].set_dark_color(Color(0.75,0.35,0.25))
-
 
 func _show_deck_load():
 	mode = LOAD
@@ -497,8 +510,7 @@ func _deck_load():
 	var file = File.new()
 	if (!file.file_exists("user://decks/"+deck_file+".sav")):
 		if Data.DECK_DEFAULT.has(deck_file):
-			Data.deck = []+Data.DECK_DEFAULT[deck_file]
-			Data.update_inventory()
+			Data.deck = Data.DECK_DEFAULT[deck_file].duplicate()
 		get_node("Deck/Load").hide()
 		update_cards()
 		return
@@ -528,146 +540,90 @@ func _set_deck_file(file):
 	if (last_file_button!=null):
 		last_file_button.set_pressed(false)
 
-
-func _map_input(ev):
-	if (ev.type==InputEvent.MOUSE_BUTTON && ev.button_index==1):
-		map_scroll = ev.pressed
-		last_mouse_pos = get_node("Map/ScrollContainer").get_global_mouse_pos()
-
-
-
-func update_map():
-	var planets_controled = 0
-	for i in range(Campaign.stars.size()):
-		var s = Campaign.stars[i]
-		var button
-		if (s.owner==1):
-			planets_controled += 1
-		if (!has_node("Map/ScrollContainer/CenterContainer/Background/Button"+str(i))):
-			button = get_node("Map/ScrollContainer/CenterContainer/Background/Button").duplicate()
-			button.set_name("Button"+str(i))
-			button.show()
-			get_node("Map/ScrollContainer/CenterContainer/Background").add_child(button)
-			button.connect("pressed",self,"_select_star",[i])
-		else:
-			button = get_node("Map/ScrollContainer/CenterContainer/Background/Button"+str(i))
-		button.get_node("Icon").set_texture(load("res://images/star_icons/"+s.type+".png"))
-		button.set_disabled(s.owner==1)
-		button.add_style_override("normal",faction_stylebox[s.owner])
-		button.set_pos(get_node("Map/ScrollContainer/CenterContainer/Background").get_size()/2+s.position-button.get_size()/2.0)
-	
-	get_node("Map/ScrollContainer/CenterContainer/Background/Borders").update()
-	
-	get_node("Map/Status/VBoxContainer/Text1").set_text(tr("CREDITS")+": "+str(Campaign.credits))
-	get_node("Map/Status/VBoxContainer/Text2").set_text(tr("NUMBER_OF_PLANETS")+": "+str(planets_controled)+" / "+str(Campaign.stars.size()))
-	get_node("Map/Status/VBoxContainer/Text3").set_text(tr("NUMBER_OF_CARDS")+": "+str(Campaign.inventory.size()+Campaign.deck.size()))
-	get_node("Map/Status/VBoxContainer/Text4").set_text(tr("MAX_DECK_SIZE")+": "+str(Campaign.max_deck_size))
-
-func _select_star(ID):
-	var planets
-	var num_planets
-	var min_dist = 0.0
-	var attackable = false
-	star_selected = ID
-	if (ID>=0):
-		planets = Campaign.stars[ID].planets
-		num_planets = planets.size()
-		get_node("Map/System/Icon").set_texture(load("res://images/star_icons/"+Campaign.stars[ID].type+".png"))
-	else:
-		planets = []
-		num_planets = 0
-		get_node("Map/System/Icon").set_texture(null)
-	for c in get_node("Map/System/HBoxContainer").get_children()+get_node("Map/System/HBoxContainer2").get_children():
-		c.hide()
-	for i in range(num_planets):
-		if (!has_node("Map/System/HBoxContainer/Planet"+str(i))):
-			var arrow = get_node("Map/System/HBoxContainer2/Planet0").duplicate()
-			var icon = get_node("Map/System/HBoxContainer/Planet0").duplicate()
-			icon.set_name("Planet"+str(i))
-			icon.show()
-			get_node("Map/System/HBoxContainer").add_child(icon)
-			arrow.set_name("Planet"+str(i))
-			arrow.show()
-			get_node("Map/System/HBoxContainer2").add_child(arrow)
-	get_node("Map/System/HBoxContainer/Space").show()
-	get_node("Map/System/HBoxContainer/Space").raise()
-	get_node("Map/System/HBoxContainer2/Space").show()
-	get_node("Map/System/HBoxContainer2/Space").raise()
-	for i in range(num_planets):
-		var arrow = get_node("Map/System/HBoxContainer2/Planet"+str(i))
-		var icon = get_node("Map/System/HBoxContainer/Planet"+str(i))
-		icon.set_texture(planet_icons[planets[num_planets-1-i].type][planets[num_planets-1-i].image])
-		icon.show()
-		arrow.set_modulate(Campaign.FACTION_COLOUR[planets[num_planets-1-i].owner])
-		arrow.show()
-	
-	for s in Campaign.stars:
-		var dist = s.position.distance_squared_to(Campaign.stars[ID].position)
-		if (dist<min_dist || dist==0.0):
-			min_dist = 1.1*dist
-	if (min_dist<25000):
-		min_dist = 25000
-	for s in Campaign.stars:
-		if (s.owner==1):
-			var dist = s.position.distance_squared_to(Campaign.stars[ID].position)
-			if (dist<=min_dist):
-				attackable = true
-				break
-	get_node("Map/Panel/VBoxContainer/ButtonAttack").set_disabled(!attackable && Campaign.turn==0)
-
-func start_campaign():
-	var loaded = Campaign._load()
-	if (!loaded):
-		Campaign.new(100)
-	elif (Campaign.turn>0):
-		Campaign.next_turn()
-#	update_map()
-	show_map()
-
-func reset_campaign():
-	Campaign.new(100)
-#	update_map()
-	show_map()
-
 func buy_tier1():
-	if (Campaign.credits<100):
+	if (credits<COST[0]):
 		return
 	
-	var card = Data.get_tier1_card()
-	Campaign.inventory.push_back(card)
-	Campaign.credits -= 100
-	show_card(card)
-	update_map()
+	for c in get_node("Cards/ScrollContainer/Control").get_children():
+		c.queue_free()
+	yield(get_tree(),"idle_frame")
+	credits -= COST[0]
+	for i in range(3):
+		var card = Data.get_tier1_card()
+		if (Data.inventory.has(card)):
+			Data.inventory[card] += 1
+		else:
+			Data.inventory[card] = 1
+		show_card(card)
+	get_node("Cards").show()
+	hide_shop()
 
 func buy_tier2():
-	if (Campaign.credits<200):
+	if (credits<COST[1]):
 		return
 	
-	var card = Data.get_tier2_card()
-	Campaign.inventory.push_back(card)
-	Campaign.credits -= 200
-	show_card(card)
-	update_map()
+	for c in get_node("Cards/ScrollContainer/Control").get_children():
+		c.queue_free()
+	yield(get_tree(),"idle_frame")
+	credits -= COST[1]
+	for i in range(3):
+		var card = Data.get_tier2_card()
+		if (Data.inventory.has(card)):
+			Data.inventory[card] += 1
+		else:
+			Data.inventory[card] = 1
+		show_card(card)
+	get_node("Cards").show()
+	hide_shop()
 
 func buy_tier3():
-	if (Campaign.credits<400):
+	if (credits<COST[2]):
 		return
 	
-	var card = Data.get_tier3_card()
-	Campaign.inventory.push_back(card)
-	Campaign.credits -= 400
-	show_card(card)
-	update_map()
-
+	for c in get_node("Cards/ScrollContainer/Control").get_children():
+		c.queue_free()
+	yield(get_tree(),"idle_frame")
+	credits -= COST[2]
+	for i in range(3):
+		var card = Data.get_tier3_card()
+		if (Data.inventory.has(card)):
+			Data.inventory[card] += 1
+		else:
+			Data.inventory[card] = 1
+		show_card(card)
+	get_node("Cards").show()
+	hide_shop()
 
 func show_card(card):
 	var ci = Cards.create_card(card)
-	for c in get_node("Card/Card").get_children():
-		c.queue_free()
-	ci.set_scale(Vector2(0.75,0.75))
-	ci.set_pos(Vector2(152,214))
-	get_node("Card/Card").add_child(ci)
-	get_node("Card").show()
+	var bi = get_node("Cards/Card").duplicate()
+	bi.connect("gui_input",bi,"_input_event")
+	ci.set_position(Vector2(175,250))
+	bi.add_child(ci)
+	bi.set_position(Vector2(350*get_node("Cards/ScrollContainer/Control").get_child_count(),0))
+	get_node("Cards/ScrollContainer/Control").add_child(bi)
+	bi.show()
+	get_node("Cards/ScrollContainer/Control").set_custom_minimum_size(Vector2(350*get_node("Cards/ScrollContainer/Control").get_child_count(),250))
 
-func hide_card():
-	get_node("Card").hide()
+func hide_cards():
+	get_node("Cards").hide()
+
+func _toggle_filter(pressed,faction):
+	filter[faction] = pressed
+	update_cards()
+
+func _show_lobby():
+	get_node("Lobby").show()
+
+func _set_player_name(text):
+	name_new = text
+
+func _set_music(value):
+	music = value
+	get_node("Settings/Audio/Music/SpinBox").set_value(value)
+	get_node("Settings/Audio/Music/HSlider").set_value(value)
+
+func _set_sound(value):
+	sound = value
+	get_node("Settings/Audio/Sound/SpinBox").set_value(value)
+	get_node("Settings/Audio/Sound/HSlider").set_value(value)

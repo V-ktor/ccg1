@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/explosion07.wav-7e9d1667c73b99fd8eca5b8c74f8f929.sample"
+
+[deps]
+
+source_file="res://sounds/explosions/explosion07.wav"
+source_md5="0bf3697b3062a0963c7b2e0400db4e1e"
+
+dest_files=[ "res://.import/explosion07.wav-7e9d1667c73b99fd8eca5b8c74f8f929.sample" ]
+dest_md5="3ae01bb0f4f39ee68a30bd6c6fa0fe2b"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

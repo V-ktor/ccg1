@@ -1,0 +1,23 @@
+{"type":"unit",		"name":"light_fighter",			"faction":"rebels",	"grade":1,	"structure":1,	"shield":0,	"dmg":1,	"level":1,	"effects":["cheap"],						"targets":["self"],					"events":["spawn"],			"file":"fighters03"}
+{"type":"unit",		"name":"fighter_flamer",		"faction":"rebels",	"grade":2,	"structure":1,	"shield":0,	"dmg":1,	"level":1,	"effects":["penetrate shield"],					"targets":["self"],					"events":["attack"],			"file":"fighters04"}
+{"type":"unit",		"name":"stealth_fighter",		"faction":"rebels",	"grade":3,	"structure":2,	"shield":0,	"dmg":2,	"level":2,	"effects":["penetrate shield"],					"targets":["self"],					"events":["attack"],			"file":"stealth_fighters"}
+{"type":"unit",		"name":"freighter",			"faction":"rebels",	"grade":0,	"structure":3,	"shield":0,	"dmg":2,	"level":3,	"effects":["cheap"],						"targets":["self"],					"events":["spawn"],			"file":"freighter01"}
+{"type":"unit",		"name":"defender",			"faction":"rebels",	"grade":1,	"structure":5,	"shield":0,	"dmg":2,	"level":3,	"effects":["partisan"],						"targets":["self"],					"events":[""],				"file":"defender"}
+{"type":"unit",		"name":"troop_ship",			"faction":"rebels",	"grade":1,	"structure":3,	"shield":0,	"dmg":2,	"level":3,	"effects":["penetrate shield","capture"],			"targets":["self","target"],				"events":["attack","attack"],		"file":"troop_ship"}
+{"type":"unit",		"name":"abandoned_space_station",	"faction":"rebels",	"grade":1,	"structure":6,	"shield":0,	"dmg":3,	"level":4,	"effects":["partisan","unmoveable"],				"targets":["self","self"],				"events":["",""],			"file":"station01"}
+{"type":"unit",		"name":"militia",			"faction":"rebels",	"grade":2,	"structure":3,	"shield":0,	"dmg":6,	"level":4,	"effects":[],							"targets":[],						"events":[],				"file":"militia"}
+{"type":"unit",		"name":"ironclad",			"faction":"rebels",	"grade":1,	"structure":5,	"shield":0,	"dmg":4,	"level":4,	"effects":[],							"targets":[],						"events":[],				"file":"ironclad"}
+{"type":"unit",		"name":"asteroid_ship",			"faction":"rebels",	"grade":1,	"structure":8,	"shield":0,	"dmg":4,	"level":5,	"effects":[],							"targets":[],						"events":[],				"file":"asteroid_ship"}
+{"type":"unit",		"name":"rebels_carrier",		"faction":"rebels",	"grade":1,	"structure":9,	"shield":2,	"dmg":6,	"level":7,	"effects":[],							"targets":[],						"events":[],				"file":"rebels_carrier"}
+{"type":"unit",		"name":"rebels_battleship",		"faction":"rebels",	"grade":2,	"structure":9,	"shield":1,	"dmg":8,	"level":8,	"effects":[],							"targets":[],						"events":[],				"file":"rebels_battleship"}
+{"type":"unit",		"name":"colony_ship",			"faction":"rebels",	"grade":0,	"structure":4,	"shield":0,	"dmg":1,	"level":3,	"effects":["cheap"],						"targets":["self"],					"events":["spawn"],			"file":"colony_ship"}
+{"type":"effect",	"name":"jam_shields",			"faction":"rebels",	"grade":1,	"structure":0,	"shield":-1,	"dmg":0,	"level":2,	"effects":["jam 1"],						"targets":["enemy"],					"events":[""],				"file":"jam_shield"}
+{"type":"effect",	"name":"cripple",			"faction":"rebels",	"grade":1,	"structure":0,	"shield":0,	"dmg":-2,	"level":2,	"effects":["reduce dmg 2"],					"targets":["enemy"],					"events":[""],				"file":"cripple"}
+{"type":"effect",	"name":"downgrade",			"faction":"rebels",	"grade":2,	"structure":-1,	"shield":0,	"dmg":0,	"level":2,	"effects":["reduce cost 4","reduce structure 1"],		"targets":["friendly","friendly"],			"events":["",""],			"file":""}
+{"type":"effect",	"name":"repair_5",			"faction":"rebels",	"grade":2,	"structure":5,	"shield":0,	"dmg":0,	"level":3,	"effects":["repair 5"],						"targets":["friendly"],					"events":[""],				"file":"repair04"}
+{"type":"effect",	"name":"revolt",			"faction":"rebels",	"grade":1,	"structure":0,	"shield":0,	"dmg":0,	"level":3,	"effects":["revolt"],						"targets":["enemy planet"],				"events":[""],				"file":"revolt"}
+{"type":"effect",	"name":"sabotage",			"faction":"rebels",	"grade":1,	"structure":0,	"shield":0,	"dmg":0,	"level":6,	"effects":["remove 2"],						"targets":["opposite"],					"events":[""],				"file":"sabotage"}
+{"type":"effect",	"name":"rebellion",			"faction":"rebels",	"grade":3,	"structure":0,	"shield":0,	"dmg":0,	"level":7,	"effects":["take over"],					"targets":["enemy planet"],				"events":[""],				"file":"rebellion"}
+{"type":"planet",	"name":"shipyard",			"faction":"rebels",	"grade":3,	"structure":0,	"shield":0,	"dmg":0,	"level":4,	"effects":["spawn light_fighter"],				"targets":["friendly planet"],				"events":["player turn"],		"file":"shipyard"}
+{"type":"planet",	"name":"bunker_complex",		"faction":"rebels",	"grade":1,	"structure":0,	"shield":1,	"dmg":0,	"level":2,	"effects":["shield 1"],						"targets":["friendly planet"],				"events":[""],				"file":"bunker_complex"}
+

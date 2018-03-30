@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/14.wav-221065376d479c130b65eec5398ede25.sample"
+
+[deps]
+
+source_file="res://sounds/weapons/14.wav"
+source_md5="416471495327fc4fff4cfdf5b364b110"
+
+dest_files=[ "res://.import/14.wav-221065376d479c130b65eec5398ede25.sample" ]
+dest_md5="e413899366fccebcfe3635cfda58bdb1"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

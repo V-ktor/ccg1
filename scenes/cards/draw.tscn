@@ -1,9 +1,8 @@
-[gd_scene format=1]
+[gd_scene load_steps=1 format=2]
+
 
 [node name="Draw" type="Sprite"]
 
 __meta__ = {
 "__editor_plugin_screen__": "2D"
 }
-
-

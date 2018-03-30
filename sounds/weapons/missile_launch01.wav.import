@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/missile_launch01.wav-816d24447623bff23428638296acef29.sample"
+
+[deps]
+
+source_file="res://sounds/weapons/missile_launch01.wav"
+source_md5="8be4d112160300d07954653f9d5c0d86"
+
+dest_files=[ "res://.import/missile_launch01.wav-816d24447623bff23428638296acef29.sample" ]
+dest_md5="6345e4601045fe28a9356cf1cdbce8f2"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

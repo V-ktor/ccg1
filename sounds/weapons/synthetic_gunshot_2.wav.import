@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/synthetic_gunshot_2.wav-533f2c3a1be8706c660bae8502ad6c5d.sample"
+
+[deps]
+
+source_file="res://sounds/weapons/synthetic_gunshot_2.wav"
+source_md5="177a9cb25044cdb8f51f6b73ad7eb98b"
+
+dest_files=[ "res://.import/synthetic_gunshot_2.wav-533f2c3a1be8706c660bae8502ad6c5d.sample" ]
+dest_md5="55d419bebb1f69a24aa1d9ff8224d773"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

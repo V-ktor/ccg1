@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=1]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://images/cards/fighters/fighters_bg.png" type="Texture" id=1]
 [ext_resource path="res://images/cards/fighters/fighters_ship_bg.png" type="Texture" id=2]
@@ -11,76 +11,88 @@
 
 [sub_resource type="Animation" id=1]
 
-resource/name = "move"
+resource_name = "move"
 length = 16.0
 loop = true
 step = 1.0
 tracks/0/type = "value"
-tracks/0/path = NodePath("Fighter1:transform/pos")
+tracks/0/path = NodePath("Fighter1:position")
 tracks/0/interp = 2
+tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
-"times": FloatArray( 0, 8, 16 ),
-"transitions": FloatArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 8, 16 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( 109, 156 ), Vector2( 116, 147 ), Vector2( 109, 156 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Fighter2:transform/pos")
+tracks/1/path = NodePath("Fighter2:position")
 tracks/1/interp = 2
+tracks/1/loop_wrap = true
 tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/keys = {
-"times": FloatArray( 0, 8, 16 ),
-"transitions": FloatArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 8, 16 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
 "values": [ Vector2( -150, 34 ), Vector2( -159, 42 ), Vector2( -150, 34 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Fighter3:transform/pos")
+tracks/2/path = NodePath("Fighter3:position")
 tracks/2/interp = 2
+tracks/2/loop_wrap = true
 tracks/2/imported = false
+tracks/2/enabled = true
 tracks/2/keys = {
-"times": FloatArray( 4, 12 ),
-"transitions": FloatArray( 1, 1 ),
+"times": PoolRealArray( 4, 12 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Vector2( 95, -87 ), Vector2( 87, -82 ) ]
 }
 
 [sub_resource type="Animation" id=2]
 
-resource/name = "glow"
-length = 1.2
+resource_name = "glow"
+length = 0.4
 loop = true
 step = 0.05
 tracks/0/type = "value"
-tracks/0/path = NodePath("Fighter3/Glow:visibility/opacity")
+tracks/0/path = NodePath("Fighter1/Glow:modulate")
 tracks/0/interp = 1
+tracks/0/loop_wrap = true
 tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/keys = {
-"times": FloatArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4, 1.6, 1.8, 2 ),
-"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.7, 1.0, 0.7, 1.0, 0.7, 1.0, 0.7, 1.0, 0.7, 1.0 ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.705882 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Fighter2/Glow:visibility/opacity")
+tracks/1/path = NodePath("Fighter2/Glow:modulate")
 tracks/1/interp = 1
+tracks/1/loop_wrap = true
 tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/keys = {
-"times": FloatArray( 0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 1.3 ),
-"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0.1, 0.3, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.7, 1.0, 0.7, 1.0, 0.7, 1.0 ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.705882 ), Color( 1, 1, 1, 1 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Fighter3/Glow:visibility/opacity")
+tracks/2/path = NodePath("Fighter3/Glow:modulate")
 tracks/2/interp = 1
+tracks/2/loop_wrap = true
 tracks/2/imported = false
+tracks/2/enabled = true
 tracks/2/keys = {
-"times": FloatArray( 0.05, 0.25, 0.45, 0.65, 0.85, 1.05, 1.25 ),
-"transitions": FloatArray( 1, 1, 1, 1, 1, 1, 1 ),
+"times": PoolRealArray( 0.05, 0.25, 0.45 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 1.0, 0.7, 1.0, 0.7, 1.0, 0.7, 1.0 ]
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.705882 ), Color( 1, 1, 1, 1 ) ]
 }
 
 [node name="Fighters" type="Sprite"]
@@ -90,70 +102,67 @@ __meta__ = {
 "__editor_plugin_screen__": "2D"
 }
 
-[node name="Ship" type="Sprite" parent="."]
+[node name="Ship" type="Sprite" parent="." index="0"]
 
-transform/pos = Vector2( 246, -249 )
+position = Vector2( 246, -249 )
 texture = ExtResource( 2 )
 
-[node name="Fighter1" type="Sprite" parent="."]
+[node name="Fighter1" type="Sprite" parent="." index="1"]
 
-transform/pos = Vector2( 109, 156 )
+position = Vector2( 109, 156 )
 texture = ExtResource( 3 )
 
-[node name="Glow" type="Sprite" parent="Fighter1"]
+[node name="Glow" type="Sprite" parent="Fighter1" index="0"]
 
-visibility/opacity = 0.925
-visibility/blend_mode = 1
-visibility/light_mask = 0
-transform/pos = Vector2( 7, -24 )
+light_mask = 0
+position = Vector2( 7, -24 )
 texture = ExtResource( 4 )
+_sections_unfolded = [ "Visibility" ]
 
-[node name="Fighter2" type="Sprite" parent="."]
+[node name="Fighter2" type="Sprite" parent="." index="2"]
 
-transform/pos = Vector2( -150, 34 )
+position = Vector2( -150, 34 )
 texture = ExtResource( 5 )
 
-[node name="Glow" type="Sprite" parent="Fighter2"]
+[node name="Glow" type="Sprite" parent="Fighter2" index="0"]
 
-visibility/opacity = 0.85
-visibility/blend_mode = 1
-visibility/light_mask = 0
-transform/pos = Vector2( -43, 0 )
+modulate = Color( 1, 1, 1, 0.852941 )
+light_mask = 0
+position = Vector2( -43, 0 )
 texture = ExtResource( 6 )
+_sections_unfolded = [ "Visibility" ]
 
-[node name="Fighter3" type="Sprite" parent="."]
+[node name="Fighter3" type="Sprite" parent="." index="3"]
 
-transform/pos = Vector2( 91, -84.5 )
+position = Vector2( 91, -84.5 )
 texture = ExtResource( 7 )
 
-[node name="Glow" type="Sprite" parent="Fighter3"]
+[node name="Glow" type="Sprite" parent="Fighter3" index="0"]
 
-visibility/opacity = 0.925
-visibility/blend_mode = 1
-visibility/light_mask = 0
-transform/pos = Vector2( -9, 1 )
+modulate = Color( 1, 1, 1, 0.926471 )
+light_mask = 0
+position = Vector2( -9, 1 )
 texture = ExtResource( 8 )
+_sections_unfolded = [ "Visibility" ]
 
-[node name="Anim" type="AnimationPlayer" parent="."]
+[node name="Anim" type="AnimationPlayer" parent="." index="4"]
 
-playback/process_mode = 1
-playback/default_blend_time = 0.0
-root/root = NodePath("..")
-anims/move = SubResource( 1 )
-playback/active = true
-playback/speed = 1.0
-blend_times = [  ]
+root_node = NodePath("..")
 autoplay = "move"
-
-[node name="Glow" type="AnimationPlayer" parent="."]
-
-playback/process_mode = 1
-playback/default_blend_time = 0.0
-root/root = NodePath("..")
-anims/glow = SubResource( 2 )
-playback/active = true
-playback/speed = 1.0
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/move = SubResource( 1 )
 blend_times = [  ]
+
+[node name="Glow" type="AnimationPlayer" parent="." index="5"]
+
+root_node = NodePath("..")
 autoplay = "glow"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/glow = SubResource( 2 )
+blend_times = [  ]
 
 

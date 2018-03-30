@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=1]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://images/cards/planetary_barrier/bg.png" type="Texture" id=1]
 
