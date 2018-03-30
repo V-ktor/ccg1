@@ -34,61 +34,14 @@ tracks/1/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.784314 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.784314 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="Background" type="Sprite"]
+[node name="Background" type="Sprite" index="0"]
 
 texture = ExtResource( 1 )
 __meta__ = {
 "__editor_plugin_screen__": "2D"
 }
 
-[node name="Engine1" type="Particles2D" parent="." index="0"]
-
-light_mask = 0
-position = Vector2( -250, -57 )
-emitting = true
-amount = 8
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = null
-texture = null
-normal_map = null
-h_frames = 1
-v_frames = 1
-
-[node name="Engine2" type="Particles2D" parent="." index="1"]
-
-light_mask = 0
-position = Vector2( -118, -96 )
-scale = Vector2( 0.75, 0.75 )
-emitting = true
-amount = 8
-lifetime = 1.0
-one_shot = false
-preprocess = 0.0
-speed_scale = 1.0
-explosiveness = 0.0
-randomness = 0.0
-fixed_fps = 0
-fract_delta = true
-visibility_rect = Rect2( -100, -100, 200, 200 )
-local_coords = true
-draw_order = 0
-process_material = null
-texture = null
-normal_map = null
-h_frames = 1
-v_frames = 1
-
-[node name="Glow" type="Sprite" parent="." index="2"]
+[node name="Glow" type="Sprite" parent="." index="0"]
 
 light_mask = 0
 position = Vector2( -254, -56 )
@@ -96,12 +49,12 @@ scale = Vector2( 1.6, 1.6 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Visibility" ]
 
-[node name="Ship" type="Sprite" parent="." index="3"]
+[node name="Ship" type="Sprite" parent="." index="1"]
 
 position = Vector2( 4, 0 )
 texture = ExtResource( 3 )
 
-[node name="Anim" type="AnimationPlayer" parent="." index="4"]
+[node name="Anim" type="AnimationPlayer" parent="." index="2"]
 
 root_node = NodePath("..")
 autoplay = "glow"

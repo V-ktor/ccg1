@@ -117,7 +117,6 @@ func calc_value(ID,value):
 	elif (value=="mine damage"):
 		return int("mines 1" in data[ID]["effects"])+2*int("mines 2" in data[ID]["effects"])
 	
-	print("ERROR: "+value)
 	return
 
 

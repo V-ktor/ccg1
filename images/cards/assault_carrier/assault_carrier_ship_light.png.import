@@ -7,10 +7,10 @@ path="res://.import/assault_carrier_ship_light.png-b1ef3fa50725464a0136298c6a986
 [deps]
 
 source_file="res://images/cards/assault_carrier/assault_carrier_ship_light.png"
-source_md5="5b7ad9afd485d323ebfe2147592a4a06"
+source_md5="2a780f804c265b658893911ff63ada67"
 
 dest_files=[ "res://.import/assault_carrier_ship_light.png-b1ef3fa50725464a0136298c6a986828.stex" ]
-dest_md5="ac6d26391ee0a02d51367a271b36cd43"
+dest_md5="a228b6cbcde923c0115d0477fcedc2ca"
 
 [params]
 

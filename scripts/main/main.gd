@@ -398,9 +398,10 @@ func remove_card_ID(player,ID):
 	hand[player].remove(ID)
 
 func apply_effect_target(effect,player,enemy,target,ID):
-	var ps = load("res://scenes/effects/"+Data.data[ID]["file"]+".tscn")
-	if (ps!=null):
-		target.node.add_child(ps.instance())
+	if (Data.data[ID]["type"]!="unit"):
+		var ps = load("res://scenes/effects/"+Data.data[ID]["file"]+".tscn")
+		if (ps!=null && target!=null):
+			target.node.add_child(ps.instance())
 	if (effect=="direct damage 4" || effect=="direct damage 6"):
 		target.structure -= Data.calc_value(ID,"dmg")
 		target.update()
@@ -688,7 +689,6 @@ func mines(pos,enemy,damage):
 	for tx in range(floor(pos/POSITIONS)*POSITIONS,(floor(pos/POSITIONS)+1)*POSITIONS):
 		if (cards[enemy][tx]!=null && (cards[enemy][tx].structure>1)):
 			cards[enemy][tx].structure -= damage
-			print("Mines do "+str(damage)+" damage.")
 			if (cards[enemy][tx].structure<1):
 				cards[enemy][tx].structure = 1
 			cards[enemy][tx].update()
@@ -881,7 +881,6 @@ func start():
 	get_node("TimerNextTurn").start()
 
 remote func set_hand(player,cards):
-	print("set hand",player,cards)
 	hand[player] = cards
 	for ID in cards:
 		deck[player].erase(ID)

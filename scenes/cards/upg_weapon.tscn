@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://images/cards/asteroid_ship/asteroid_ship_bg.png" type="Texture" id=1]
 [ext_resource path="res://images/cards/upg_weapons/upg_weapon.png" type="Texture" id=2]
 [ext_resource path="res://images/cards/upg_weapons/upg_weapon_beam.png" type="Texture" id=3]
 [ext_resource path="res://images/cards/upg_weapons/upg_weapon_glow.png" type="Texture" id=4]
 [ext_resource path="res://images/cards/upg_weapons/upg_weapon_flash.png" type="Texture" id=5]
+[ext_resource path="res://images/weapons/flamer_distortion.png" type="Texture" id=6]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -12,13 +13,89 @@ render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="Shader" id=2]
+
+code = "shader_type canvas_item;
+
+void fragment()
+{
+	vec4 normal = texture(TEXTURE,UV);
+	vec2 offset = normal.xy*2.0-vec2(1.0);
+	COLOR.rgb = texture(SCREEN_TEXTURE,SCREEN_UV+offset*0.015).rgb;
+	COLOR.a *= normal.a;
+}"
+
+[sub_resource type="ShaderMaterial" id=3]
 
 render_priority = 0
+shader = SubResource( 2 )
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Gradient" id=4]
 
-resource_name = "anim"
+offsets = PoolRealArray( 0, 0.147929, 0.633136, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=5]
+
+flags = 4
+gradient = SubResource( 4 )
+width = 2048
+
+[sub_resource type="Curve" id=6]
+
+min_value = 0.75
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 0.75 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=7]
+
+flags = 4
+width = 2048
+curve = SubResource( 6 )
+
+[sub_resource type="ParticlesMaterial" id=8]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 10.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 640.0
+initial_velocity_random = 0.25
+angular_velocity = 270.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 16.0
+damping_random = 0.0
+angle = 360.0
+angle_random = 1.0
+scale = 1.0
+scale_random = 0.5
+scale_curve = SubResource( 7 )
+color_ramp = SubResource( 5 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Angle", "Angular Velocity", "Damping", "Initial Velocity", "Scale", "Spread" ]
+
+[sub_resource type="Animation" id=9]
+
 length = 0.8
 loop = true
 step = 0.1
@@ -71,7 +148,7 @@ tracks/3/keys = {
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.752941 ), Color( 1, 1, 1, 1 ) ]
 }
 
-[node name="Weapon" type="Sprite" index="0"]
+[node name="Weapon" type="Sprite"]
 
 texture = ExtResource( 1 )
 flip_h = true
@@ -142,11 +219,12 @@ __meta__ = {
 [node name="Distortion" type="Particles2D" parent="." index="5"]
 
 light_mask = 0
-material = SubResource( 2 )
-position = Vector2( 152, 132 )
+material = SubResource( 3 )
+position = Vector2( 152, 130 )
+rotation = 0.479966
 emitting = true
-amount = 8
-lifetime = 1.0
+amount = 48
+lifetime = 0.4
 one_shot = false
 preprocess = 0.0
 speed_scale = 1.0
@@ -157,11 +235,12 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = null
-texture = null
-normal_map = null
+process_material = SubResource( 8 )
+texture = ExtResource( 6 )
+normal_map = ExtResource( 6 )
 h_frames = 1
 v_frames = 1
+_sections_unfolded = [ "Material", "Transform" ]
 
 [node name="Anim" type="AnimationPlayer" parent="." index="6"]
 
@@ -170,7 +249,7 @@ autoplay = "anim"
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/anim = SubResource( 3 )
+anims/anim = SubResource( 9 )
 blend_times = [  ]
 
 

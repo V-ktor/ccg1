@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/assault_carrier.png-e9018760a961c552175cb4652c7b3965.stex"
+path="res://.import/shield.png-f0aea3e270d02650291dd1e2f82474f4.stex"
 
 [deps]
 
-source_file="res://images/cards/assault_carrier/assault_carrier.png"
-source_md5="07187e23b513107d6eb60b03dfb47e0e"
+source_file="res://images/weapons/shield.png"
+source_md5="7eb3dacc657660f518df251219ef5568"
 
-dest_files=[ "res://.import/assault_carrier.png-e9018760a961c552175cb4652c7b3965.stex" ]
-dest_md5="57f5f92fbf47018c07f87f3961c76bad"
+dest_files=[ "res://.import/shield.png-f0aea3e270d02650291dd1e2f82474f4.stex" ]
+dest_md5="1475b9f46af9e09e3d1f2c57bb9b5d52"
 
 [params]
 

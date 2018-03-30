@@ -71,12 +71,10 @@ func _started():
 	use_unit()
 
 func _next_hint():
-	printt("next hint")
 	get_node("DrawPoints").hide()
 	get_node("DrawUnitsHand").hide()
 	get_node("DrawDiscard").hide()
 	get_node("DrawUnits").hide()
-	printt(main.player,main.main_player)
 	if (main.player!=main.main_player):
 		if (get_node("TextBox").is_visible() && (!get_node("TextBox/Animation").is_playing() || get_node("TextBox/Animation").get_current_animation()=="fade_in")):
 			get_node("TextBox/Animation").queue("fade_out")

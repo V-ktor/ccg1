@@ -87,7 +87,7 @@ func create_card(ID):
 			ti.show()
 			bi.get_node("Effects").add_child(ti)
 		else:
-			printt("no icon found for",t)
+			print("No icon found for "+t+"!")
 		pi.set_name("Effect"+str(i))
 		pi.get_node("Name").set_text(tr(t.to_upper().replace(" ","_")))
 		pi.get_node("Desc").set_text(tr(t.to_upper().replace(" ","_")+"_DESC"))

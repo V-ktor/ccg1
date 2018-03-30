@@ -59,10 +59,11 @@ func end_match(win,player=null):
 		get_node("BattleEnd").set_title(tr("LOST!"))
 		get_node("BattleEnd/Text").set_text("50"+tr("CREDITS")+" "+tr("GAINED")+"!")
 	show_main()
-	if (player!=null):
+	if (player!=null && get_tree().has_network_peer()):
 		rpc("end_match",player)
 	get_node("Lobby")._cancel()
 	get_node("BattleEnd").popup()
+	_save()
 
 func start_game(planets,size,positions,player1_deck,player2_deck,player1_name,player2_name,player1_is_ai,player2_is_ai,id1=1,id2=0):
 	var mi = main_scene.instance()
@@ -152,7 +153,6 @@ func randomize_deck(number,factions):
 	return deck
 
 func get_deck(from):
-	printt(from,typeof(from))
 	if (typeof(from)==TYPE_ARRAY):
 		return from
 	

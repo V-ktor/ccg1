@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/assault_carrier.png-e9018760a961c552175cb4652c7b3965.stex"
+path="res://.import/armor_plating.png-4cafc16355e906d8b410582ce881c68d.stex"
 
 [deps]
 
-source_file="res://images/cards/assault_carrier/assault_carrier.png"
-source_md5="07187e23b513107d6eb60b03dfb47e0e"
+source_file="res://images/weapons/armor_plating.png"
+source_md5="295b7612260a2a54d079a6d8fc8f319f"
 
-dest_files=[ "res://.import/assault_carrier.png-e9018760a961c552175cb4652c7b3965.stex" ]
-dest_md5="57f5f92fbf47018c07f87f3961c76bad"
+dest_files=[ "res://.import/armor_plating.png-4cafc16355e906d8b410582ce881c68d.stex" ]
+dest_md5="308f97e7f95ab480ccc19d79f1b94155"
 
 [params]
 

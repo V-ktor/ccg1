@@ -23,7 +23,7 @@ expand_margin_bottom = 0.0
 modulate_color = Color( 1, 1, 1, 1 )
 draw_center = true
 
-[node name="Lobby" type="CanvasLayer" index="0"]
+[node name="Lobby" type="CanvasLayer"]
 
 layer = 101
 offset = Vector2( 0, 0 )

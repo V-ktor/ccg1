@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://images/cards/cruiser/cruiser_bg.png" type="Texture" id=1]
 [ext_resource path="res://images/cards/cruiser/cruiser.png" type="Texture" id=2]
 [ext_resource path="res://images/cards/cruiser/cruiser_flash1.png" type="Texture" id=3]
 [ext_resource path="res://images/cards/cruiser/cruiser_flash2.png" type="Texture" id=4]
+[ext_resource path="res://images/weapons/flamer_distortion.png" type="Texture" id=5]
 
 [sub_resource type="CanvasItemMaterial" id=1]
 
@@ -11,9 +12,86 @@ render_priority = 0
 blend_mode = 1
 light_mode = 0
 
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="Shader" id=9]
+
+code = "shader_type canvas_item;
+
+void fragment()
+{
+	vec4 normal = texture(TEXTURE,UV);
+	vec2 offset = normal.xy*2.0-vec2(1.0);
+	COLOR.rgb = texture(SCREEN_TEXTURE,SCREEN_UV+offset*0.01).rgb;
+	COLOR.a *= normal.a;
+}"
+
+[sub_resource type="ShaderMaterial" id=10]
 
 render_priority = 0
+shader = SubResource( 9 )
+
+[sub_resource type="Gradient" id=8]
+
+offsets = PoolRealArray( 0, 0.147929, 0.633136, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=4]
+
+flags = 4
+gradient = SubResource( 8 )
+width = 2048
+
+[sub_resource type="Curve" id=5]
+
+min_value = 0.75
+max_value = 1.0
+bake_resolution = 100
+_data = [ Vector2( 0, 0.75 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+
+flags = 4
+width = 2048
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+
+render_priority = 0
+trail_divisor = 1
+emission_shape = 0
+flag_align_y = false
+flag_rotate_y = false
+flag_disable_z = true
+spread = 10.0
+flatness = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 640.0
+initial_velocity_random = 0.25
+angular_velocity = 270.0
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = 0.0
+linear_accel_random = 0.0
+radial_accel = 0.0
+radial_accel_random = 0.0
+tangential_accel = 0.0
+tangential_accel_random = 0.0
+damping = 16.0
+damping_random = 0.0
+angle = 360.0
+angle_random = 1.0
+scale = 1.0
+scale_random = 0.5
+scale_curve = SubResource( 6 )
+color_ramp = SubResource( 4 )
+hue_variation = 0.0
+hue_variation_random = 0.0
+anim_speed = 0.0
+anim_speed_random = 0.0
+anim_offset = 0.0
+anim_offset_random = 0.0
+anim_loop = false
+_sections_unfolded = [ "Angle", "Angular Velocity", "Damping", "Initial Velocity", "Scale", "Spread" ]
 
 [sub_resource type="Animation" id=3]
 
@@ -93,7 +171,7 @@ tracks/5/keys = {
 "values": [ Vector2( 1.25, 1.25 ), Vector2( 1.2, 1.2 ), Vector2( 1.25, 1.25 ) ]
 }
 
-[node name="Cruiser" type="Sprite"]
+[node name="Cruiser" type="Sprite" index="0"]
 
 texture = ExtResource( 1 )
 __meta__ = {
@@ -113,11 +191,12 @@ __meta__ = {
 
 self_modulate = Color( 1, 1, 1, 0.752941 )
 light_mask = 0
-position = Vector2( 110, 101 )
+position = Vector2( 123, 96 )
+rotation = -0.0872665
 scale = Vector2( 1.2, 1.2 )
 texture = ExtResource( 3 )
 offset = Vector2( 18, 7 )
-_sections_unfolded = [ "Visibility" ]
+_sections_unfolded = [ "Transform", "Visibility" ]
 __meta__ = {
 "_edit_lock_": true
 }
@@ -130,16 +209,20 @@ material = SubResource( 1 )
 texture = ExtResource( 3 )
 offset = Vector2( 18, 7 )
 _sections_unfolded = [ "Material", "Visibility" ]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="Flash2" type="Sprite" parent="." index="2"]
 
 self_modulate = Color( 1, 1, 1, 0.25098 )
 light_mask = 0
-position = Vector2( 114, 75 )
+position = Vector2( 128, 69 )
+rotation = -0.0872665
 scale = Vector2( 1.25, 1.25 )
 texture = ExtResource( 4 )
 offset = Vector2( 18, 9 )
-_sections_unfolded = [ "Visibility" ]
+_sections_unfolded = [ "Transform", "Visibility" ]
 __meta__ = {
 "_edit_lock_": true
 }
@@ -151,6 +234,9 @@ material = SubResource( 1 )
 texture = ExtResource( 4 )
 offset = Vector2( 18, 9 )
 _sections_unfolded = [ "Material", "Visibility" ]
+__meta__ = {
+"_edit_lock_": true
+}
 
 [node name="BackBufferCopy" type="BackBufferCopy" parent="." index="3"]
 
@@ -163,11 +249,12 @@ __meta__ = {
 [node name="Distortion" type="Particles2D" parent="." index="4"]
 
 light_mask = 0
-material = SubResource( 2 )
-position = Vector2( 117.184, 92.3482 )
+material = SubResource( 10 )
+position = Vector2( 126, 85 )
+rotation = 0.349066
 emitting = true
-amount = 8
-lifetime = 1.0
+amount = 48
+lifetime = 0.3
 one_shot = false
 preprocess = 0.0
 speed_scale = 1.0
@@ -178,11 +265,12 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = true
 draw_order = 0
-process_material = null
-texture = null
-normal_map = null
+process_material = SubResource( 7 )
+texture = ExtResource( 5 )
+normal_map = ExtResource( 5 )
 h_frames = 1
 v_frames = 1
+_sections_unfolded = [ "Transform" ]
 
 [node name="Anim" type="AnimationPlayer" parent="." index="5"]
 
