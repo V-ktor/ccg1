@@ -16,7 +16,6 @@ config/icon="res://icon.png"
 
 [autoload]
 
-Campaign="*res://scripts/main/campaign.gd"
 Cards="*res://scripts/main/cards.gd"
 Data="*res://scripts/cards/card_data.gd"
 Music="*res://scenes/main/music.tscn"
@@ -51,4 +50,3 @@ translations=[ "res://translation/text.en.translation", "res://translation/cards
 [rendering]
 
 environment/default_clear_color=Color( 0, 0, 0, 1 )
-viewport/default_clear_color=Color( 0, 0, 0, 1 )

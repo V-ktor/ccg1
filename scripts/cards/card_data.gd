@@ -44,7 +44,7 @@ const INVENTORY_DEFAULT = {
 	"bunker_complex":2,"shipyard":2,
 	"pirate_fighter":3,"stolen_freighter":3,"looter":2,
 	"pirate_corvette":2,"pirate_carrier":2,
-	"booby_trab":2,"virus":2,
+	"booby_trab":2,"suicide":1,"virus":2,
 	"large_mine_field":1
 }
 
@@ -55,6 +55,7 @@ var deck = DECK_DEFAULT["empire"].duplicate()
 var cards_tier1 = [[],[],[],[],[]]
 var cards_tier2 = [[],[],[],[],[]]
 var cards_tier3 = [[],[],[],[],[]]
+
 
 func load_data():
 	var dir = Directory.new()
@@ -101,7 +102,7 @@ func calc_value(ID,value):
 	elif (value=="production"):
 		return int("production 1" in data[ID]["effects"])+2*int("production 2" in data[ID]["effects"])
 	elif (value=="dmg"):
-		return data[ID]["dmg"]+4*int("direct damage 4" in data[ID]["effects"])+6*int("direct damage 6" in data[ID]["effects"])
+		return data[ID]["dmg"]+4*int("direct damage 4" in data[ID]["effects"])+6*int("direct damage 6" in data[ID]["effects"])+7*int("direct damage 7" in data[ID]["effects"])
 	elif (value=="structure"):
 		return data[ID]["structure"]
 	elif (value=="shield"):

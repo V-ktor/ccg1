@@ -40,6 +40,7 @@ var icon_effect = {
 	"remove 2-opposite-":preload("res://images/cards/effects/discard_2.png"),
 	"direct damage 4-enemy-":preload("res://images/cards/effects/damage_4.png"),
 	"direct damage 6-enemy-":preload("res://images/cards/effects/damage_6.png"),
+	"direct damage 7-enemy-":preload("res://images/cards/effects/damage_7.png"),
 	"bombardment 2-self-attack":preload("res://images/cards/effects/bombardment_2.png"),
 	"mines 1-friendly planet-player turn":preload("res://images/cards/effects/mines.png"),
 	"mines 2-friendly planet-player turn":preload("res://images/cards/effects/mines.png"),
@@ -51,6 +52,7 @@ var icon_effect = {
 	"revolt-enemy planet-":null,
 	"spawn light_fighter-friendly planet-player turn":preload("res://images/cards/effects/spawn_fighter.png"),
 	"points 2-player-attack":preload("res://images/cards/effects/points_2.png"),
+	"destruction-friendly-":null,
 	"unmoveable-self-":preload("res://images/cards/effects/movement0.png"),
 	"no attack-self-":preload("res://images/cards/effects/attack0.png")
 }

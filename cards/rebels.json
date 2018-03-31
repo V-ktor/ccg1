@@ -17,7 +17,7 @@
 {"type":"effect",	"name":"repair_5",			"faction":"rebels",	"grade":2,	"structure":5,	"shield":0,	"dmg":0,	"level":3,	"effects":["repair 5"],						"targets":["friendly"],					"events":[""],				"file":"repair04"}
 {"type":"effect",	"name":"revolt",			"faction":"rebels",	"grade":1,	"structure":0,	"shield":0,	"dmg":0,	"level":3,	"effects":["revolt"],						"targets":["enemy planet"],				"events":[""],				"file":"revolt"}
 {"type":"effect",	"name":"sabotage",			"faction":"rebels",	"grade":1,	"structure":0,	"shield":0,	"dmg":0,	"level":6,	"effects":["remove 2"],						"targets":["opposite"],					"events":[""],				"file":"sabotage"}
-{"type":"effect",	"name":"rebellion",			"faction":"rebels",	"grade":3,	"structure":0,	"shield":0,	"dmg":0,	"level":7,	"effects":["take over"],					"targets":["enemy planet"],				"events":[""],				"file":"rebellion"}
+{"type":"effect",	"name":"rebellion",			"faction":"rebels",	"grade":3,	"structure":0,	"shield":0,	"dmg":0,	"level":8,	"effects":["take over"],					"targets":["enemy planet"],				"events":[""],				"file":"rebellion"}
 {"type":"planet",	"name":"shipyard",			"faction":"rebels",	"grade":3,	"structure":0,	"shield":0,	"dmg":0,	"level":5,	"effects":["spawn light_fighter"],				"targets":["friendly planet"],				"events":["player turn"],		"file":"shipyard"}
 {"type":"planet",	"name":"bunker_complex",		"faction":"rebels",	"grade":1,	"structure":0,	"shield":1,	"dmg":0,	"level":2,	"effects":["shield 1"],						"targets":["friendly planet"],				"events":[""],				"file":"bunker_complex"}
 

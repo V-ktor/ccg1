@@ -60,12 +60,21 @@ var ID_enemy
 var ready = false
 var tutorial = false
 
-var script_card_hand = preload("res://scripts/cards/card_hand.gd")
-var point_textures = {
+const script_card_hand = preload("res://scripts/cards/card_hand.gd")
+const point_textures = {
 	"empire":[preload("res://images/ui/point_empire_available.png"),preload("res://images/ui/point_empire_used.png")],
 	"rebels":[preload("res://images/ui/point_rebels_available.png"),preload("res://images/ui/point_rebels_used.png")],
 	"pirates":[preload("res://images/ui/point_pirates_available.png"),preload("res://images/ui/point_pirates_used.png")]
 }
+const planet_icons = {
+PLANET_GAS:[preload("res://images/planets/gas01.png"),preload("res://images/planets/gas02.png"),preload("res://images/planets/gas03.png"),preload("res://images/planets/gas04.png"),preload("res://images/planets/gas05.png")],
+PLANET_BARREN:[preload("res://images/planets/barren01.png"),preload("res://images/planets/barren02.png"),preload("res://images/planets/barren03.png"),preload("res://images/planets/barren04.png"),preload("res://images/planets/barren05.png")],
+PLANET_TUNDRA:[preload("res://images/planets/tundra01.png"),preload("res://images/planets/tundra02.png"),preload("res://images/planets/tundra03.png"),preload("res://images/planets/tundra04.png"),preload("res://images/planets/tundra05.png")],
+PLANET_DESERT:[preload("res://images/planets/desert01.png"),preload("res://images/planets/desert02.png"),preload("res://images/planets/desert03.png"),preload("res://images/planets/desert04.png"),preload("res://images/planets/desert05.png")],
+PLANET_TERRAN:[preload("res://images/planets/terran01.png"),preload("res://images/planets/terran02.png"),preload("res://images/planets/terran03.png"),preload("res://images/planets/terran04.png"),preload("res://images/planets/terran05.png")],
+PLANET_OCEAN:[preload("res://images/planets/ocean01.png"),preload("res://images/planets/ocean02.png"),preload("res://images/planets/ocean03.png"),preload("res://images/planets/ocean04.png"),preload("res://images/planets/ocean05.png")],
+PLANET_TOXIC:[preload("res://images/planets/toxic01.png"),preload("res://images/planets/toxic02.png"),preload("res://images/planets/toxic03.png"),preload("res://images/planets/toxic04.png"),preload("res://images/planets/toxic05.png")],
+PLANET_INFERNO:[preload("res://images/planets/inferno01.png"),preload("res://images/planets/inferno02.png"),preload("res://images/planets/inferno03.png"),preload("res://images/planets/inferno04.png"),preload("res://images/planets/inferno05.png")]}
 
 
 # signals #
@@ -168,7 +177,7 @@ class Planet:
 			node.get_node("VBoxContainer/Level").hide()
 		node.get_node("VBoxContainer/Structure").show()
 		node.get_node("Header").set_modulate(COLOURS[owner])
-		node.get_node("Image/Image").set_texture(root.get_node("/root/Menu").planet_icons[planet][image])
+		node.get_node("Image/Image").set_texture(root.planet_icons[planet][image])
 		if (type==""):
 			node.get_node("Name").set_text(tr(PLANET_TEXT[planet]))
 			node.get_node("Desc").set_text("")
@@ -402,8 +411,8 @@ func apply_effect_target(effect,player,enemy,target,ID):
 		var ps = load("res://scenes/effects/"+Data.data[ID]["file"]+".tscn")
 		if (ps!=null && target!=null):
 			target.node.add_child(ps.instance())
-	if (effect=="direct damage 4" || effect=="direct damage 6"):
-		target.structure -= Data.calc_value(ID,"dmg")
+	if (effect=="direct damage 4" || effect=="direct damage 6" || effect=="direct damage 7"):
+		target.structure -= max(Data.calc_value(ID,"dmg")-target.shield,0)
 		target.update()
 		if (target.structure<=0):
 			var x
@@ -457,6 +466,14 @@ func apply_effect_target(effect,player,enemy,target,ID):
 		target.update()
 	elif (effect=="revolt"):
 		target.revolt = true
+	elif (effect=="destruction"):
+		var x
+		for y in range(SIZE*POSITIONS):
+			if (cards[player][y]==target):
+				x = y
+				break
+		if (x!=null):
+			destroy_unit(x,player)
 	
 	if (target!=null):
 		target.update()
@@ -1143,6 +1160,11 @@ func select_hand(index,player):
 						targets[i] = targets[j]
 						continue
 				
+				for x in range(SIZE*POSITIONS):
+					for y in range(2):
+						get_node("Card_"+str(x)+"_"+str(y)+"/Select").hide()
+				for x in range(SIZE):
+					get_node("Planet_"+str(x)+"/Select").hide()
 				if (targets_type[i]=="friendly planet"):
 					select = PLANET_FRIENDLY
 					for x in range(SIZE):

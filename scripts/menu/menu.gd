@@ -12,18 +12,8 @@ const PLANET_TOXIC = 5
 const PLANET_INFERNO = 6
 const PLANET_ASTEROID = 7
 
-const planet_icons = {
-PLANET_GAS:[preload("res://images/planets/gas01.png"),preload("res://images/planets/gas02.png"),preload("res://images/planets/gas03.png"),preload("res://images/planets/gas04.png"),preload("res://images/planets/gas05.png")],
-PLANET_BARREN:[preload("res://images/planets/barren01.png"),preload("res://images/planets/barren02.png"),preload("res://images/planets/barren03.png"),preload("res://images/planets/barren04.png"),preload("res://images/planets/barren05.png")],
-PLANET_TUNDRA:[preload("res://images/planets/tundra01.png"),preload("res://images/planets/tundra02.png"),preload("res://images/planets/tundra03.png"),preload("res://images/planets/tundra04.png"),preload("res://images/planets/tundra05.png")],
-PLANET_DESERT:[preload("res://images/planets/desert01.png"),preload("res://images/planets/desert02.png"),preload("res://images/planets/desert03.png"),preload("res://images/planets/desert04.png"),preload("res://images/planets/desert05.png")],
-PLANET_TERRAN:[preload("res://images/planets/terran01.png"),preload("res://images/planets/terran02.png"),preload("res://images/planets/terran03.png"),preload("res://images/planets/terran04.png"),preload("res://images/planets/terran05.png")],
-PLANET_OCEAN:[preload("res://images/planets/ocean01.png"),preload("res://images/planets/ocean02.png"),preload("res://images/planets/ocean03.png"),preload("res://images/planets/ocean04.png"),preload("res://images/planets/ocean05.png")],
-PLANET_TOXIC:[preload("res://images/planets/toxic01.png"),preload("res://images/planets/toxic02.png"),preload("res://images/planets/toxic03.png"),preload("res://images/planets/toxic04.png"),preload("res://images/planets/toxic05.png")],
-PLANET_INFERNO:[preload("res://images/planets/inferno01.png"),preload("res://images/planets/inferno02.png"),preload("res://images/planets/inferno03.png"),preload("res://images/planets/inferno04.png"),preload("res://images/planets/inferno05.png")]}
-
 const FACTIONS_SKIRMISH = ["empire","rebels"]
-const COST = [150,250,400]
+const CARD_PACK_COST = [150,250,400]
 
 var resolution = Vector2(1280,720)
 var fullscreen = false
@@ -33,18 +23,14 @@ var sound = 100
 var mode = SAVE
 var deck_file
 var last_file_button
-var last_mouse_pos = Vector2(0,0)
-var star_selected = -1
-var enemy
 var add_credits = 0
-var faction_stylebox = []
 var filter = {"empire":true,"rebels":true,"pirates":true}
 var player_name = tr("PLAYER")
 var name_new = ""
 var credits = 0
 
-var main_scene = preload("res://scenes/main/main.tscn")
-var tutorial_scene = preload("res://scenes/main/help.tscn")
+const main_scene = preload("res://scenes/main/main.tscn")
+const tutorial_scene = preload("res://scenes/main/help.tscn")
 
 
 func end_match(win,player=null):
@@ -268,7 +254,7 @@ func show_main():
 func show_shop():
 	get_node("Shop/VBoxContainer/Label").set_text(tr("CREDITS")+": "+str(credits))
 	for i in range(3):
-		get_node("Shop/VBoxContainer/ButtonTier"+str(i+1)).set_text(tr("BUY_TIER"+str(i+1)+"_CARDS")+" ("+str(COST[i])+")")
+		get_node("Shop/VBoxContainer/ButtonTier"+str(i+1)).set_text(tr("BUY_TIER"+str(i+1)+"_CARDS")+" ("+str(CARD_PACK_COST[i])+")")
 	get_node("Shop").show()
 
 func show_settings():
@@ -541,13 +527,13 @@ func _set_deck_file(file):
 		last_file_button.set_pressed(false)
 
 func buy_tier1():
-	if (credits<COST[0]):
+	if (credits<CARD_PACK_COST[0]):
 		return
 	
 	for c in get_node("Cards/ScrollContainer/Control").get_children():
 		c.queue_free()
 	yield(get_tree(),"idle_frame")
-	credits -= COST[0]
+	credits -= CARD_PACK_COST[0]
 	for i in range(3):
 		var card = Data.get_tier1_card()
 		if (Data.inventory.has(card)):
@@ -559,13 +545,13 @@ func buy_tier1():
 	hide_shop()
 
 func buy_tier2():
-	if (credits<COST[1]):
+	if (credits<CARD_PACK_COST[1]):
 		return
 	
 	for c in get_node("Cards/ScrollContainer/Control").get_children():
 		c.queue_free()
 	yield(get_tree(),"idle_frame")
-	credits -= COST[1]
+	credits -= CARD_PACK_COST[1]
 	for i in range(3):
 		var card = Data.get_tier2_card()
 		if (Data.inventory.has(card)):
@@ -577,13 +563,13 @@ func buy_tier2():
 	hide_shop()
 
 func buy_tier3():
-	if (credits<COST[2]):
+	if (credits<CARD_PACK_COST[2]):
 		return
 	
 	for c in get_node("Cards/ScrollContainer/Control").get_children():
 		c.queue_free()
 	yield(get_tree(),"idle_frame")
-	credits -= COST[2]
+	credits -= CARD_PACK_COST[2]
 	for i in range(3):
 		var card = Data.get_tier3_card()
 		if (Data.inventory.has(card)):

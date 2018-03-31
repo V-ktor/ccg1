@@ -31,6 +31,8 @@ DIRECT_DAMAGE_4-ENEMY-,4 damage
 DIRECT_DAMAGE_4-ENEMY-_DESC,"Deal 4 points of damage to any enemy unit."
 DIRECT_DAMAGE_6-ENEMY-,6 damage
 DIRECT_DAMAGE_6-ENEMY-_DESC,"Deal 6 points of damage to any enemy unit."
+DIRECT_DAMAGE_7-ENEMY-,7 damage
+DIRECT_DAMAGE_7-ENEMY-_DESC,"Deal 7 points of damage to any enemy unit."
 INCREASE_DMG_2-FRIENDLY-,damage +2
 INCREASE_DMG_2-FRIENDLY-_DESC,"Increase damage by 2."
 ARMOR_2-FRIENDLY-,structure +2
@@ -62,11 +64,12 @@ REDUCE_STRUCTURE_1-FRIENDLY-_DESC,"Reduces structure by 1."
 REDUCE_COST_4-FRIENDLY-,upkeep cost -4
 REDUCE_COST_4-FRIENDLY-_DESC,"Reduces upkeep cost by 4."
 CAPTURE-TARGET-ATTACK,capture
-CAPTURE-TARGET-ATTACK_DESC,"Gain control over the attacked enemy unit if damage is greater than or equal to structure."
+CAPTURE-TARGET-ATTACK_DESC,"Gain control over the enemy unit if damage is greater than or equal to structure."
 TAKE_OVER-ENEMY_PLANET-,take over planet
-TAKE_OVER-ENEMY_PLANET-_DESC,"Gain control of an enemy planet. Only useable if the opposite player controls at least 2 planets."
+TAKE_OVER-ENEMY_PLANET-_DESC,"Gain control of an enemy planet."
 SPAWN_LIGHT_FIGHTER-FRIENDLY_PLANET-PLAYER_TURN,spawn fighters
 SPAWN_LIGHT_FIGHTER-FRIENDLY_PLANET-PLAYER_TURN_DESC,"Spawns a light fighter each turn if free space is available."
 POINTS_2-PLAYER-ATTACK,plunder
 POINTS_2-PLAYER-ATTACK_DESC,"Gain 2 resource points on attack."
-
+DESTRUCTION-FRIENDLY-,Self-Destruction
+DESTRUCTION-FRIENDLY-_DESC,"Destroy one of your units."
