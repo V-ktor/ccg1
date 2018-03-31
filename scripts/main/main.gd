@@ -305,9 +305,9 @@ remote func use_card_effect(targets,ID,player):
 	for i in range(effects.size()):
 		if (typeof(targets[i])==TYPE_STRING):
 			if (targets[i]=="player"):
-				apply_effect(player,effects[i])
+				apply_effect(player,effects[i],hand[player][ID])
 			elif (targets[i]=="opposite"):
-				apply_effect(enemy,effects[i])
+				apply_effect(enemy,effects[i],hand[player][ID])
 		else:
 			apply_effect_target(effects[i],player,enemy,targets[i],hand[player][ID])
 	
@@ -363,11 +363,11 @@ remote func use_card_unit(x,ID,player):
 			if (card["targets"][i]=="self"):
 				apply_effect_target(card["effects"][i],player,enemy,cards[player][x],hand[player][ID])
 			elif (card["targets"][i]=="player"):
-				apply_effect(player,card["effects"][i])
+				apply_effect(player,card["effects"][i],hand[player][ID])
 			elif (card["targets"][i]=="opposite"):
 				for p in range(NUM_PLAYERS):
 					if (p!=player):
-						apply_effect(player,card["effects"][i])
+						apply_effect(player,card["effects"][i],hand[player][ID])
 	
 	player_used_points[player][Data.data[hand[player][ID]]["faction"]] += Data.calc_value(hand[player][ID],"level")
 	unselect_hand()
@@ -378,7 +378,7 @@ remote func use_card_unit(x,ID,player):
 	update_cards()
 	emit_signal("unit_used")
 
-func apply_effect(player,effect):
+func apply_effect(player,effect,ID):
 	if (effect=="draw 2"):
 		for k in range(2):
 			if (main_player==0):
@@ -393,7 +393,9 @@ func apply_effect(player,effect):
 	elif (effect=="remove 3"):
 		if (main_player==0):
 			remove_cards(player,3)
-	
+	elif (effect=="points 2"):
+		if (player_used_points[player].has(Data.data[ID]["faction"])):
+			player_used_points[player][Data.data[ID]["faction"]] = max(player_used_points[player][Data.data[ID]["faction"]]-2,0)
 
 func remove_cards(player,num):
 	for k in range(min(num,hand[player].size())):
@@ -501,9 +503,9 @@ remote func attack_unit(attacker,target,player,enemy,counterattack=false):
 				elif (card_a["targets"][i]=="target"):
 					apply_effect_target(card_a["effects"][i],player,enemy,cards[enemy][target],cards[player][attacker].type)
 				elif (card_a["targets"][i]=="player"):
-					apply_effect(player,card_a["effect"][i])
+					apply_effect(player,card_a["effects"][i],cards[player][attacker].type)
 				elif (card_a["targets"][i]=="opposite"):
-					apply_effect(enemy,card_a["effect"][i])
+					apply_effect(enemy,card_a["effects"][i],cards[player][attacker].type)
 	for i in range(card_t["effects"].size()):
 		if (card_t["events"][i]=="attacked"):
 			if (card_t["targets"][i]=="attacker"):
@@ -514,9 +516,9 @@ remote func attack_unit(attacker,target,player,enemy,counterattack=false):
 			elif (card_t["targets"][i]=="target"):
 				apply_effect_target(card_t["effects"][i],enemy,player,cards[player][attacker],cards[enemy][target].type)
 			elif (card_t["targets"][i]=="player"):
-				apply_effect(enemy,card_t["effect"][i])
+				apply_effect(enemy,card_t["effects"][i],cards[enemy][target].type)
 			elif (card_t["targets"][i]=="opposite"):
-				apply_effect(player,card_t["effect"][i])
+				apply_effect(player,card_t["effects"][i],cards[enemy][target].type)
 	
 	if (damage<=0):
 		return
@@ -600,9 +602,9 @@ remote func bombard_unit(attacker,target,player,enemy):
 				elif (card_a["targets"][i]=="target"):
 					apply_effect_target(card_a["effects"][i],player,enemy,cards[enemy][target],cards[player][attacker].type)
 				elif (card_a["targets"][i]=="player"):
-					apply_effect(player,card_a["effect"][i])
+					apply_effect(player,card_a["effects"][i],cards[player][attacker].type)
 				elif (card_a["targets"][i]=="opposite"):
-					apply_effect(enemy,card_a["effect"][i])
+					apply_effect(enemy,card_a["effects"][i],cards[player][attacker].type)
 	
 	if (damage<=0):
 		return
