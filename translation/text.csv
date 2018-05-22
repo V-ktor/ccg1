@@ -61,7 +61,7 @@ PLAYER_DISCONNECTED,"Player disconnected!"
 SERVER_DISCONNECTED,"Server disconnected!"
 DISCONNECTED,Disconnected
 TUTORIAL_START,"Welcome!"
-TUTORIAL_INIT_1,"Chose cards to be put back to your deck and draw a new card."
+TUTORIAL_INIT_1,"Chose cards to be put back to your deck and replace them with new cards."
 TUTORIAL_INIT_2,"You should chose to keep units of level 3 and below."
 TUTORIAL_POINTS,"You have currently 3 points available. They are spend to use cards."
 TUTORIAL_UNITS_1,"You should start playing a unit card you can afford."

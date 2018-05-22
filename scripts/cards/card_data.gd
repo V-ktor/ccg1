@@ -70,8 +70,10 @@ func load_data():
 		print("Can't open data directory!")
 		return
 	
+	# load all data files in the cards directory
 	filename = dir.get_next()
 	while filename!="":
+		# open file
 		error = file.open("res://cards/"+filename,File.READ)
 		if (error!=OK):
 			print("Can't open file "+filename+"!")
@@ -80,9 +82,32 @@ func load_data():
 			print("Loading cards "+filename+".")
 		
 		while (!file.eof_reached()):
-			var currentline = JSON.parse(file.get_line()).get_result()
-			if (currentline==null || !currentline.has("name")):
+			# gather all lines that are belonging to the same card
+			var currentline = file.get_line()
+			var num_brackets = 0
+			for s in currentline:
+				num_brackets += int(s=="{")-int(s=="}")
+			while (num_brackets>0):
+				var new = file.get_line()
+				for s in new:
+					num_brackets += int(s=="{")-int(s=="}")
+				currentline += "\n"+new
+				if (file.eof_reached()):
+					break
+			if (currentline.length()<1):
 				continue
+			
+			# parse data
+			currentline = JSON.parse(currentline)
+			if (currentline.error!=OK):
+				printt("Error parsing "+filename+".")
+				continue
+			currentline = currentline.get_result()
+			if (!currentline.has("name")):
+				printt("Error parsing "+filename+".")
+				continue
+			
+			# add card data
 			data[currentline["name"]] = currentline
 			if (currentline.has("level")):
 				if (currentline["level"]<5):

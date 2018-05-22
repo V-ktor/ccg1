@@ -1,25 +1,350 @@
-{"type":"unit",		"name":"fighter",			"faction":"empire",	"grade":1,	"structure":2,	"shield":0,	"dmg":2,	"level":2,	"effects":[],							"targets":[],						"events":[],						"file":"fighters01"}
-{"type":"unit",		"name":"heavy_fighter",			"faction":"empire",	"grade":3,	"structure":2,	"shield":0,	"dmg":3,	"level":2,	"effects":[],							"targets":[],						"events":[],						"file":"fighters02"}
-{"type":"unit",		"name":"bomber",			"faction":"empire",	"grade":3,	"structure":1,	"shield":1,	"dmg":4,	"level":2,	"effects":["reduce dmg 1"],					"targets":["self"],					"events":["attack"],					"file":"bomber"}
-{"type":"unit",		"name":"corvette",			"faction":"empire",	"grade":1,	"structure":4,	"shield":1,	"dmg":4,	"level":4,	"effects":[],							"targets":[],						"events":[],						"file":"corvette"}
-{"type":"unit",		"name":"missile_frigate",		"faction":"empire",	"grade":2,	"structure":4,	"shield":1,	"dmg":6,	"level":4,	"effects":["reduce dmg 1"],					"targets":["self"],					"events":["attack"],					"file":"missile_frigate"}
-{"type":"unit",		"name":"destroyer",			"faction":"empire",	"grade":1,	"structure":4,	"shield":1,	"dmg":6,	"level":5,	"effects":[],							"targets":[],						"events":[],						"file":"destroyer"}
-{"type":"unit",		"name":"cruiser",			"faction":"empire",	"grade":1,	"structure":6,	"shield":2,	"dmg":6,	"level":6,	"effects":[],							"targets":[],						"events":[],						"file":"cruiser"}
-{"type":"unit",		"name":"assault_carrier",		"faction":"empire",	"grade":3,	"structure":7,	"shield":2,	"dmg":7,	"level":6,	"effects":[],							"targets":[],						"events":[],						"file":"assault_carrier"}
-{"type":"unit",		"name":"carrier",			"faction":"empire",	"grade":1,	"structure":8,	"shield":3,	"dmg":6,	"level":7,	"effects":[],							"targets":[],						"events":[],						"file":"carrier"}
-{"type":"unit",		"name":"battleship",			"faction":"empire",	"grade":3,	"structure":9,	"shield":3,	"dmg":7,	"level":8,	"effects":[],							"targets":[],						"events":[],						"file":"battleship"}
-{"type":"unit",		"name":"planetary_defense_network",	"faction":"empire",	"grade":2,	"structure":7,	"shield":0,	"dmg":6,	"level":5,	"effects":["unmoveable","no attack","counterattack"],		"targets":["self","self","attacker"],			"events":["","","attacked"],				"file":"planetary_defense"}
-{"type":"unit",		"name":"factory",			"faction":"empire",	"grade":1,	"structure":5,	"shield":1,	"dmg":1,	"level":4,	"effects":["unmoveable","draw 2"],				"targets":["self","player"],				"events":["","spawn"],					"file":"factory"}
-{"type":"unit",		"name":"repair_ship",			"faction":"empire",	"grade":2,	"structure":5,	"shield":1,	"dmg":0,	"level":4,	"effects":["drydock"],						"targets":["self"],					"events":["player turn"],				"file":"repair03"}
-{"type":"unit",		"name":"heavy_bomber",			"faction":"empire",	"grade":2,	"structure":4,	"shield":1,	"dmg":3,	"level":4,	"effects":["bombardment 2"],					"targets":["self"],					"events":["attack"],					"file":"heavy_bomber"}
-{"type":"effect",	"name":"long_range_torpedos",		"faction":"empire",	"grade":1,	"structure":0,	"shield":0,	"dmg":0,	"level":4,	"effects":["direct damage 6"],					"targets":["enemy"],					"events":[""],						"file":"torpedo"}
-{"type":"effect",	"name":"draw_3",			"faction":"empire",	"grade":2,	"structure":0,	"shield":0,	"dmg":0,	"level":5,	"effects":["draw 3"],						"targets":["player"],					"events":[""],						"file":""}
-{"type":"effect",	"name":"upgrade_weapons",		"faction":"empire",	"grade":1,	"structure":0,	"shield":0,	"dmg":2,	"level":2,	"effects":["increase dmg 2"],					"targets":["friendly"],					"events":[""],						"file":"upg_weapon"}
-{"type":"effect",	"name":"armor_plating",			"faction":"empire",	"grade":1,	"structure":2,	"shield":0,	"dmg":0,	"level":2,	"effects":["armor 2"],						"targets":["friendly"],					"events":[""],						"file":"upg_armor"}
-{"type":"effect",	"name":"upgrade_shields",		"faction":"empire",	"grade":1,	"structure":0,	"shield":1,	"dmg":0,	"level":2,	"effects":["shield 1"],						"targets":["friendly"],					"events":[""],						"file":"upg_shield"}
-{"type":"effect",	"name":"repair_4",			"faction":"empire",	"grade":1,	"structure":4,	"shield":0,	"dmg":0,	"level":2,	"effects":["repair 4"],						"targets":["friendly"],					"events":[""],						"file":"repair01"}
-{"type":"effect",	"name":"planetary_defense_6",		"faction":"empire",	"grade":2,	"structure":6,	"shield":0,	"dmg":0,	"level":3,	"effects":["defense 6"],					"targets":["friendly planet"],				"events":[""],						"file":""}
-{"type":"planet",	"name":"factory_world",			"faction":"empire",	"grade":1,	"structure":0,	"shield":0,	"dmg":0,	"level":4,	"effects":["cheap","production 2"],				"targets":["friendly planet","friendly planet"],	"events":["",""],					"file":""}
-{"type":"planet",	"name":"planetary_barrier",		"faction":"empire",	"grade":1,	"structure":0,	"shield":1,	"dmg":0,	"level":2,	"effects":["shield 1"],						"targets":["friendly planet"],				"events":[""],						"file":"planetary_barrier"}
-{"type":"planet",	"name":"orbital_mine_field",		"faction":"empire",	"grade":2,	"structure":0,	"shield":0,	"dmg":1,	"level":3,	"effects":["mines 1"],						"targets":["friendly planet"],				"events":["player turn"],				"file":""}
-{"type":"planet",	"name":"orbital_drydock",		"faction":"empire",	"grade":2,	"structure":0,	"shield":0,	"dmg":0,	"level":3,	"effects":["drydock"],						"targets":["friendly planet"],				"events":["player turn"],				"file":"orbital_drydock"}
+{
+	"type":"unit",
+	"name":"fighter",
+	"faction":"empire",
+	"grade":1,
+	"structure":2,
+	"shield":0,
+	"dmg":2,
+	"level":2,
+	"effects":[],
+	"targets":[],
+	"events":[],
+	"file":"fighters01"
+}
+{
+	"type":"unit",
+	"name":"heavy_fighter",
+	"faction":"empire",
+	"grade":3,
+	"structure":2,
+	"shield":0,
+	"dmg":3,
+	"level":2,
+	"effects":[],
+	"targets":[],
+	"events":[],
+	"file":"fighters02"
+}
+{
+	"type":"unit",
+	"name":"bomber",
+	"faction":"empire",
+	"grade":3,
+	"structure":1,
+	"shield":1,
+	"dmg":4,
+	"level":2,
+	"effects":["reduce dmg 1"],
+	"targets":["self"],
+	"events":["attack"],
+	"file":"bomber"
+}
+{
+	"type":"unit",
+	"name":"corvette",
+	"faction":"empire",
+	"grade":1,
+	"structure":4,
+	"shield":1,
+	"dmg":4,
+	"level":4,
+	"effects":[],
+	"targets":[],
+	"events":[],
+	"file":"corvette"
+}
+{
+	"type":"unit",
+	"name":"missile_frigate",
+	"faction":"empire",
+	"grade":2,
+	"structure":4,
+	"shield":1,
+	"dmg":6,
+	"level":4,
+	"effects":["reduce dmg 1"],
+	"targets":["self"],
+	"events":["attack"],
+	"file":"missile_frigate"
+}
+{
+	"type":"unit",
+	"name":"destroyer",
+	"faction":"empire",
+	"grade":1,
+	"structure":4,
+	"shield":1,
+	"dmg":6,
+	"level":5,
+	"effects":[],
+	"targets":[],
+	"events":[],
+	"file":"destroyer"
+}
+{
+	"type":"unit",
+	"name":"cruiser",
+	"faction":"empire",
+	"grade":1,
+	"structure":6,
+	"shield":2,
+	"dmg":6,
+	"level":6,
+	"effects":[],
+	"targets":[],
+	"events":[],
+	"file":"cruiser"
+}
+{
+	"type":"unit",
+	"name":"assault_carrier",
+	"faction":"empire",
+	"grade":3,
+	"structure":7,
+	"shield":2,
+	"dmg":7,
+	"level":6,
+	"effects":[],
+	"targets":[],
+	"events":[],
+	"file":"assault_carrier"
+}
+{
+	"type":"unit",
+	"name":"carrier",
+	"faction":"empire",
+	"grade":1,
+	"structure":8,
+	"shield":3,
+	"dmg":6,
+	"level":7,
+	"effects":[],
+	"targets":[],
+	"events":[],
+	"file":"carrier"
+}
+{
+	"type":"unit",
+	"name":"battleship",
+	"faction":"empire",
+	"grade":3,
+	"structure":9,
+	"shield":3,
+	"dmg":7,
+	"level":8,
+	"effects":[],
+	"targets":[],
+	"events":[],
+	"file":"battleship"
+}
+{
+	"type":"unit",
+	"name":"planetary_defense_network",
+	"faction":"empire",
+	"grade":2,
+	"structure":7,
+	"shield":0,
+	"dmg":6,
+	"level":5,
+	"effects":["unmoveable","no attack","counterattack"],
+	"targets":["self","self","attacker"],
+	"events":["","","attacked"],
+	"file":"planetary_defense"
+}
+{
+	"type":"unit",
+	"name":"factory",
+	"faction":"empire",
+	"grade":1,
+	"structure":5,
+	"shield":1,
+	"dmg":1,
+	"level":4,
+	"effects":["unmoveable","draw 2"],
+	"targets":["self","player"],
+	"events":["","spawn"],
+	"file":"factory"
+}
+{
+	"type":"unit",
+	"name":"repair_ship",
+	"faction":"empire",
+	"grade":2,
+	"structure":5,
+	"shield":1,
+	"dmg":0,
+	"level":4,
+	"effects":["drydock"],
+	"targets":["self"],
+	"events":["player turn"],
+	"file":"repair03"
+}
+{
+	"type":"unit",
+	"name":"heavy_bomber",
+	"faction":"empire",
+	"grade":2,
+	"structure":4,
+	"shield":1,
+	"dmg":3,
+	"level":4,
+	"effects":["bombardment 2"],
+	"targets":["self"],
+	"events":["attack"],
+	"file":"heavy_bomber"
+}
+{
+	"type":"effect",
+	"name":"long_range_torpedos",
+	"faction":"empire",
+	"grade":1,
+	"structure":0,
+	"shield":0,
+	"dmg":0,
+	"level":4,
+	"effects":["direct damage 6"],
+	"targets":["enemy"],
+	"events":[""],
+	"file":"torpedo"
+}
+{
+	"type":"effect",
+	"name":"draw_3",
+	"faction":"empire",
+	"grade":2,
+	"structure":0,
+	"shield":0,
+	"dmg":0,
+	"level":5,
+	"effects":["draw 3"],
+	"targets":["player"],
+	"events":[""],
+	"file":""
+}
+{
+	"type":"effect",
+	"name":"upgrade_weapons",
+	"faction":"empire",
+	"grade":1,
+	"structure":0,
+	"shield":0,
+	"dmg":2,
+	"level":2,
+	"effects":["increase dmg 2"],
+	"targets":["friendly"],
+	"events":[""],
+	"file":"upg_weapon"
+}
+{
+	"type":"effect",
+	"name":"armor_plating",
+	"faction":"empire",
+	"grade":1,
+	"structure":2,
+	"shield":0,
+	"dmg":0,
+	"level":2,
+	"effects":["armor 2"],
+	"targets":["friendly"],
+	"events":[""],
+	"file":"upg_armor"
+}
+{
+	"type":"effect",
+	"name":"upgrade_shields",
+	"faction":"empire",
+	"grade":1,
+	"structure":0,
+	"shield":1,
+	"dmg":0,
+	"level":2,
+	"effects":["shield 1"],
+	"targets":["friendly"],
+	"events":[""],
+	"file":"upg_shield"
+}
+{
+	"type":"effect",
+	"name":"repair_4",
+	"faction":"empire",
+	"grade":1,
+	"structure":4,
+	"shield":0,
+	"dmg":0,
+	"level":2,
+	"effects":["repair 4"],
+	"targets":["friendly"],
+	"events":[""],
+	"file":"repair01"
+}
+{
+	"type":"effect",
+	"name":"planetary_defense_6",
+	"faction":"empire",
+	"grade":2,
+	"structure":6,
+	"shield":0,
+	"dmg":0,
+	"level":3,
+	"effects":["defense 6"],
+	"targets":["friendly planet"],
+	"events":[""],
+	"file":""
+}
+{
+	"type":"planet",
+	"name":"factory_world",
+	"faction":"empire",
+	"grade":1,
+	"structure":0,
+	"shield":0,
+	"dmg":0,
+	"level":4,
+	"effects":["cheap","production 2"],
+	"targets":["friendly planet","friendly planet"],
+	"events":["",""],
+	"file":""
+}
+{
+	"type":"planet",
+	"name":"planetary_barrier",
+	"faction":"empire",
+	"grade":1,
+	"structure":0,
+	"shield":1,
+	"dmg":0,
+	"level":2,
+	"effects":["shield 1"],
+	"targets":["friendly planet"],
+	"events":[""],
+	"file":"planetary_barrier"
+}
+{
+	"type":"planet",
+	"name":"orbital_mine_field",
+	"faction":"empire",
+	"grade":2,
+	"structure":0,
+	"shield":0,
+	"dmg":1,
+	"level":3,
+	"effects":["mines 1"],
+	"targets":["friendly planet"],
+	"events":["player turn"],
+	"file":""
+}
+{
+	"type":"planet",
+	"name":"orbital_drydock",
+	"faction":"empire",
+	"grade":2,
+	"structure":0,
+	"shield":0,
+	"dmg":0,
+	"level":3,
+	"effects":["drydock"],
+	"targets":["friendly planet"],
+	"events":["player turn"],
+	"file":"orbital_drydock"
+}
