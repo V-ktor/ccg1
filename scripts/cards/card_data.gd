@@ -57,6 +57,7 @@ var cards_tier2 = [[],[],[],[],[]]
 var cards_tier3 = [[],[],[],[],[]]
 
 
+
 func load_data():
 	var dir = Directory.new()
 	var file = File.new()
@@ -108,6 +109,9 @@ func load_data():
 				continue
 			
 			# add card data
+			for s in ["structure","shield","dmg"]:
+				if (!currentline.has(s)):
+					currentline[s] = 0
 			data[currentline["name"]] = currentline
 			if (currentline.has("level")):
 				if (currentline["level"]<5):
