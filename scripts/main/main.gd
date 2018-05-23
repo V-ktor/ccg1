@@ -250,6 +250,10 @@ var ai
 func ai_timer():
 	get_node("AiTimer").set_wait_time(0.25)
 	
+	# skip AI turn
+	get_node("TimerNextTurn").start()
+	return
+	
 	var action
 	ai.update()
 	action = ai.get_action()

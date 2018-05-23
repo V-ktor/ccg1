@@ -5,7 +5,7 @@
 	"grade":1,
 	"structure":1,
 	"shield":0,
-	"dmg":1,
+	"damage":1,
 	"level":1,
 	"effects":
 	{
@@ -25,7 +25,7 @@
 	"grade":2,
 	"structure":1,
 	"shield":0,
-	"dmg":1,
+	"damage":1,
 	"level":1,
 	"effects":
 	{
@@ -46,7 +46,7 @@
 	"grade":3,
 	"structure":2,
 	"shield":0,
-	"dmg":2,
+	"damage":2,
 	"level":2,
 	"effects":
 	{
@@ -67,7 +67,7 @@
 	"grade":0,
 	"structure":3,
 	"shield":0,
-	"dmg":2,
+	"damage":2,
 	"level":3,
 	"effects":
 	{
@@ -87,7 +87,7 @@
 	"grade":1,
 	"structure":5,
 	"shield":0,
-	"dmg":2,
+	"damage":2,
 	"level":3,
 	"file":"defender"
 }
@@ -98,7 +98,7 @@
 	"grade":1,
 	"structure":3,
 	"shield":0,
-	"dmg":2,
+	"damage":2,
 	"level":3,
 	"effects":
 	[
@@ -146,7 +146,7 @@
 	"grade":1,
 	"structure":6,
 	"shield":0,
-	"dmg":3,
+	"damage":3,
 	"movement_points":0,
 	"level":4,
 	"effects":
@@ -164,7 +164,7 @@
 	"grade":2,
 	"structure":3,
 	"shield":0,
-	"dmg":6,
+	"damage":6,
 	"level":4,
 	"file":"militia"
 }
@@ -175,7 +175,7 @@
 	"grade":1,
 	"structure":5,
 	"shield":0,
-	"dmg":4,
+	"damage":4,
 	"level":4,
 	"file":"ironclad"
 }
@@ -186,7 +186,7 @@
 	"grade":1,
 	"structure":8,
 	"shield":0,
-	"dmg":4,
+	"damage":4,
 	"level":5,
 	"file":"asteroid_ship"
 }
@@ -197,7 +197,7 @@
 	"grade":1,
 	"structure":9,
 	"shield":2,
-	"dmg":6,
+	"damage":6,
 	"level":7,
 	"file":"rebels_carrier"
 }
@@ -208,7 +208,7 @@
 	"grade":2,
 	"structure":9,
 	"shield":1,
-	"dmg":8,
+	"damage":8,
 	"level":8,
 	"file":"rebels_battleship"
 }
@@ -219,7 +219,7 @@
 	"grade":0,
 	"structure":4,
 	"shield":0,
-	"dmg":1,
+	"damage":1,
 	"level":3,
 	"effects":
 	{
@@ -259,7 +259,7 @@
 	"name":"cripple",
 	"faction":"rebels",
 	"grade":1,
-	"dmg":-2,
+	"damage":-2,
 	"level":2,
 	"effects":
 	{

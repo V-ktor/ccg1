@@ -5,7 +5,7 @@
 	"grade":3,
 	"structure":2,
 	"shield":0,
-	"dmg":2,
+	"damage":2,
 	"level":2,
 	"effects":
 	{
@@ -26,7 +26,7 @@
 	"grade":0,
 	"structure":1,
 	"shield":0,
-	"dmg":4,
+	"damage":4,
 	"level":3,
 	"file":"freighter01"
 }
@@ -37,7 +37,7 @@
 	"grade":2,
 	"structure":2,
 	"shield":0,
-	"dmg":3,
+	"damage":3,
 	"level":3,
 	"effects":
 	{
@@ -57,7 +57,7 @@
 	"grade":1,
 	"structure":4,
 	"shield":0,
-	"dmg":5,
+	"damage":5,
 	"level":4,
 	"file":"pirate_corvette"
 }
@@ -68,7 +68,7 @@
 	"grade":1,
 	"structure":6,
 	"shield":2,
-	"dmg":9,
+	"damage":9,
 	"level":7,
 	"file":"pirate_carrier"
 }
@@ -123,7 +123,7 @@
 	"faction":"pirates",
 	"grade":2,
 	"shield":-1,
-	"dmg":-2,
+	"damage":-2,
 	"level":3,
 	"effects":
 	[
@@ -153,7 +153,7 @@
 	"name":"large_mine_field",
 	"faction":"pirates",
 	"grade":2,
-	"dmg":2,
+	"damage":2,
 	"level":5,
 	"effects":
 	{
