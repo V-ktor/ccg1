@@ -14,7 +14,7 @@
 		"rule":"PENETRATE_SHIELD_DESC",
 		"script":"
 			func on_attack(target):
-				var card = Main.cards[enemy][target]
+				var card = Main.cards[self.enemy][target]
 				card.structure -= max(card.shield-self.damage,0)"
 	},
 	"file":"pirate_fighters"
@@ -85,7 +85,7 @@
 		"rule":"DIRECT_DAMAGE_4_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[enemy][target]
+				var card = Main.cards[self.enemy][target]
 				card.structure -= max(4-card.shield,0)
 				card.update()
 				card.node.add_child(load('res://scenes/effects/torpedo.tscn').instance())",
@@ -107,8 +107,8 @@
 			"rule":"SUICIDE_DESC",
 			"script":"
 				func on_use(ally,target):
-					var unit = Main.cards[owner][ally]
-					var card = Main.cards[enemy][target]
+					var unit = Main.cards[self.owner][ally]
+					var card = Main.cards[self.enemy][target]
 					card.structure -= max(unit.structure-card.shield,0)
 					card.update()
 					destroy_unit(ally,owner)",
@@ -133,7 +133,7 @@
 			"rule":"REDUCE_DMG_2_DESC",
 			"script":"
 				func on_use(target):
-					var card = Main.cards[enemy][target]
+					var card = Main.cards[self.enemy][target]
 					card.damage = max(card.damage-2,0)
 					card.shield = max(card.shield-1,0)
 					card.update()
@@ -162,10 +162,10 @@
 		"rule":"MINES_2_PLANET_DESC",
 		"script":"
 			func on_next_turn(player):
-				if (player!=owner):
+				if (player!=self.owner):
 					return
-				for target in range(position*Main.POSITIONS,(position+1)*Main.POSITIONS):
-					var card = Main.cards[enemy][target]
+				for target in range(self.position*Main.POSITIONS,(self.position+1)*Main.POSITIONS):
+					var card = Main.cards[self.enemy][target]
 					if (card!=null):
 						card.node.add_child(load('res://scenes/effects/mine.tscn').instance())
 						card.structure -= 2

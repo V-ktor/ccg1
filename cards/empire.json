@@ -155,7 +155,7 @@
 			"rule":"COUNTERATTACK_DESC",
 			"script":"
 				func on_attacked(target):
-					var card = Main.cards[enemy][target]
+					var card = Main.cards[self.enemy][target]
 					var pi = load('res://scenes/effects/planetary_defense.tscn').instance()
 					var pos = self.node.get_global_position()
 					pi.set_scale(Vector2(1,pos.distance_to(card.node.get_global_position())/800.0))
@@ -163,7 +163,7 @@
 					pi.set_rotation(pos.angle_to_point(card.node.get_global_position())-PI/2.0)
 					Main.add_child(pi)
 					card.structure -= damage
-					cards[enemy][target].update()"
+					card.update()"
 		}
 	],
 	"file":"planetary_defense"
@@ -192,7 +192,7 @@
 			"rule":"DRAW_2_DESC",
 			"script":"
 				func on_spawn():
-					Main.draw_cards(owner,2)"
+					Main.draw_cards(self.owner,2)"
 		}
 	],
 	"file":"factory"
@@ -213,10 +213,10 @@
 		"rule":"DRYDOCK_DESC",
 		"script":"
 			func on_next_turn(player):
-				if (player!=owner):
+				if (player!=self.owner):
 					return
-				for target in range(floor(position/Main.POSITIONS)*Main.POSITIONS,(floor(position/Main.POSITIONS)+1)*Main.POSITIONS):
-					var card = Main.cards[player][target]
+				for target in range(floor(self.position/Main.POSITIONS)*Main.POSITIONS,(floor(self.position/Main.POSITIONS)+1)*Main.POSITIONS):
+					var card = Main.cards[self.player][target]
 					if (card!=null):
 						var max_structure = Data.calc_value(card.type,'structure')
 						if (card.structure<max_structure):
@@ -241,7 +241,7 @@
 		"icon":"bombardment_2",
 		"rule":"BOMBARDMENT_2_DESC",
 		"script":"
-			func on_bombard(player,target):
+			func on_bombard(target):
 				Main.field[target].structure -= 2"
 	},
 	"file":"heavy_bomber"
@@ -260,7 +260,7 @@
 		"rule":"DIRECT_DAMAGE_6_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[enemy][target]
+				var card = Main.cards[self.enemy][target]
 				card.structure -= max(6-card.shield,0)
 				card.update()
 				card.node.add_child(load('res://scenes/effects/torpedo.tscn').instance())",
@@ -282,7 +282,7 @@
 		"rule":"DRAW_3_DESC",
 		"script":"
 			func on_spawn():
-				Main.draw_cards(owner,3)"
+				Main.draw_cards(self.owner,3)"
 	},
 	"file":""
 }
@@ -300,7 +300,7 @@
 		"rule":"INCREASE_DAMAGE_2_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[owner][target]
+				var card = Main.cards[self.owner][target]
 				card.damage += 2
 				card.update()
 				card.node.add_child(load('res://scenes/effects/upg_weapon.tscn').instance())",
@@ -322,7 +322,7 @@
 		"rule":"ARMOR_2_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[owner][target]
+				var card = Main.cards[self.owner][target]
 				card.structure += 2
 				card.update()
 				card.node.add_child(load('res://scenes/effects/upg_armor.tscn').instance())",
@@ -344,7 +344,7 @@
 		"rule":"SHIELD_1_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[owner][target]
+				var card = Main.cards[self.owner][target]
 				card.shield += 1
 				card.update()
 				card.node.add_child(load('res://scenes/effects/upg_armor.tscn').instance())",
@@ -366,7 +366,7 @@
 		"rule":"REPAIR_4_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[owner][target]
+				var card = Main.cards[self.owner][target]
 				var max_structure = Data.calc_value(card.type,'structure')
 				card.structure = min(card.structure+4,max_structure)
 				card.update()
@@ -457,9 +457,9 @@
 		"rule":"MINES_1_PLANET_DESC",
 		"script":"
 			func on_next_turn(player):
-				if (player!=owner):
+				if (player!=self.owner):
 					return
-				for target in range(position*Main.POSITIONS,(position+1)*Main.POSITIONS):
+				for target in range(self.position*Main.POSITIONS,(self.position+1)*Main.POSITIONS):
 					var card = Main.cards[enemy][target]
 					if (card!=null):
 						card.node.add_child(load('res://scenes/effects/mine.tscn').instance())
@@ -481,10 +481,10 @@
 		"rule":"DRYDOCK_DESC",
 		"script":"
 			func on_next_turn(player):
-				if (player!=owner):
+				if (player!=self.owner):
 					return
-				for target in range((position*Main.POSITIONS,(position+1)*Main.POSITIONS):
-					var card = Main.cards[player][target]
+				for target in range((self.position*Main.POSITIONS,(self.position+1)*Main.POSITIONS):
+					var card = Main.cards[self.player][target]
 					if (card!=null):
 						var max_structure = Data.calc_value(card.type,'structure')
 						if (card.structure<max_structure):

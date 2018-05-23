@@ -34,7 +34,7 @@
 		"rule":"PENETRATE_SHIELD_DESC",
 		"script":"
 			func on_attack(target):
-				var card = Main.cards[enemy][target]
+				var card = Main.cards[self.enemy][target]
 				card.structure -= max(card.shield-self.damage,0)"
 	},
 	"file":"fighters04"
@@ -55,7 +55,7 @@
 		"rule":"PENETRATE_SHIELD_DESC",
 		"script":"
 			func on_attack(target):
-				var card = Main.cards[enemy][target]
+				var card = Main.cards[self.enemy][target]
 				card.structure -= max(card.shield-self.damage,0)"
 	},
 	"file":"stealth_fighters"
@@ -113,19 +113,19 @@
 			"rule":"CAPTURE_DESC",
 			"script":"
 				func on_attack(target):
-					var card = Main.cards[enemy][target]
+					var card = Main.cards[self.enemy][target]
 					card.structure -= max(card.shield-self.damage,0)
 					if (card.structure+card.shield-self.damage<=0):
 						var pos = self.node.get_global_position()
-						Main.destroy_unit(position,owner,false)
-						Main.add_unit(position,card.type,owner)
-						Main.cards[owner][position].structure = card.structure
-						Main.cards[owner][position].damage = card.damage
-						Main.cards[owner][position].shield = card.shield
-						Main.cards[owner][position].attack_points = 0
-						Main.cards[owner][position].movement_points = 0
-						Main.cards[owner][position].update()
-						Main.destroy_unit(target,enemy,false)"
+						Main.destroy_unit(self.position,self.owner,false)
+						Main.add_unit(self.position,card.type,owner)
+						Main.cards[self.owner][position].structure = card.structure
+						Main.cards[self.owner][position].damage = card.damage
+						Main.cards[self.owner][position].shield = card.shield
+						Main.cards[self.owner][position].attack_points = 0
+						Main.cards[self.owner][position].movement_points = 0
+						Main.cards[self.owner][position].update()
+						Main.destroy_unit(target,self.enemy,false)"
 		}
 	],
 	"file":"troop_ship"
@@ -237,7 +237,7 @@
 		"rule":"JAM_1_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[enemy][target]
+				var card = Main.cards[self.enemy][target]
 				card.shield = max(card.shield-1,0)
 				card.update()
 				card.node.add_child(load('res://scenes/effects/jam_shield.tscn').instance())",
@@ -259,7 +259,7 @@
 		"rule":"REDUCE_DMG_2_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[enemy][target]
+				var card = Main.cards[self.enemy][target]
 				card.damage = max(card.damage-2,0)
 				card.update()
 				card.node.add_child(load('res://scenes/effects/cripple.tscn').instance())",
@@ -282,7 +282,7 @@
 			"rule":"REDUCE_COST_4_DESC",
 			"script":"
 				func on_use(target):
-					var card = Main.cards[owner][target]
+					var card = Main.cards[self.owner][target]
 					card.level = max(card.level-4,0)
 					card.structure = max(card.structure-1,1)
 					card.update()
@@ -310,7 +310,7 @@
 		"rule":"REPAIR_5_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[owner][target]
+				var card = Main.cards[self.owner][target]
 				var max_structure = Data.calc_value(card.type,'structure')
 				card.structure = min(card.structure+5,max_structure)
 				card.update()
@@ -340,7 +340,7 @@
 		"rule":"DISCARD_2_OPPONENT_DESC",
 		"script":"
 			func on_spawn():
-				Main.remove_cards(enemy,2)"
+				Main.remove_cards(self.enemy,2)"
 	},
 	"file":"sabotage"
 }
@@ -359,7 +359,7 @@
 			func on_use(target):
 				var card = Main.field[target]
 				card.structure = 0
-				card.owner = owner
+				card.owner = self.owner
 				card.upate()
 				card.node.add_child(load('res://scenes/effects/rebellion.tscn').instance())",
 		"target":"enemy_planet"
@@ -379,12 +379,12 @@
 		"rule":"SPAWN_LIGHT_FIGHTER_DESC",
 		"script":"
 			func on_next_turn(player):
-				if (player!=owner):
+				if (player!=self.owner):
 					return
 				var pos = -1
 				for y in range(POSITIONS):
-					if (cards[owner][position*POSITIONS+y]==null):
-						pos = position*POSITIONS+y
+					if (cards[self.owner][self.position*POSITIONS+y]==null):
+						pos = self.position*POSITIONS+y
 						break
 				if (pos>=0):
 					Main.add_unit(pos,'light_fighter',owner)"
