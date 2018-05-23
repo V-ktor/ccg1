@@ -63,6 +63,6 @@ TAKE_OVER_PLANET,take over planet
 TAKE_OVER_PLANET_DESC,"Gain control of an enemy planet."
 SPAWN_LIGHT_FIGHTER,spawn fighters
 SPAWN_LIGHT_FIGHTER_DESC,"Spawns a light fighter each turn if free space is available."
-REDUCE_DMG_1-SELF-ATTACK,lose damage
-REDUCE_DMG_1-SELF-ATTACK_DESC,"Damage is reduced by 1 after attacking."
+REDUCE_DAMAGE_1-SELF-ATTACK,lose damage
+REDUCE_DAMAGE_1-SELF-ATTACK_DESC,"Damage is reduced by 1 after attacking."
 

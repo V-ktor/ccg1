@@ -35,6 +35,9 @@ func create_card(ID):
 	
 	for i in range(card["effects"].size()):
 		var effect = card["effects"][i]
+		if (!effect.has("icon")):
+			continue
+		
 		var pi = bi.get_node("Description/Effect").duplicate()
 		var texture = load("res://images/effects/"+effect["icon"]+".png")
 		if (texture!=null):

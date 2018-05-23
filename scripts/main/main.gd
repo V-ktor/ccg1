@@ -24,14 +24,17 @@ const PLAYER1 = 0 # player
 const PLAYER2 = 1 # enemy
 const COLOURS = {NEUTRAL:Color(1.0,1.0,1.0),PLAYER1:Color(0.2,0.4,1.0),PLAYER2:Color(1.0,0.3,0.2)}
 const NONE = -1
-const CARD = 0
+const HAND = 0
 const EMPTY = 1
-const ENEMY = 2
-const FRIENDLY = 3
-const PLANET_FRIENDLY = 4
-const PLANET_ENEMY = 5
-const EMPTY_OR_ENEMY = 6
-const DISCARD = 7
+const UNIT = 2
+const ALLY_UNIT = 3
+const ENEMY_UNIT = 4
+const PLANET = 5
+const ALLY_PLANET = 6
+const ENEMY_PLANET = 7
+const EMPTY_OR_ENEMY = 8
+const DISCARD = 9
+
 
 
 # variables #
@@ -59,6 +62,7 @@ var ID
 var ID_enemy
 var ready = false
 var tutorial = false
+var effect_canceled = false
 
 const script_card_hand = preload("res://scripts/cards/card_hand.gd")
 const point_textures = {
@@ -79,7 +83,7 @@ PLANET_INFERNO:[preload("res://images/planets/inferno01.png"),preload("res://ima
 
 # signals #
 
-signal target_selected(target_selected)
+signal target_selected(target_selected,target_type)
 signal new_turn()
 signal init_discarded()
 signal started()
@@ -87,6 +91,7 @@ signal unit_used()
 signal unit_moved()
 signal unit_attacked()
 signal unit_invaded()
+signal effect_used(used)
 signal discarded()
 
 
@@ -324,56 +329,113 @@ func end_turn():
 	select = NONE
 	get_node("TimerNextTurn").start()
 
-func add_target(target,list):
-	list.push_back(target)
+func add_target(target,type,list,t):
+	printt("selected type",type,", needs",t)
+	if (type==t):
+		printt("add",target,"to",list)
+		list.push_back(target)
+	elif (target==null):
+		list.clear()
 
-remote func execute_effect(event,card,_args=[]):
-	if (card.effects.has_method(event)):
+remote func execute_effect(event,effects,_args=[]):
+	printt("execute ",event,effects,_args)
+	if (effects.has_method(event)):
 		var args = []+_args
 		# force the player to select targets
-		for target in card.effects.get(event+"_targets"):
-			printt("select ",select,"...")
+		printt("target list",effects.get(event+"_targets"))
+		for target in effects.get(event+"_targets"):
+			printt("select ",target,"...")
 			select = target
-			connect("target_selected",self,"add_target",[args])
+			connect("target_selected",self,"add_target",[args,target],CONNECT_ONESHOT)
 			yield(self,"target_selected")
-		printt(event,card,args)
-		card.effects.callv(event,args)
+			if (args.size()<1):
+				printt("cancel effect execution")
+				effect_canceled = true
+				emit_signal("effect_used",false)
+				return
+		printt(event,effects,args)
+		effects.callv(event,args)
 	update()
+	emit_signal("effect_used",true)
 
-remote func use_card_effect(targets,ID,player):
-	printt("use effect card",targets,ID,player,hand[player][ID])
-	var faction = Data.data[hand[player][ID]]["faction"]
-	if (Data.calc_value(hand[player][ID],"level")>player_points[player][faction]-player_used_points[player][faction]):
+remote func use_card_effect(ID,player):
+	printt("use effect card",ID,player,hand[player][ID])
+	var card = Data.data[hand[player][ID]]
+	var faction = card["faction"]
+	if (card["level"]>player_points[player][faction]-player_used_points[player][faction]):
 		return
 	
-	# execute effects here
+	var enemy = int(!player)
+	var code = "var _self\nvar Main\nvar owner = "+str(player)+"\nvar enemy = "+str(enemy)+"\n"
+	var script = GDScript.new()
+	var effects = Card.new()
+	for effect in card["effects"]:
+		if (effect.has("script")):
+			code += effect["script"]+"\n"
+	for effect in card["effects"]:
+		if (effect.has("script")):
+			var p1 = effect["script"].find("func ")+5
+			var p2 = effect["script"].find("(",p1)
+			var property = effect["script"].substr(p1,p2-p1)+"_targets"
+			printt(property,effect["target"])
+			code += "var "+property+" = "+str(effect["target"])+"\n"
+	script.set_source_code(code)
+	printt(script,"\n",code)
+	script.reload()
+	effects.set_script(script)
+	effects._self = effects
+	effects.Main = self
+	effect_canceled = false
+	execute_effect("on_use",effects)
 	
-	player_used_points[player][Data.data[hand[player][ID]]["faction"]] += Data.calc_value(hand[player][ID],"level")
-	unselect_hand()
+	yield(self,"effect_used")
+	if (effect_canceled):
+		unselect_hand()
+		return
+	
+	player_used_points[player][card["faction"]] += card["level"]
 	hand[player].remove(ID)
-	update_resources()
-	
+	update()
 	remove_card(ID,player)
-	update_cards()
+	unselect_hand()
 
 remote func use_card_planet(x,ID,player):
 	printt("use planet card",x,ID,player)
-	var faction = Data.data[hand[player][ID]]["faction"]
-	if (Data.calc_value(hand[player][ID],"level")>player_points[player][faction]-player_used_points[player][faction]):
+	var card = Data.data[hand[player][ID]]
+	var faction = card["faction"]
+	if (card["level"]>player_points[player][faction]-player_used_points[player][faction]):
 		return
 	
+	var enemy = int(!player)
+	var code = "var _self\nvar Main\nvar owner = "+str(player)+"\nvar enemy = "+str(enemy)+"\n"
+	var script = GDScript.new()
+	var effects = Card.new()
+	for effect in card["effects"]:
+		if (effect.has("script")):
+			code += effect["script"]+"\n"
+	for effect in card["effects"]:
+		if (effect.has("script")):
+			var p1 = effect["script"].find("func ")+5
+			var p2 = effect["script"].find("(",p1)
+			var property = effect["script"].substr(p1,p2-p1)+"_targets"
+			printt(property,effect["target"])
+			code += "var "+property+" = "+str(effect["target"])+"\n"
+	script.set_source_code(code)
+	printt(script,"\n",code)
+	script.reload()
+	effects.set_script(script)
+	effects._self = field[x]
+	effects.Main = self
 	remove_card_planet(x)
 	add_card_planet(x,hand[player][ID])
 	
-	# execute effects here
-	execute_effect("on_spawn",cards[x])
-	
 	player_used_points[player][Data.data[hand[player][ID]]["faction"]] += Data.calc_value(hand[player][ID],"level")
-	unselect_hand()
 	hand[player].remove(ID)
-	update_resources()
-	
+	update()
 	remove_card(ID,player)
+	unselect_hand()
+	
+	execute_effect("on_spawn",effects)
 
 remote func use_card_unit(x,ID,player):
 	var card = Data.data[hand[player][ID]]
@@ -383,9 +445,9 @@ remote func use_card_unit(x,ID,player):
 	var enemy = abs(1-player)
 	add_unit(x,hand[player][ID],player)
 	
-	execute_effect("on_spawn",cards[player][x])
+	execute_effect("on_spawn",cards[player][x].effects)
 	
-	player_used_points[player][Data.data[hand[player][ID]]["faction"]] += Data.calc_value(hand[player][ID],"level")
+	player_used_points[player][Data.data[hand[player][ID]]["faction"]] += Data.data[hand[player][ID]]["level"]
 	unselect_hand()
 	hand[player].remove(ID)
 	update_resources()
@@ -414,8 +476,8 @@ remote func attack_unit(attacker,target,player,enemy):
 	var damage = max(cards[player][attacker].damage-cards[enemy][target].shield,0)
 	var t_pos = cards[enemy][target].node.get_global_position()
 	
-	execute_effect("on_attack",cards[player][attacker],[target])
-	execute_effect("on_attacked",cards[enemy][target],[attacker])
+	execute_effect("on_attack",cards[player][attacker],[target].effects)
+	execute_effect("on_attacked",cards[enemy][target],[attacker].effects)
 	
 	if (damage<=0):
 		return
@@ -444,8 +506,8 @@ remote func bombard_unit(attacker,target,player,enemy):
 	
 	var damage = max(cards[player][attacker].damage-field[target].shield,0)
 	
-	execute_effect("on_bombard",cards[player][attacker],[target])
-	execute_effect("on_bombarded",field[target],[attacker])
+	execute_effect("on_bombard",cards[player][attacker].effects,[target])
+	execute_effect("on_bombarded",field[target].effects,[attacker])
 	
 	if (damage<=0):
 		return
@@ -476,7 +538,7 @@ remote func move_unit(from,to,player):
 	
 	add_unit(to,cards[player][from].type,player,get_node("Card_"+str(from)+"_"+str(player)).get_global_position()-get_node("Card_"+str(to)+"_"+str(player)).get_global_position())
 	
-	execute_effect("on_moved",cards[player][to])
+	execute_effect("on_moved",cards[player][to].effects)
 	
 	cards[player][to].level = cards[player][from].level
 	cards[player][to].structure = cards[player][from].structure
@@ -536,6 +598,7 @@ func update():
 				cards[p][x].update()
 	for x in range(SIZE):
 		field[x].update()
+#	update_cards()
 
 
 func _next_turn():
@@ -616,7 +679,7 @@ remote func next_turn():
 	else:
 		get_node("UI/Player1/VBoxContainer/Button").set_disabled(player!=main_player)
 		# player has to select a card
-		select = CARD
+		select = HAND
 
 func draw_card(player):
 	# player draws one card
@@ -927,7 +990,7 @@ func select_hand(index,player):
 	
 	var faction = Data.data[hand[player][index]]["faction"]
 	unselect_hand()
-	if (select==CARD && Data.calc_value(hand[player][index],"level")<=player_points[player][faction]-player_used_points[player][faction]):
+	if (select==HAND && Data.calc_value(hand[player][index],"level")<=player_points[player][faction]-player_used_points[player][faction]):
 		var type = Data.data[hand[player][index]]["type"]
 		selected_hand = index
 		get_node("UI/Cards"+str(int(player!=main_player)+1)+"/Card"+str(index)+"/Outline").show()
@@ -939,80 +1002,23 @@ func select_hand(index,player):
 					get_node("Card_"+str(x)+"_"+str(player)+"/Select").show()
 					get_node("Card_"+str(x)+"_"+str(player)+"/Select").set_modulate(Color(0.0,1.0,0.0))
 		elif (type=="planet"):
-			var target = Data.data[hand[player][index]]["targets"][0]
-			if (target=="friendly planet"):
-				select = PLANET_FRIENDLY
+			select = Data.TARGET_TYPE[Data.data[hand[player][index]]["target"]]
+			if (select==ALLY_PLANET):
 				for x in range(SIZE):
 					if (field[x]!=null && field[x].owner==player):
 						get_node("Planet_"+str(x)+"/Select").show()
 						get_node("Planet_"+str(x)+"/Select").set_modulate(Color(0.0,0.0,1.0))
-			elif (target=="enemy planet"):
-				select = PLANET_ENEMY
+			elif (select==ENEMY_PLANET):
 				for x in range(SIZE):
 					if (field[x]!=null && field[x].owner!=player):
 						get_node("Planet_"+str(x)+"/Select").show()
 						get_node("Planet_"+str(x)+"/Select").set_modulate(Color(0.0,0.0,1.0))
 		elif (type=="effect"):
-			var targets = []
-			var targets_type = Data.data[hand[player][index]]["targets"]
-			targets.resize(targets_type.size())
-			for i in range(targets_type.size()):
-				for j in range(i):
-					if (targets[i]==targets[j]):
-						targets[i] = targets[j]
-						continue
-				
-				for x in range(SIZE*POSITIONS):
-					for y in range(2):
-						get_node("Card_"+str(x)+"_"+str(y)+"/Select").hide()
-				for x in range(SIZE):
-					get_node("Planet_"+str(x)+"/Select").hide()
-				if (targets_type[i]=="friendly planet"):
-					select = PLANET_FRIENDLY
-					for x in range(SIZE):
-						if (field[x]!=null && field[x].owner==player && field[x].planet>=PLANET_BARREN && field[x].planet<=PLANET_INFERNO):
-							get_node("Planet_"+str(x)+"/Select").show()
-							get_node("Planet_"+str(x)+"/Select").set_modulate(Color(0.0,0.0,1.0))
-				elif (targets_type[i]=="enemy planet"):
-					select = PLANET_ENEMY
-					for x in range(SIZE):
-						if (field[x]!=null && field[x].owner!=player && field[x].planet>=PLANET_BARREN && field[x].planet<=PLANET_INFERNO):
-							get_node("Planet_"+str(x)+"/Select").show()
-							get_node("Planet_"+str(x)+"/Select").set_modulate(Color(0.0,0.0,1.0))
-				elif (targets_type[i]=="enemy"):
-					var enemy = PLAYER1
-					if (player==PLAYER1):
-						enemy = PLAYER2
-					select = ENEMY
-					for x in range(SIZE*POSITIONS):
-						if (cards[enemy][x]!=null):
-							get_node("Card_"+str(x)+"_"+str(enemy)+"/Select").show()
-							get_node("Card_"+str(x)+"_"+str(enemy)+"/Select").set_modulate(Color(1.0,0.0,0.0))
-				elif (targets_type[i]=="friendly"):
-					select = FRIENDLY
-					for x in range(SIZE*POSITIONS):
-						if (cards[player][x]!=null):
-							get_node("Card_"+str(x)+"_"+str(player)+"/Select").show()
-							get_node("Card_"+str(x)+"_"+str(player)+"/Select").set_modulate(Color(0.0,0.0,1.0))
-				elif (targets_type[i]=="player"):
-					targets[i] = "player"
-					continue
-				elif (targets_type[i]=="opposite"):
-					targets[i] = "opposite"
-					continue
-				elif (targets_type[i]=="self"):
-					continue
-				
-				yield(self,"target_selected")
-				if (selected_target==null):
-					return
-				targets[i] = selected_target
-			
 			if (get_tree().has_network_peer()):
-				rpc("use_card_effect",targets,selected_hand,player)
+				rpc("use_card_effect",selected_hand,player)
 			else:
-				use_card_effect(targets,selected_hand,player)
-	elif (select==CARD && Data.calc_value(hand[player][index],"level")>player_points[player][faction]-player_used_points[player][faction]):
+				use_card_effect(selected_hand,player)
+	elif (select==HAND && Data.calc_value(hand[player][index],"level")>player_points[player][faction]-player_used_points[player][faction]):
 		selected_hand = index
 		select = DISCARD
 		get_node("UI/Cards"+str(int(player!=main_player)+1)+"/Card"+str(index)+"/Outline").show()
@@ -1023,18 +1029,20 @@ func unselect_hand():
 		if (has_node("UI/Cards"+str(int(player!=main_player)+1)+"/Card"+str(selected_hand)+"/Outline")):
 			get_node("UI/Cards"+str(int(player!=main_player)+1)+"/Card"+str(selected_hand)+"/Outline").hide()
 		selected_hand = null
-		select = CARD
+		select = HAND
+		effect_canceled = true
 		for x in range(SIZE*POSITIONS):
 			for y in range(2):
 				get_node("Card_"+str(x)+"_"+str(y)+"/Select").hide()
 		for x in range(SIZE):
 			get_node("Planet_"+str(x)+"/Select").hide()
 		selected_target = null
-		emit_signal("target_selected",selected_target)
+		emit_signal("effect_used",false)
+#		emit_signal("target_selected",null,NONE)
 	get_node("UI/Player1/VBoxContainer/ButtonD").set_disabled(true)
 
 func select_unit(x,p):
-	if (player<0 || player_is_ai[player] || select!=CARD || cards[p][x]==null || p!=player):
+	if (player<0 || player_is_ai[player] || select!=HAND || cards[p][x]==null || p!=player):
 		return
 	
 	var enemy = PLAYER1
@@ -1070,7 +1078,7 @@ func unselect_unit():
 		get_node("Planet_"+str(x)+"/Select").hide()
 	selected_field = null
 	if (player>=0 && !player_is_ai[player]):
-		select = CARD
+		select = HAND
 
 func select_field(x,p):
 	if (player<0 || player_is_ai[player]):
@@ -1083,12 +1091,12 @@ func select_field(x,p):
 			else:
 				use_card_unit(x,selected_hand,player)
 			selected_target = null
-			emit_signal("target_selected",selected_target)
-	elif (select==CARD):
+#			emit_signal("target_selected",selected_target,NONE)
+	elif (select==HAND):
 		if (cards[p][x]!=null):
-			select_unit(x,p)
 			selected_target = null
-			emit_signal("target_selected",selected_target)
+#			emit_signal("target_selected",selected_target,NONE)
+			select_unit(x,p)
 	elif (select==EMPTY_OR_ENEMY):
 		if (cards[p][x]!=null && player!=p):
 			if (get_tree().has_network_peer()):
@@ -1096,18 +1104,21 @@ func select_field(x,p):
 			else:
 				attack_unit(selected_field,x,player,p,false)
 			selected_target = null
-			emit_signal("target_selected",selected_target)
+#			emit_signal("target_selected",selected_target,NONE)
 		elif (cards[p][x]==null && player==p):
 			if (get_tree().has_network_peer()):
 				rpc("move_unit",selected_field,x,player)
 			else:
 				move_unit(selected_field,x,player)
 			selected_target = null
-			emit_signal("target_selected",selected_target)
-	elif (select==ENEMY || select==FRIENDLY):
+#			emit_signal("target_selected",selected_target,NONE)
+	elif (select==ENEMY_UNIT || select==ALLY_UNIT):
 		if (cards[p][x]!=null):
+			var type = ALLY_UNIT
+			if (p!=player):
+				type = ENEMY_UNIT
 			selected_target = x
-			emit_signal("target_selected",selected_target)
+			emit_signal("target_selected",selected_target,type)
 
 func select_planet(x):
 	if (player<0 || player_is_ai[player]):
@@ -1116,7 +1127,7 @@ func select_planet(x):
 	var enemy = PLAYER1
 	if (player==PLAYER1):
 		enemy = PLAYER2
-	if (select==PLANET_FRIENDLY):
+	if (select==ALLY_PLANET):
 		if (field[x]!=null && field[x].owner==player):
 			if (Data.data[hand[player][selected_hand]]["type"]=="planet"):
 				if (get_tree().has_network_peer()):
@@ -1125,8 +1136,8 @@ func select_planet(x):
 					use_card_planet(x,selected_hand,player)
 				return
 			selected_target = x
-			emit_signal("target_selected",selected_target)
-	elif (select==PLANET_ENEMY):
+			emit_signal("target_selected",selected_target,ALLY_PLANET)
+	elif (select==ENEMY_PLANET):
 		if (field[x]!=null && field[x].owner!=player):
 			if (Data.data[hand[player][selected_hand]]["type"]=="planet"):
 				if (get_tree().has_network_peer()):
@@ -1135,7 +1146,7 @@ func select_planet(x):
 					use_card_planet(x,selected_hand,player)
 				return
 			selected_target = x
-			emit_signal("target_selected",selected_target)
+			emit_signal("target_selected",selected_target,ENEMY_PLANET)
 	elif (select==EMPTY_OR_ENEMY):
 		var guarded = false
 		for x1 in range(x*POSITIONS,(x+1)*POSITIONS):
@@ -1147,7 +1158,7 @@ func select_planet(x):
 			else:
 				bombard_unit(selected_field,x,player,enemy)
 			selected_target = null
-			emit_signal("target_selected",selected_target)
+#			emit_signal("target_selected",selected_target,NONE)
 
 func _input(event):
 	if (player<0 || player_is_ai[player]):
@@ -1157,7 +1168,7 @@ func _input(event):
 		if (select!=NONE):
 			unselect_hand()
 			unselect_unit()
-			select = CARD
+			select = HAND
 
 func _process(delta):
 	var last_pos = Vector2(50,200)

@@ -46,7 +46,7 @@
 		"rule":"PLUNDER_DESC",
 		"script":"
 			func on_attack(target):
-				player_used_points['pirates'] = max(player_used_points['pirates']-2,0)"
+				Main.player_used_points[self.owner]['pirates'] = max(Main.player_used_points['pirates']-2,0)"
 	},
 	"file":"looter"
 }

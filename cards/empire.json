@@ -30,14 +30,21 @@
 	"damage":4,
 	"level":2,
 	"effects":
-	{
-		"name":"REDUCE_DAMAGE_1-SELF-ATTACK",
-		"icon":"attack_down_1",
-		"rule":"REDUCE_DAMAGE_1-SELF-ATTACK_DESC",
-		"script":"
-			func on_attack(target):
-				self.damage = max(self.damage-1,0)"
-	},
+	[
+		{
+			"name":"REDUCE_DAMAGE_1-SELF-ATTACK",
+			"icon":"attack_down_1",
+			"rule":"REDUCE_DAMAGE_1-SELF-ATTACK_DESC",
+			"script":"
+				func on_attack(target):
+					self.damage = max(self.damage-1,0)"
+		},
+		{
+			"script":"
+				func on_bombard(target):
+					self.damage = max(self.damage-1,0)"
+		}
+	],
 	"file":"bomber"
 }
 {
@@ -61,14 +68,21 @@
 	"damage":6,
 	"level":4,
 	"effects":
-	{
-		"name":"REDUCE_DAMAGE_1-SELF-ATTACK",
-		"icon":"attack_down_1",
-		"rule":"REDUCE_DAMAGE_1-SELF-ATTACK_DESC",
-		"script":"
-			func on_attack(target):
-				self.damage = max(self.damage-1,0)"
-	},
+	[
+		{
+			"name":"REDUCE_DAMAGE_1-SELF-ATTACK",
+			"icon":"attack_down_1",
+			"rule":"REDUCE_DAMAGE_1-SELF-ATTACK_DESC",
+			"script":"
+				func on_attack(target):
+					self.damage = max(self.damage-1,0)"
+		},
+		{
+			"script":"
+				func on_bombard(target):
+					self.damage = max(self.damage-1,0)"
+		}
+	],
 	"file":"missile_frigate"
 }
 {
@@ -162,7 +176,7 @@
 					pi.set_global_position(pos)
 					pi.set_rotation(pos.angle_to_point(card.node.get_global_position())-PI/2.0)
 					Main.add_child(pi)
-					card.structure -= damage"
+					card.structure -= max(self.damage-card.shield,0)"
 		}
 	],
 	"file":"planetary_defense"
@@ -217,7 +231,7 @@
 				for target in range(floor(self.position/Main.POSITIONS)*Main.POSITIONS,(floor(self.position/Main.POSITIONS)+1)*Main.POSITIONS):
 					var card = Main.cards[self.player][target]
 					if (card!=null):
-						var max_structure = Data.calc_value(card.type,'structure')
+						var max_structure = Data.data[card.type,'structure']
 						if (card.structure<max_structure):
 							card.node.add_child(load('res://scenes/effects/repair03.tscn').instance())
 							card.structure = min(card.structure+2,max_structure)"
@@ -341,7 +355,7 @@
 			func on_use(target):
 				var card = Main.cards[self.owner][target]
 				card.shield += 1
-				card.node.add_child(load('res://scenes/effects/upg_armor.tscn').instance())",
+				card.node.add_child(load('res://scenes/effects/upg_shield.tscn').instance())",
 		"target":"ally_unit"
 	},
 	"file":"upg_shield"
@@ -361,7 +375,7 @@
 		"script":"
 			func on_use(target):
 				var card = Main.cards[self.owner][target]
-				var max_structure = Data.calc_value(card.type,'structure')
+				var max_structure = Data.data[card.type]['structure']
 				card.structure = min(card.structure+4,max_structure)
 				card.node.add_child(load('res://scenes/effects/repair01.tscn').instance())",
 		"target":"ally_unit"
@@ -403,9 +417,9 @@
 			"script":"
 				func on_spawn():
 					self.level = 0
-					points['empire'] = 2
-					player_points['empire'] += 2
-					player_used_points['empire'] += 2"
+					self.points['empire'] = 2
+					Main.player_points[self.owner]['empire'] += 2
+					Main.player_used_points[self.owner]['empire'] += 2"
 		},
 		{
 			"name":"PRODUCTION_2",
@@ -473,10 +487,10 @@
 			func on_next_turn(player):
 				if (player!=self.owner):
 					return
-				for target in range((self.position*Main.POSITIONS,(self.position+1)*Main.POSITIONS):
+				for target in range(self.position*Main.POSITIONS,(self.position+1)*Main.POSITIONS):
 					var card = Main.cards[self.player][target]
 					if (card!=null):
-						var max_structure = Data.calc_value(card.type,'structure')
+						var max_structure = Data.data[card.type]['structure']
 						if (card.structure<max_structure):
 							card.node.add_child(load('res://scenes/effects/repair03.tscn').instance())
 							card.structure = min(card.structure+2,max_structure)"

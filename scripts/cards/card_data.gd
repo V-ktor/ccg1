@@ -47,6 +47,8 @@ const INVENTORY_DEFAULT = {
 	"booby_trab":2,"suicide":1,"virus":2,
 	"large_mine_field":1
 }
+const TARGET_TYPE = {"hand":0,"empty":1,"unit":2,"ally_unit":3,"enemy_unit":4,"planet":5,"ally_planet":6,"enemy_planet":7,"empty_or_enemy":8}
+
 
 var data = {}
 var inventory = INVENTORY_DEFAULT.duplicate()
@@ -55,14 +57,6 @@ var deck = DECK_DEFAULT["empire"].duplicate()
 var cards_tier1 = [[],[],[],[],[]]
 var cards_tier2 = [[],[],[],[],[]]
 var cards_tier3 = [[],[],[],[],[]]
-
-
-class Test:
-	var property = 1
-	var extend
-	
-	func test1():
-		printt("test1")
 
 
 func load_path(path):
@@ -123,6 +117,8 @@ func load_path(path):
 			for s in ["movement_points","attack_points"]:
 				if (!currentline.has(s)):
 					currentline[s] = 1
+			if (currentline["type"]=="planet" && !currentline.has("target")):
+				currentline["target"] = "ally_planet"
 			# set 'effects' to array
 			if (!currentline.has("effects")):
 				currentline["effects"] = []
@@ -147,6 +143,8 @@ func load_path(path):
 					effect["target"] = []
 				elif (typeof(effect["target"])!=TYPE_ARRAY):
 					effect["target"] = [effect["target"]]
+				for i in range(effect["target"].size()):
+					effect["target"][i] = TARGET_TYPE[effect["target"][i]]
 			
 			# add card data
 			data[currentline["name"]] = currentline
@@ -256,19 +254,5 @@ func get_tier3_unit(faction="rnd"):
 	return card
 
 
-
-
 func _ready():
 	load_data()
-	
-	var script = GDScript.new()
-	var test = Test.new()
-	var ext = Test.new()
-	var code = 'func test2(s):	printt("Test2",s,_self.property,Data.MAX_CARDS)'
-	script.set_source_code("var _self\n"+code)
-	script.reload()
-	ext.set_script(script)
-	test.extend = ext
-	test.extend._self = test
-	test.test1()
-	test.extend.test2("string")
