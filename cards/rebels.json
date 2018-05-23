@@ -317,7 +317,7 @@
 			func on_use(target):
 				var card = Main.cards[self.owner][target]
 				var max_structure = Data.data[card.type]['structure']
-				card.structure = min(card.structure+5,max_structure)
+				card.structure = min(card.structure+5,max(max_structure,card.structure))
 				card.node.add_child(load('res://scenes/effects/repair04.tscn').instance())",
 		"target":"ally_unit"
 	},

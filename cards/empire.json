@@ -234,7 +234,7 @@
 						var max_structure = Data.data[card.type,'structure']
 						if (card.structure<max_structure):
 							card.node.add_child(load('res://scenes/effects/repair03.tscn').instance())
-							card.structure = min(card.structure+2,max_structure)"
+							card.structure = min(card.structure+2,max(max_structure,card.structure))"
 	},
 	"file":"repair03"
 }
@@ -376,7 +376,7 @@
 			func on_use(target):
 				var card = Main.cards[self.owner][target]
 				var max_structure = Data.data[card.type]['structure']
-				card.structure = min(card.structure+4,max_structure)
+				card.structure = min(card.structure+4,max(max_structure,card.structure))
 				card.node.add_child(load('res://scenes/effects/repair01.tscn').instance())",
 		"target":"ally_unit"
 	},
@@ -493,7 +493,7 @@
 						var max_structure = Data.data[card.type]['structure']
 						if (card.structure<max_structure):
 							card.node.add_child(load('res://scenes/effects/repair03.tscn').instance())
-							card.structure = min(card.structure+2,max_structure)"
+							card.structure = min(card.structure+2,max(max_structure,card.structure))"
 	},
 	"file":"orbital_drydock"
 }
