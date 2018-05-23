@@ -120,14 +120,13 @@
 						var tpos = card.node.get_global_position()
 						var new
 						Main.destroy_unit(self.position,self.owner,false)
-						Main.add_unit(self.position,card.type,owner)
-						new = Main.cards[self.owner][position]
+						Main.add_unit(self.position,card.type,self.owner)
+						new = Main.cards[self.owner][self.position]
 						new.structure = card.structure
 						new.damage = card.damage
 						new.shield = card.shield
 						new.attack_points = 0
 						new.movement_points = 0
-						new.update()
 						Main.destroy_unit(target,self.enemy,false)
 						timer.set_one_shot(true)
 						timer.set_wait_time(1.0)
@@ -248,9 +247,8 @@
 			func on_use(target):
 				var card = Main.cards[self.enemy][target]
 				card.shield = max(card.shield-1,0)
-				card.update()
 				card.node.add_child(load('res://scenes/effects/jam_shield.tscn').instance())",
-		"target":"enemy"
+		"target":"enemy_unit"
 	},
 	"file":"jam_shield"
 }
@@ -270,9 +268,8 @@
 			func on_use(target):
 				var card = Main.cards[self.enemy][target]
 				card.damage = max(card.damage-2,0)
-				card.update()
 				card.node.add_child(load('res://scenes/effects/cripple.tscn').instance())",
-		"target":"enemy"
+		"target":"enemy_unit"
 	},
 	"file":"cripple"
 }
@@ -294,9 +291,8 @@
 					var card = Main.cards[self.owner][target]
 					card.level = max(card.level-4,0)
 					card.structure = max(card.structure-1,1)
-					card.update()
 					card.node.add_child(load('res://scenes/effects/downgrade.tscn').instance())",
-			"target":"ally"
+			"target":"ally_unit"
 		},
 		{
 			"name":"REDUCE_STRUCTURE_1",
@@ -322,9 +318,8 @@
 				var card = Main.cards[self.owner][target]
 				var max_structure = Data.calc_value(card.type,'structure')
 				card.structure = min(card.structure+5,max_structure)
-				card.update()
 				card.node.add_child(load('res://scenes/effects/repair04.tscn').instance())",
-		"target":"ally"
+		"target":"ally_unit"
 	},
 	"file":"repair04"
 }
@@ -414,9 +409,7 @@
 		"rule":"SHIELD_1_DESC",
 		"script":"
 			func on_use(target):
-				Main.field[target].shield += 1
-				Main.field[target].update()",
-		"target":"ally_planet"
+				Main.field[target].shield += 1"
 	},
 	"file":"bunker_complex"
 }

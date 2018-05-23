@@ -130,7 +130,7 @@ func load_path(path):
 				currentline["effects"] = [currentline["effects"]]
 			for effect in currentline["effects"]:
 				if (effect.has("script")):
-					# set indentation right
+					# correct indentation
 					var p1
 					var p2
 					var n
@@ -141,7 +141,7 @@ func load_path(path):
 					for i in range(script.length()-1,-1,-1):
 						if (script[i]=="\n"):
 							script = script.substr(0,i+1)+script.substr(i+n+2,script.length()-i-n-2)
-					printt(p1,p2,script==effect["script"],"\n",script)
+#					printt(p1,p2,script==effect["script"],"\n",script)
 					effect["script"] = script
 				if (!effect.has("target")):
 					effect["target"] = []

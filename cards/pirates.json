@@ -87,9 +87,8 @@
 			func on_use(target):
 				var card = Main.cards[self.enemy][target]
 				card.structure -= max(4-card.shield,0)
-				card.update()
 				card.node.add_child(load('res://scenes/effects/torpedo.tscn').instance())",
-		"target":"enemy"
+		"target":"enemy_unit"
 	},
 	"file":"booby_trap"
 }
@@ -110,9 +109,8 @@
 					var unit = Main.cards[self.owner][ally]
 					var card = Main.cards[self.enemy][target]
 					card.structure -= max(unit.structure-card.shield,0)
-					card.update()
 					destroy_unit(ally,owner)",
-			"target":["ally","enemy"]
+			"target":["ally_unit","enemy_unit"]
 		}
 	],
 	"file":"suicide"
@@ -136,9 +134,8 @@
 					var card = Main.cards[self.enemy][target]
 					card.damage = max(card.damage-2,0)
 					card.shield = max(card.shield-1,0)
-					card.update()
 					card.node.add_child(load('res://scenes/effects/virus.tscn').instance())",
-			"target":"enemy"
+			"target":"enemy_unit"
 		},
 		{
 			"name":"JAM_1",
@@ -168,8 +165,7 @@
 					var card = Main.cards[self.enemy][target]
 					if (card!=null):
 						card.node.add_child(load('res://scenes/effects/mine.tscn').instance())
-						card.structure -= 2
-						card.update()"
+						card.structure -= 2"
 	},
 	"file":""
 }

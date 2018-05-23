@@ -162,8 +162,7 @@
 					pi.set_global_position(pos)
 					pi.set_rotation(pos.angle_to_point(card.node.get_global_position())-PI/2.0)
 					Main.add_child(pi)
-					card.structure -= damage
-					card.update()"
+					card.structure -= damage"
 		}
 	],
 	"file":"planetary_defense"
@@ -221,8 +220,7 @@
 						var max_structure = Data.calc_value(card.type,'structure')
 						if (card.structure<max_structure):
 							card.node.add_child(load('res://scenes/effects/repair03.tscn').instance())
-							card.structure = min(card.structure+2,max_structure)
-							card.update()"
+							card.structure = min(card.structure+2,max_structure)"
 	},
 	"file":"repair03"
 }
@@ -262,9 +260,8 @@
 			func on_use(target):
 				var card = Main.cards[self.enemy][target]
 				card.structure -= max(6-card.shield,0)
-				card.update()
 				card.node.add_child(load('res://scenes/effects/torpedo.tscn').instance())",
-		"target":"enemy"
+		"target":"enemy_unit"
 	},
 	"file":"torpedo"
 }
@@ -302,9 +299,8 @@
 			func on_use(target):
 				var card = Main.cards[self.owner][target]
 				card.damage += 2
-				card.update()
 				card.node.add_child(load('res://scenes/effects/upg_weapon.tscn').instance())",
-		"target":"ally"
+		"target":"ally_unit"
 	},
 	"file":"upg_weapon"
 }
@@ -324,9 +320,8 @@
 			func on_use(target):
 				var card = Main.cards[self.owner][target]
 				card.structure += 2
-				card.update()
 				card.node.add_child(load('res://scenes/effects/upg_armor.tscn').instance())",
-		"target":"ally"
+		"target":"ally_unit"
 	},
 	"file":"upg_armor"
 }
@@ -346,9 +341,8 @@
 			func on_use(target):
 				var card = Main.cards[self.owner][target]
 				card.shield += 1
-				card.update()
 				card.node.add_child(load('res://scenes/effects/upg_armor.tscn').instance())",
-		"target":"ally"
+		"target":"ally_unit"
 	},
 	"file":"upg_shield"
 }
@@ -369,9 +363,8 @@
 				var card = Main.cards[self.owner][target]
 				var max_structure = Data.calc_value(card.type,'structure')
 				card.structure = min(card.structure+4,max_structure)
-				card.update()
 				card.node.add_child(load('res://scenes/effects/repair01.tscn').instance())",
-		"target":"ally"
+		"target":"ally_unit"
 	},
 	"file":"repair01"
 }
@@ -390,8 +383,7 @@
 		"script":"
 			func on_use(target):
 				var card = Main.field[target]
-				card.structure += 6
-				card.update()",
+				card.structure += 6",
 		"target":"ally_planet"
 	},
 	"file":""
@@ -437,8 +429,7 @@
 		"rule":"SHIELD_1_DESC",
 		"script":"
 			func on_use(target):
-				Main.field[target].shield += 1
-				Main.field[target].update()",
+				Main.field[target].shield += 1",
 		"target":"ally_planet"
 	},
 	"file":"planetary_barrier"
@@ -463,8 +454,7 @@
 					var card = Main.cards[enemy][target]
 					if (card!=null):
 						card.node.add_child(load('res://scenes/effects/mine.tscn').instance())
-						card.structure -= 1
-						card.update()"
+						card.structure -= 1"
 	},
 	"file":""
 }
@@ -489,8 +479,7 @@
 						var max_structure = Data.calc_value(card.type,'structure')
 						if (card.structure<max_structure):
 							card.node.add_child(load('res://scenes/effects/repair03.tscn').instance())
-							card.structure = min(card.structure+2,max_structure)
-							card.update()"
+							card.structure = min(card.structure+2,max_structure)"
 	},
 	"file":"orbital_drydock"
 }

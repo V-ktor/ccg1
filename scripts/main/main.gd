@@ -134,17 +134,17 @@ class Unit:
 		for effect in _effects:
 			if (effect.has("script")):
 				code += effect["script"]+"\n"
-		script.set_source_code(code)
-		printt(script,"\n",code)
-		script.reload()
-		effects.set_script(script)
 		for effect in _effects:
 			if (effect.has("script")):
 				var p1 = effect["script"].find("func ")+5
 				var p2 = effect["script"].find("(",p1)
 				var property = effect["script"].substr(p1,p2-p1)+"_targets"
 				printt(property,effect["target"])
-				effects.set(property,effect["target"])
+				code += "var "+property+" = "+str(effect["target"])+"\n"
+		script.set_source_code(code)
+		printt(script,"\n",code)
+		script.reload()
+		effects.set_script(script)
 		effects._self = self
 		effects.Main = Main
 		
@@ -161,6 +161,7 @@ class Unit:
 	func update():
 		if (structure<0):
 			structure = 0
+			Main.destroy_unit(position,owner)
 		Cards.update_values(node,level,structure,damage,shield)
 		node.get_node("VBoxContainer/Structure").show()
 		node.get_node("Effects/Attack").set_visible(attack_points>0)
@@ -172,7 +173,9 @@ class Planet:
 	var planet
 	var image
 	
-	func _init(_root,_type,_structure,_damage,_shield,_level,effects,_cards,_owner,_image,pos):
+	func _init(_root,_type,_structure,_damage,_shield,_level,_effects,_cards,_owner,_image,pos):
+		var code = "var _self\nvar Main\n"
+		var script = GDScript.new()
 		var img = Sprite.new()
 		Main = _root
 		node = Cards.base.instance()
@@ -194,19 +197,25 @@ class Planet:
 		owner = _owner
 		enemy = int(!owner)
 		image = _image
-		for effect in effects:
+		
+		# add script to this class
+		effects = Card.new()
+		for effect in _effects:
 			if (effect.has("script")):
-				# add script to this class
-				var script = GDScript.new()
-				script.set_source_code(effect["script"])
-				script.reload()
-				set_script(script)
-				
+				code += effect["script"]+"\n"
+		for effect in _effects:
+			if (effect.has("script")):
 				var p1 = effect["script"].find("func ")+5
 				var p2 = effect["script"].find("(",p1)
-				var property = effect["script"].substr(p1,p2-p1)
+				var property = effect["script"].substr(p1,p2-p1)+"_targets"
 				printt(property,effect["target"])
-				set(property,effect["target"])
+				code += "var "+property+" = "+str(effect["target"])+"\n"
+		script.set_source_code(code)
+		printt(script,"\n",code)
+		script.reload()
+		effects.set_script(script)
+		effects._self = self
+		effects.Main = Main
 		
 		Main.get_node("Planet_"+str(pos)).add_child(node)
 		node.set_process(true)
@@ -232,6 +241,7 @@ class Planet:
 					c.queue_free()
 			
 			# update displayed effects here
+			
 	
 
 
@@ -250,7 +260,7 @@ var ai
 func ai_timer():
 	get_node("AiTimer").set_wait_time(0.25)
 	
-	# skip AI turn
+	# skip AI turns
 	get_node("TimerNextTurn").start()
 	return
 	
@@ -307,14 +317,28 @@ func add_card_planet(pos,ID):
 	field[pos].type = ID
 	field[pos].level = card["level"]
 	
-	# execute effects here
-	
 	field[pos].update()
 
 func end_turn():
 	player = NEUTRAL
 	select = NONE
 	get_node("TimerNextTurn").start()
+
+func add_target(target,list):
+	list.push_back(target)
+
+remote func execute_effect(event,card,_args=[]):
+	if (card.effects.has_method(event)):
+		var args = []+_args
+		# force the player to select targets
+		for target in card.effects.get(event+"_targets"):
+			printt("select ",select,"...")
+			select = target
+			connect("target_selected",self,"add_target",[args])
+			yield(self,"target_selected")
+		printt(event,card,args)
+		card.effects.callv(event,args)
+	update()
 
 remote func use_card_effect(targets,ID,player):
 	printt("use effect card",targets,ID,player,hand[player][ID])
@@ -342,6 +366,7 @@ remote func use_card_planet(x,ID,player):
 	add_card_planet(x,hand[player][ID])
 	
 	# execute effects here
+	execute_effect("on_spawn",cards[x])
 	
 	player_used_points[player][Data.data[hand[player][ID]]["faction"]] += Data.calc_value(hand[player][ID],"level")
 	unselect_hand()
@@ -358,7 +383,7 @@ remote func use_card_unit(x,ID,player):
 	var enemy = abs(1-player)
 	add_unit(x,hand[player][ID],player)
 	
-	# execute effects here
+	execute_effect("on_spawn",cards[player][x])
 	
 	player_used_points[player][Data.data[hand[player][ID]]["faction"]] += Data.calc_value(hand[player][ID],"level")
 	unselect_hand()
@@ -386,12 +411,11 @@ remote func attack_unit(attacker,target,player,enemy):
 	if (cards[player][attacker]==null || cards[player][attacker].attack_points<1 || cards[enemy][target]==null || floor(attacker/POSITIONS)!=floor(target/POSITIONS)):
 		return
 	
-	var card_a = Data.data[cards[player][attacker].type]
-	var card_t = Data.data[cards[enemy][target].type]
 	var damage = max(cards[player][attacker].damage-cards[enemy][target].shield,0)
 	var t_pos = cards[enemy][target].node.get_global_position()
 	
-	# execute effects here
+	execute_effect("on_attack",cards[player][attacker],[target])
+	execute_effect("on_attacked",cards[enemy][target],[attacker])
 	
 	if (damage<=0):
 		return
@@ -406,9 +430,6 @@ remote func attack_unit(attacker,target,player,enemy):
 	cards[enemy][target].structure -= damage
 	cards[player][attacker].update()
 	cards[enemy][target].update()
-	if (cards[enemy][target].structure<=0):
-		destroy_unit(target,enemy)
-	
 	
 	update_resources()
 	unselect_unit()
@@ -421,11 +442,11 @@ remote func bombard_unit(attacker,target,player,enemy):
 		if (cards[enemy][x]!=null):
 			return
 	
-	var card_a = Data.data[cards[player][attacker].type]
-	var card_t
-	if (field[target].type!=""):
-		card_t = Data.data[field[target].type]
 	var damage = max(cards[player][attacker].damage-field[target].shield,0)
+	
+	execute_effect("on_bombard",cards[player][attacker],[target])
+	execute_effect("on_bombarded",field[target],[attacker])
+	
 	if (damage<=0):
 		return
 	
@@ -454,6 +475,8 @@ remote func move_unit(from,to,player):
 		return
 	
 	add_unit(to,cards[player][from].type,player,get_node("Card_"+str(from)+"_"+str(player)).get_global_position()-get_node("Card_"+str(to)+"_"+str(player)).get_global_position())
+	
+	execute_effect("on_moved",cards[player][to])
 	
 	cards[player][to].level = cards[player][from].level
 	cards[player][to].structure = cards[player][from].structure
@@ -504,6 +527,15 @@ func update_resources():
 				get_node("UI/Player"+str(int(p!=main_player)+1)+"/VBoxContainer/Points"+f.capitalize()+"/Point"+str(i)).set_texture(point_textures[f][1])
 				get_node("UI/Player"+str(int(p!=main_player)+1)+"/VBoxContainer/Points"+f.capitalize()+"/Point"+str(i)).show()
 	
+
+func update():
+	update_resources()
+	for p in range(NUM_PLAYERS):
+		for x in range(SIZE*POSITIONS):
+			if (cards[p][x]!=null):
+				cards[p][x].update()
+	for x in range(SIZE):
+		field[x].update()
 
 
 func _next_turn():
@@ -1171,6 +1203,7 @@ func _ready():
 	_resize()
 	get_node("UI/Player1/VBoxContainer/Button").connect("pressed",self,"_next_turn")
 	get_node("UI/Player1/VBoxContainer/ButtonD").connect("pressed",self,"_discard_hand")
+	rpc_config("execute_effect",RPC_MODE_SYNC)
 	rpc_config("set_hand",RPC_MODE_SYNC)
 	rpc_config("use_card_unit",RPC_MODE_SYNC)
 	rpc_config("use_card_effect",RPC_MODE_SYNC)
