@@ -114,7 +114,7 @@ class Unit:
 	var movement_points
 	
 	func _init(_root,_type,_structure,_damage,_shield,_level,_effects,_player,pos,pos0,rot):
-		var code = "var _self\n"
+		var code = "var _self\nvar Main\n"
 		var script = GDScript.new()
 		Main = _root
 		node = Cards.create_card(_type)
@@ -146,6 +146,7 @@ class Unit:
 				printt(property,effect["target"])
 				effects.set(property,effect["target"])
 		effects._self = self
+		effects.Main = Main
 		
 		node.set_draw_behind_parent(true)
 		node.set_name("Card")
@@ -170,7 +171,6 @@ class Planet:
 	extends Card
 	var planet
 	var image
-	var revolt = false
 	
 	func _init(_root,_type,_structure,_damage,_shield,_level,effects,_cards,_owner,_image,pos):
 		var img = Sprite.new()
@@ -225,27 +225,13 @@ class Planet:
 			node.get_node("Desc").set_text("")
 		else:
 			var text = ""
-			var effects = Data.data[type]["effects"]
-			var targets = Data.data[type]["targets"]
-			var events = Data.data[type]["events"]
 			node.get_node("Name").set_text(tr(Data.data[type]["name"].to_upper()))
 			for c in node.get_node("Description/ScrollContainer/VBoxContainer").get_children()+node.get_node("Effects").get_children():
 				if (c.get_name()!="Effect"):
 					c.set_name("deleted")
 					c.queue_free()
-			for i in range(effects.size()):
-				var t = effects[i]+"-"+targets[i]+"-"+events[i]
-				var pi = node.get_node("Description/Effect").duplicate()
-				if (Cards.icon_effect.has(t)):
-					var ti = node.get_node("Effects/Effect").duplicate()
-					ti.set_texture(Cards.icon_effect[t])
-					ti.set_name("Effect"+str(i))
-					ti.show()
-					node.get_node("Effects").add_child(ti)
-				pi.set_name("Effect"+str(i))
-				pi.get_node("Name").set_text(tr(t.to_upper().replace(" ","_")))
-				pi.get_node("Desc").set_text(tr(t.to_upper().replace(" ","_")+"_DESC"))
-				node.get_node("Description/ScrollContainer/VBoxContainer").add_child(pi)
+			
+			# update displayed effects here
 	
 
 
@@ -315,11 +301,10 @@ func add_card_planet(pos,ID):
 	var card = Data.data[ID]
 	field[pos].shield += Data.calc_value(ID,"shield")
 	field[pos].type = ID
-	field[pos].level = card["level"]*(1-int("cheap" in card["effects"]))
-	if (card["effects"].has("production 2")):
-		field[pos].points[card["faction"]] = 2
-		player_points[field[pos].owner][card["faction"]] += 2
-		player_used_points[field[pos].owner][card["faction"]] += 2
+	field[pos].level = card["level"]
+	
+	# execute effects here
+	
 	field[pos].update()
 
 func end_turn():
@@ -333,26 +318,7 @@ remote func use_card_effect(targets,ID,player):
 	if (Data.calc_value(hand[player][ID],"level")>player_points[player][faction]-player_used_points[player][faction]):
 		return
 	
-	var effects = Data.data[hand[player][ID]]["effects"]
-	var type = Data.data[hand[player][ID]]["targets"]
-	var enemy = PLAYER1
-	if (player==PLAYER1):
-		enemy = PLAYER2
-	for i in range(type.size()):
-		if (type[i]=="friendly"):
-			targets[i] = cards[player][targets[i]]
-		elif (type[i]=="enemy"):
-			targets[i] = cards[enemy][targets[i]]
-		elif (type[i]=="friendly planet" || type[i]=="enemy planet"):
-			targets[i] = field[targets[i]]
-	for i in range(effects.size()):
-		if (typeof(targets[i])==TYPE_STRING):
-			if (targets[i]=="player"):
-				apply_effect(player,effects[i],hand[player][ID])
-			elif (targets[i]=="opposite"):
-				apply_effect(enemy,effects[i],hand[player][ID])
-		else:
-			apply_effect_target(effects[i],player,enemy,targets[i],hand[player][ID])
+	# execute effects here
 	
 	player_used_points[player][Data.data[hand[player][ID]]["faction"]] += Data.calc_value(hand[player][ID],"level")
 	unselect_hand()
@@ -368,23 +334,10 @@ remote func use_card_planet(x,ID,player):
 	if (Data.calc_value(hand[player][ID],"level")>player_points[player][faction]-player_used_points[player][faction]):
 		return
 	
-	var targets = Data.data[hand[player][ID]]["targets"]
-	var effects = Data.data[hand[player][ID]]["effects"]
-	var enemy = PLAYER1
-	if (player==PLAYER1):
-		enemy = PLAYER2
-	if (targets[0]=="friendly planet"):
-		if (field[x]==null || field[x].owner!=player):
-			return
-		
-		remove_card_planet(x)
-		add_card_planet(x,hand[player][ID])
-	elif (targets[0]=="enemy planet"):
-		if (field[x]==null || field[x].owner==player):
-			return
-		
-		remove_card_planet(x)
-		add_card_planet(x,hand[player][ID])
+	remove_card_planet(x)
+	add_card_planet(x,hand[player][ID])
+	
+	# execute effects here
 	
 	player_used_points[player][Data.data[hand[player][ID]]["faction"]] += Data.calc_value(hand[player][ID],"level")
 	unselect_hand()
@@ -395,22 +348,13 @@ remote func use_card_planet(x,ID,player):
 
 remote func use_card_unit(x,ID,player):
 	var card = Data.data[hand[player][ID]]
-	if (cards[player][x]!=null || (field[floor(x/POSITIONS)].owner!=player && !field[floor(x/POSITIONS)].revolt && !("partisan" in card["effects"])) || Data.calc_value(hand[player][ID],"level")>player_points[player][card["faction"]]-player_used_points[player][card["faction"]]):
+	if (cards[player][x]!=null || field[floor(x/POSITIONS)].owner!=player || Data.calc_value(hand[player][ID],"level")>player_points[player][card["faction"]]-player_used_points[player][card["faction"]]):
 		return
 	
 	var enemy = abs(1-player)
 	add_unit(x,hand[player][ID],player)
 	
-	for i in range(card["events"].size()):
-		if (card["events"][i]=="spawn"):
-			if (card["targets"][i]=="self"):
-				apply_effect_target(card["effects"][i],player,enemy,cards[player][x],hand[player][ID])
-			elif (card["targets"][i]=="player"):
-				apply_effect(player,card["effects"][i],hand[player][ID])
-			elif (card["targets"][i]=="opposite"):
-				for p in range(NUM_PLAYERS):
-					if (p!=player):
-						apply_effect(player,card["effects"][i],hand[player][ID])
+	# execute effects here
 	
 	player_used_points[player][Data.data[hand[player][ID]]["faction"]] += Data.calc_value(hand[player][ID],"level")
 	unselect_hand()
@@ -421,24 +365,6 @@ remote func use_card_unit(x,ID,player):
 	update_cards()
 	emit_signal("unit_used")
 
-func apply_effect(player,effect,ID):
-	if (effect=="draw 2"):
-		for k in range(2):
-			if (main_player==0):
-				draw_card(player)
-	elif (effect=="draw 3"):
-		for k in range(3):
-			if (main_player==0):
-				draw_card(player)
-	elif (effect=="remove 2"):
-		if (main_player==0):
-			remove_cards(player,2)
-	elif (effect=="remove 3"):
-		if (main_player==0):
-			remove_cards(player,3)
-	elif (effect=="points 2"):
-		if (player_used_points[player].has(Data.data[ID]["faction"])):
-			player_used_points[player][Data.data[ID]["faction"]] = max(player_used_points[player][Data.data[ID]["faction"]]-2,0)
 
 func remove_cards(player,num):
 	for k in range(min(num,hand[player].size())):
@@ -451,176 +377,41 @@ func remove_cards(player,num):
 func remove_card_ID(player,ID):
 	hand[player].remove(ID)
 
-func apply_effect_target(effect,player,enemy,target,ID):
-	if (Data.data[ID]["type"]!="unit"):
-		var ps = load("res://scenes/effects/"+Data.data[ID]["file"]+".tscn")
-		if (ps!=null && target!=null):
-			target.node.add_child(ps.instance())
-	if (effect=="direct damage 4" || effect=="direct damage 6" || effect=="direct damage 7"):
-		target.structure -= max(Data.calc_value(ID,"damage")-target.shield,0)
-		target.update()
-		if (target.structure<=0):
-			var x
-			for y in range(SIZE*POSITIONS):
-				if (cards[enemy][y]==target):
-					x = y
-					break
-			if (x!=null):
-				destroy_unit(x,enemy)
-	elif (effect=="increase damage 2"):
-		target.damage += 2
-	elif (effect=="armor 2"):
-		target.structure += 2
-	elif (effect=="reduce structure 1"):
-		target.structure = max(target.structure-1,1)
-	elif (effect=="reduce damage 2"):
-		target.damage = max(target.damage-2,0)
-	elif (effect=="shield 1"):
-		target.shield += 1
-	elif (effect=="jam 1"):
-		target.shield = max(target.shield-1,0)
-	elif (effect=="repair 4"):
-		target.structure = min(target.structure+4,max(target.structure,Data.calc_value(target.type,"structure")))
-	elif (effect=="repair 5"):
-		target.structure = min(target.structure+5,max(target.structure,Data.calc_value(target.type,"structure")))
-	elif (effect=="repair 6"):
-		target.structure = min(target.structure+6,max(target.structure,Data.calc_value(target.type,"structure")))
-	elif (effect=="terraform"):
-		target.planet += sign(PLANET_TERRAN-target.planet)
-	elif (effect=="defense 4"):
-		target.structure += 4
-	elif (effect=="defense 6"):
-		target.structure += 6
-	elif (effect=="reduce damage 1"):
-		target.damage = max(target.damage-1,0)
-	elif (effect=="reduce damage 2"):
-		target.damage = max(target.damage-2,0)
-	elif (effect=="reduce cost 4"):
-		target.level = max(target.level-4,0)
-	elif (effect=="cheap"):
-		target.level = 0
-	elif (effect=="points 1"):
-		player_used_points[player][Data.data[ID]["faction"]] = max(player_used_points[player][Data.data[ID]["faction"]]-1,0)
-		update_resources()
-	elif (effect=="points 2"):
-		player_used_points[player][Data.data[ID]["faction"]] = max(player_used_points[player][Data.data[ID]["faction"]]-2,0)
-		update_resources()
-	elif (effect=="take over"):
-		target.structure = 0
-		target.owner = player
-		target.update()
-	elif (effect=="revolt"):
-		target.revolt = true
-	elif (effect=="destruction"):
-		var x
-		for y in range(SIZE*POSITIONS):
-			if (cards[player][y]==target):
-				x = y
-				break
-		if (x!=null):
-			destroy_unit(x,player)
-	
-	if (target!=null):
-		target.update()
 
-
-remote func attack_unit(attacker,target,player,enemy,counterattack=false):
-	if (cards[player][attacker]==null || (cards[player][attacker].attack_points<1 && !counterattack) || cards[enemy][target]==null || ("no attack" in Data.data[cards[player][attacker].type]["effects"] && !counterattack) || floor(attacker/POSITIONS)!=floor(target/POSITIONS)):
+remote func attack_unit(attacker,target,player,enemy):
+	if (cards[player][attacker]==null || cards[player][attacker].attack_points<1 || cards[enemy][target]==null || floor(attacker/POSITIONS)!=floor(target/POSITIONS)):
 		return
 	
 	var card_a = Data.data[cards[player][attacker].type]
 	var card_t = Data.data[cards[enemy][target].type]
 	var damage = max(cards[player][attacker].damage-cards[enemy][target].shield,0)
-	var capture = false
-	var counter = false
 	var t_pos = cards[enemy][target].node.get_global_position()
-	for i in range(card_a["effects"].size()):
-		if (card_a["events"][i]=="attack"):
-			if (card_a["effects"][i]=="penetrate shield"):
-				damage = cards[player][attacker].damage
-			elif (card_a["effects"][i]=="capture"):
-				capture = cards[enemy][target].structure<=damage
-			else:
-				if (card_a["targets"][i]=="self"):
-					apply_effect_target(card_a["effects"][i],player,enemy,cards[player][attacker],cards[player][attacker].type)
-				elif (card_a["targets"][i]=="target"):
-					apply_effect_target(card_a["effects"][i],player,enemy,cards[enemy][target],cards[player][attacker].type)
-				elif (card_a["targets"][i]=="player"):
-					apply_effect(player,card_a["effects"][i],cards[player][attacker].type)
-				elif (card_a["targets"][i]=="opposite"):
-					apply_effect(enemy,card_a["effects"][i],cards[player][attacker].type)
-	for i in range(card_t["effects"].size()):
-		if (card_t["events"][i]=="attacked"):
-			if (card_t["targets"][i]=="attacker"):
-				if (card_t["effects"][i]=="counterattack"):
-					counter = true
-			elif (card_t["targets"][i]=="self"):
-				apply_effect_target(card_t["effects"][i],enemy,player,cards[enemy][target],cards[enemy][target].type)
-			elif (card_t["targets"][i]=="target"):
-				apply_effect_target(card_t["effects"][i],enemy,player,cards[player][attacker],cards[enemy][target].type)
-			elif (card_t["targets"][i]=="player"):
-				apply_effect(enemy,card_t["effects"][i],cards[enemy][target].type)
-			elif (card_t["targets"][i]=="opposite"):
-				apply_effect(player,card_t["effects"][i],cards[enemy][target].type)
+	
+	# execute effects here
 	
 	if (damage<=0):
 		return
 	
-	if (!counterattack):
-		cards[player][attacker].attack_points -= 1
+	var pi = load("res://scenes/effects/"+Data.data[cards[player][attacker].type]["file"]+".tscn").instance()
+	var pos = cards[player][attacker].node.get_global_position()
+	cards[player][attacker].attack_points -= 1
+	pi.set_scale(Vector2(1,pos.distance_to(cards[enemy][target].node.get_global_position())/800.0))
+	pi.set_global_position(pos)
+	pi.set_rotation(pos.angle_to_point(cards[enemy][target].node.get_global_position())-PI/2.0)
+	add_child(pi)
+	cards[enemy][target].structure -= damage
+	cards[player][attacker].update()
+	cards[enemy][target].update()
+	if (cards[enemy][target].structure<=0):
+		destroy_unit(target,enemy)
 	
-	if (capture):
-		var pi = load("res://scenes/effects/"+Data.data[cards[player][attacker].type]["file"]+".tscn").instance()
-		var pos = cards[player][attacker].node.get_global_position()
-		pi.set_scale(Vector2(1,pos.distance_to(cards[enemy][target].node.get_global_position())/800.0))
-		pi.set_global_position(pos)
-		pi.set_rotation(pos.angle_to_point(cards[enemy][target].node.get_global_position())-PI/2.0)
-		add_child(pi)
-		destroy_unit(attacker,player)
-		add_unit(attacker,cards[enemy][target].type,player)
-		cards[player][attacker].structure = cards[enemy][target].structure
-		cards[player][attacker].damage = cards[enemy][target].damage
-		cards[player][attacker].shield = cards[enemy][target].shield
-		cards[player][attacker].attacked = true
-		cards[player][attacker].moved = true
-		cards[player][attacker].update()
-		destroy_unit(target,enemy,false)
-		counter = false
-	else:
-		var pi = load("res://scenes/effects/"+Data.data[cards[player][attacker].type]["file"]+".tscn").instance()
-		var pos = cards[player][attacker].node.get_global_position()
-		pi.set_scale(Vector2(1,pos.distance_to(cards[enemy][target].node.get_global_position())/800.0))
-		pi.set_global_position(pos)
-		pi.set_rotation(pos.angle_to_point(cards[enemy][target].node.get_global_position())-PI/2.0)
-		add_child(pi)
-		cards[enemy][target].structure -= damage
-		cards[player][attacker].update()
-		cards[enemy][target].update()
-		if (cards[enemy][target].structure<=0):
-			destroy_unit(target,enemy)
-			counter = false
-	
-	if (!counterattack && counter):
-		attack_unit(target,attacker,enemy,player,true)
 	
 	update_resources()
 	unselect_unit()
 	emit_signal("unit_attacked")
-	
-	if (capture):
-		var timer = Timer.new()
-		timer.set_one_shot(true)
-		timer.set_wait_time(1.0)
-		add_child(timer)
-		timer.start()
-		
-		yield(timer,"timeout")
-		cards[player][attacker].node.set_global_position(t_pos)
-		cards[player][attacker].node.set_rotation(-(player+main_player)*PI)
-		cards[player][attacker].node.get_node("Description").set_rotation(-(player+main_player)*PI)
 
 remote func bombard_unit(attacker,target,player,enemy):
-	if (cards[player][attacker]==null || cards[player][attacker].attack_points<1 || field[target].owner==player || "no attack" in Data.data[cards[player][attacker].type] || floor(attacker/POSITIONS)!=target):
+	if (cards[player][attacker]==null || cards[player][attacker].attack_points<1 || field[target].owner==player || floor(attacker/POSITIONS)!=target):
 		return
 	for x in range(target*POSITIONS,(target+1)*POSITIONS):
 		if (cards[enemy][x]!=null):
@@ -631,32 +422,13 @@ remote func bombard_unit(attacker,target,player,enemy):
 	if (field[target].type!=""):
 		card_t = Data.data[field[target].type]
 	var damage = max(cards[player][attacker].damage-field[target].shield,0)
-	for i in range(card_a["effects"].size()):
-		if (card_a["events"][i]=="attack"):
-			if (card_a["effects"][i]=="penetrate shield"):
-				damage = cards[player][attacker].damage
-			elif (card_a["effects"][i]=="bombardment 1"):
-				damage += 1
-			elif (card_a["effects"][i]=="bombardment 2"):
-				damage += 2
-			else:
-				if (card_a["targets"][i]=="self"):
-					apply_effect_target(card_a["effects"][i],player,enemy,cards[player][attacker],cards[player][attacker].type)
-				elif (card_a["targets"][i]=="target"):
-					apply_effect_target(card_a["effects"][i],player,enemy,cards[enemy][target],cards[player][attacker].type)
-				elif (card_a["targets"][i]=="player"):
-					apply_effect(player,card_a["effects"][i],cards[player][attacker].type)
-				elif (card_a["targets"][i]=="opposite"):
-					apply_effect(enemy,card_a["effects"][i],cards[player][attacker].type)
-	
 	if (damage<=0):
 		return
-	
-	cards[player][attacker].attack_points -= 1
 	
 	var pi = load("res://scenes/effects/"+Data.data[cards[player][attacker].type]["file"]+".tscn").instance()
 	var offset = Vector2(0,0)
 	var pos = cards[player][attacker].node.get_global_position()+offset
+	cards[player][attacker].attack_points -= 1
 	pi.set_position(offset)
 	pi.set_scale(Vector2(1,pos.distance_to(field[target].node.get_global_position())/800.0))
 	pi.set_global_position(pos)
@@ -674,7 +446,7 @@ remote func bombard_unit(attacker,target,player,enemy):
 	emit_signal("unit_invaded")
 
 remote func move_unit(from,to,player):
-	if (cards[player][from]==null || cards[player][to]!=null || cards[player][from].movement_points<1 || floor(from/POSITIONS)==floor(to/POSITIONS) || "unmoveable" in Data.data[cards[player][from].type]["effects"]):
+	if (cards[player][from]==null || cards[player][to]!=null || cards[player][from].movement_points<1 || floor(from/POSITIONS)==floor(to/POSITIONS)):
 		return
 	
 	add_unit(to,cards[player][from].type,player,get_node("Card_"+str(from)+"_"+str(player)).get_global_position()-get_node("Card_"+str(to)+"_"+str(player)).get_global_position())
@@ -730,31 +502,6 @@ func update_resources():
 	
 
 
-
-func drydock(pos,player,ID):
-	var target
-	var thp = 9999
-	for tx in range(floor(pos/POSITIONS)*POSITIONS,(floor(pos/POSITIONS)+1)*POSITIONS):
-		if (cards[player][tx]!=null && (cards[player][tx].structure<thp && cards[player][tx].structure<Data.calc_value(cards[player][tx].type,"structure"))):
-			thp = cards[player][tx].structure
-			target = tx
-	if (target!=null):
-		var pi = load("res://scenes/effects/"+Data.data[ID]["file"]+".tscn").instance()
-		var max_structure = Data.calc_value(cards[player][target].type,"structure")
-		cards[player][target].node.add_child(pi)
-		cards[player][target].structure += Data.calc_value(ID,"repair")
-		if (cards[player][target].structure>max_structure):
-			cards[player][target].structure = max_structure
-		cards[player][target].update()
-
-func mines(pos,enemy,damage):
-	for tx in range(floor(pos/POSITIONS)*POSITIONS,(floor(pos/POSITIONS)+1)*POSITIONS):
-		if (cards[enemy][tx]!=null && (cards[enemy][tx].structure>1)):
-			cards[enemy][tx].structure -= damage
-			if (cards[enemy][tx].structure<1):
-				cards[enemy][tx].structure = 1
-			cards[enemy][tx].update()
-
 func _next_turn():
 	if (!started):
 		discard_cards()
@@ -793,24 +540,14 @@ remote func next_turn():
 		if (cards[player][x]!=null):
 			var pos = floor(x/POSITIONS)
 			var card = Data.data[cards[player][x].type]
-			cards[player][x].attack_points = Data.calc_data(cards[player][x].type,"attack_points")
-			cards[player][x].movement_points = Data.calc_data(cards[player][x].type,"movement_points")
+			cards[player][x].attack_points = Data.data[cards[player][x].type]["attack_points"]
+			cards[player][x].movement_points = Data.data[cards[player][x].type]["movement_points"]
 			num_units += 1
 #			cards[player][x].level = max(cards[player][x].level-1,1)
 			if (player_used_points[player].has(card["faction"])):
 				player_used_points[player][card["faction"]] += cards[player][x].level
-			for i in range(card["effects"].size()):
-				if (card["events"][i]=="player turn"):
-					if (card["effects"][i]=="drydock"):
-						drydock(x,player,cards[player][x].type)
-					elif (card["effects"][i]=="mines 1"):
-						mines(x,1-player,Data.calc_value(cards[player][x].type,"mine damage"))
-					elif (card["effects"][i]=="self desctruction"):
-						destroy_unit(x,player,false)
-						num_units -= 1
 			cards[player][x].update()
 	for x in range(SIZE):
-		field[x].revolt = false
 		if (field[x].owner==player):
 			num_planets += 1
 			if (field[x].structure<20):
@@ -825,22 +562,6 @@ remote func next_turn():
 					field[x].structure = 1
 				for f in field[x].points.keys():
 					player_points[player][f] += field[x].points[f]
-				for i in range(card["effects"].size()):
-					if (card["events"][i]=="player turn"):
-						if (card["effects"][i]=="drydock"):
-							drydock(x,player,field[x].type)
-						elif (card["effects"][i]=="mines 1" || card["effects"][i]=="mines 2"):
-							mines(x,1-player,Data.calc_value(field[x].type,"mine damage"))
-						elif (card["effects"][i]=="spawn light_fighter"):
-							var pos = -1
-							for y in range(POSITIONS):
-								if (cards[player][x*POSITIONS+y]==null):
-									pos = x*POSITIONS+y
-									break
-							if (pos>=0):
-								add_unit(pos,"light_fighter",player)
-						elif (card["effects"][i]=="self desctruction"):
-							remove_card_planet(x)
 		field[x].update()
 	for f in player_used_points[player].keys():
 		if (player_used_points[player][f]>player_points[player][f]):
@@ -1178,7 +899,7 @@ func select_hand(index,player):
 		if (type=="unit"):
 			select = EMPTY
 			for x in range(SIZE*POSITIONS):
-				if (cards[player][x]==null && (field[floor(x/POSITIONS)].owner==player || field[floor(x/POSITIONS)].revolt || ("partisan" in Data.data[hand[player][index]]["effects"]))):
+				if (cards[player][x]==null && (field[floor(x/POSITIONS)].owner==player)):
 					get_node("Card_"+str(x)+"_"+str(player)+"/Select").show()
 					get_node("Card_"+str(x)+"_"+str(player)+"/Select").set_modulate(Color(0.0,1.0,0.0))
 		elif (type=="planet"):
@@ -1287,7 +1008,7 @@ func select_unit(x,p):
 	select = EMPTY_OR_ENEMY
 	get_node("Card_"+str(x)+"_"+str(p)+"/Select").set_modulate(Color(0.0,1.0,0.0))
 	get_node("Card_"+str(x)+"_"+str(p)+"/Select").show()
-	if (cards[p][x].attack_points>0 && !("no attack" in Data.data[cards[p][x].type]["effects"])):
+	if (cards[p][x].attack_points>0):
 		var guarded = false
 		for y in get_card_targets(x,p,enemy):
 			get_node("Card_"+str(y)+"_"+str(enemy)+"/Select").set_modulate(Color(1.0,0.0,0.0))
@@ -1296,7 +1017,7 @@ func select_unit(x,p):
 		if (!guarded && field[floor(x/POSITIONS)].owner!=player):
 			get_node("Planet_"+str(floor(x/POSITIONS))+"/Select").set_modulate(Color(1.0,0.0,0.0))
 			get_node("Planet_"+str(floor(x/POSITIONS))+"/Select").show()
-	if (cards[p][x].movement_points>0 && !("unmoveable" in Data.data[cards[p][x].type]["effects"])):
+	if (cards[p][x].movement_points>0):
 		for y in range(SIZE*POSITIONS):
 			if (cards[player][y]==null && floor(y/POSITIONS)!=floor(x/POSITIONS)):
 				get_node("Card_"+str(y)+"_"+str(player)+"/Select").set_modulate(Color(0.0,0.25,1.0))

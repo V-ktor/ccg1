@@ -116,16 +116,25 @@
 					var card = Main.cards[self.enemy][target]
 					card.structure -= max(card.shield-self.damage,0)
 					if (card.structure+card.shield-self.damage<=0):
-						var pos = self.node.get_global_position()
+						var timer = Timer.new()
+						var tpos = card.node.get_global_position()
+						var new
 						Main.destroy_unit(self.position,self.owner,false)
 						Main.add_unit(self.position,card.type,owner)
-						Main.cards[self.owner][position].structure = card.structure
-						Main.cards[self.owner][position].damage = card.damage
-						Main.cards[self.owner][position].shield = card.shield
-						Main.cards[self.owner][position].attack_points = 0
-						Main.cards[self.owner][position].movement_points = 0
-						Main.cards[self.owner][position].update()
-						Main.destroy_unit(target,self.enemy,false)"
+						new = Main.cards[self.owner][position]
+						new.structure = card.structure
+						new.damage = card.damage
+						new.shield = card.shield
+						new.attack_points = 0
+						new.movement_points = 0
+						new.update()
+						Main.destroy_unit(target,self.enemy,false)
+						timer.set_one_shot(true)
+						timer.set_wait_time(1.0)
+						add_child(timer)
+						timer.start()
+						yield(timer,'timeout')
+						new.node.set_global_position(tpos)"
 		}
 	],
 	"file":"troop_ship"
