@@ -1,75 +1,68 @@
 ,en
-CHEAP-SELF-SPAWN,cheap
-CHEAP-SELF-SPAWN_DESC,"No upkeep cost."
-CHEAP-FRIENDLY_PLANET-,cheap
-CHEAP-FRIENDLY_PLANET-_DESC,"No upkeep cost."
-PENETRATE_SHIELD-SELF-ATTACK,penetrate shields
-PENETRATE_SHIELD-SELF-ATTACK_DESC,"Ignore enemy shields."
-UNMOVEABLE-SELF-,unmoveable
-UNMOVEABLE-SELF-_DESC,"Unable to move."
+UNMOVEABLE,unmoveable
+UNMOVEABLE_DESC,"Unable to move."
+NO_ATTACK,no attack
+NO_ATTACK_DESC,"Unable to attack."
+COUNTERATTACK,counterattack
+COUNTERATTACK_DESC,"Counterattacks when enemy attack is survived."
+CHEAP,cheap
+CHEAP_DESC,"No upkeep cost."
+DRAW_2,draw 2 card
+DRAW_2_DESC,"Draw 2 cards."
+DRAW_3,draw 3 cards
+DRAW_3_DESC,"Draw 3 cards."
+DRYDOCK,drydock
+DRYDOCK_DESC,"Repairs all adjacent units for 2 points each turn."
+BOMBARDMENT_2,bombardment damage +2.
+BOMBARDMENT_2_DESC,"+2 damage against planets."
+DIRECT_DAMAGE_4,4 damage
+DIRECT_DAMAGE_4_DESC,"Deal 4 points of damage to any enemy unit."
+DIRECT_DAMAGE_6,6 damage
+DIRECT_DAMAGE_6_DESC,"Deal 6 points of damage to any enemy unit."
+DIRECT_DAMAGE_7,7 damage
+DIRECT_DAMAGE_7_DESC,"Deal 7 points of damage to any enemy unit."
+INCREASE_DAMAGE_2,damage +2
+INCREASE_DAMAGE_2_DESC,"Increase damage by 2."
+ARMOR_2,structure +2
+ARMOR_2_DESC,"Increase structure by 2."
+SHIELD_1,shield +1
+SHIELD_1_DESC,"Increase shield by 1."
+REPAIR_4,repair 4
+REPAIR_4_DESC,"Repairs a unit for 4 points."
+REPAIR_6,repair 6
+REPAIR_6_DESC,"Repairs a unit for 6 points."
+DEFENSE_6,defense +6
+DEFENSE_6_DESC,"Increase planet defense by 6."
+PRODUCTION_1,1 resource points
+PRODUCTION_1_DESC,"Generate 1 resource point."
+PRODUCTION_2,2 resource points
+PRODUCTION_2_DESC,"Generate 2 resource points."
+MINES_1,mines 1
+MINES_1_PLANET_DESC,"Reduce structure of all enemy units orbiting the planet by 1 each turn."
+MINES_2,mines 2
+MINES_2_PLANET_DESC,"Reduce structure of all enemy units orbiting the planet by 2 each turn."
+PENETRATE_SHIELD,penetrate shields
+PENETRATE_SHIELD_DESC,"Ignore enemy shields."
+PLUNDER,plunder
+PLUNDER_DESC,"Gain 2 resource points on attack."
+SUICIDE,suicide
+SUICIDE_DESC,"Destroy one of your units and deal damage equal to it's structure to an enemy unit."
+JAM_1,jam shields
+JAM_1_DESC,"Reduces shields by 1."
+REDUCE_DMG_2,damage -2
+REDUCE_DMG_2_DESC,"Reduces damage by 2."
+CAPTURE,capture
+CAPTURE_DESC,"Gain control over the enemy unit if damage is greater than or equal to structure."
+REDUCE_STRUCTURE_1,structure -1
+REDUCE_STRUCTURE_1_DESC,"Reduces structure by 1."
+REDUCE_COST_4,upkeep cost -4
+REDUCE_COST_4_DESC,"Reduces upkeep cost by 4."
+DISCARD_2,discard 2 cards
+DISCARD_2_OPPONENT_DESC,"Remove 2 random cards from your opponents hand."
+TAKE_OVER_PLANET,take over planet
+TAKE_OVER_PLANET_DESC,"Gain control of an enemy planet."
+SPAWN_LIGHT_FIGHTER,spawn fighters
+SPAWN_LIGHT_FIGHTER_DESC,"Spawns a light fighter each turn if free space is available."
 REDUCE_DMG_1-SELF-ATTACK,lose damage
 REDUCE_DMG_1-SELF-ATTACK_DESC,"Damage is reduced by 1 after attacking."
-NO_ATTACK-SELF-,no attack
-NO_ATTACK-SELF-_DESC,"Unable to attack."
-COUNTERATTACK-ATTACKER-ATTACKED,counterattack
-COUNTERATTACK-ATTACKER-ATTACKED_DESC,"Counterattacks when enemy attack is survived."
-DRAW_2-PLAYER-SPAWN,draw 2 cards
-DRAW_2-PLAYER-SPAWN_DESC,"Draw 2 cards."
-DRAW_2-PLAYER-,draw 2 card.
-DRAW_2-PLAYER-_DESC,"Draw 2 cards."
-DRAW_3-PLAYER-,draw 3 cards
-DRAW_3-PLAYER-_DESC,"Draw 3 cards."
-REMOVE_2-OPPOSITE-,discard 2 cards
-REMOVE_2-OPPOSITE-_DESC,"Remove 2 random cards from your opponents hand."
-DRYDOCK-SELF-PLAYER_TURN,drydock
-DRYDOCK-SELF-PLAYER_TURN_DESC,"Repairs 2 points each turn."
-DRYDOCK-FRIENDLY_PLANET-PLAYER_TURN,drydock
-DRYDOCK-FRIENDLY_PLANET-PLAYER_TURN_DESC,"Repairs 2 points each turn."
-BOMBARDMENT_2-SELF-ATTACK,bombardment damage +2.
-BOMBARDMENT_2-SELF-ATTACK_DESC,"+2 damage against planets."
-DIRECT_DAMAGE_4-ENEMY-,4 damage
-DIRECT_DAMAGE_4-ENEMY-_DESC,"Deal 4 points of damage to any enemy unit."
-DIRECT_DAMAGE_6-ENEMY-,6 damage
-DIRECT_DAMAGE_6-ENEMY-_DESC,"Deal 6 points of damage to any enemy unit."
-DIRECT_DAMAGE_7-ENEMY-,7 damage
-DIRECT_DAMAGE_7-ENEMY-_DESC,"Deal 7 points of damage to any enemy unit."
-INCREASE_DMG_2-FRIENDLY-,damage +2
-INCREASE_DMG_2-FRIENDLY-_DESC,"Increase damage by 2."
-ARMOR_2-FRIENDLY-,structure +2
-ARMOR_2-FRIENDLY-_DESC,"Increase structure by 2."
-SHIELD_1-FRIENDLY-,shield +1
-SHIELD_1-FRIENDLY-_DESC,"Increase shield by 1."
-JAM_1-ENEMY-,jam shields
-JAM_1-ENEMY-_DESC,"Reduces shields by 1."
-REDUCE_DMG_2-ENEMY-,damage -2
-REDUCE_DMG_2-ENEMY-_DESC,"Reduces damage by 2."
-REPAIR_4-FRIENDLY-,repair 4
-REPAIR_4-FRIENDLY-_DESC,"Repairs a unit for 4 points."
-REPAIR_6-FRIENDLY-,repair 6
-REPAIR_6-FRIENDLY-_DESC,"Repairs a unit for 6 points."
-PRODUCTION_1-FRIENDLY_PLANET-,1 resource points
-PRODUCTION_1-FRIENDLY_PLANET-_DESC,"Generate 1 resource point."
-PRODUCTION_2-FRIENDLY_PLANET-,2 resource points
-PRODUCTION_2-FRIENDLY_PLANET-_DESC,"Generate 2 resource points."
-DEFENSE_6-FRIENDLY_PLANET-,defense +6
-DEFENSE_6-FRIENDLY_PLANET-_DESC,"Increase planet defense by 6."
-SHIELD_1-FRIENDLY_PLANET-,shield +1
-SHIELD_1-FRIENDLY_PLANET-_DESC,"Increase shield by 1."
-MINES_1-FRIENDLY_PLANET-PLAYER_TURN,mines 1
-MINES_1-FRIENDLY_PLANET-PLAYER_TURN_DESC,"Deal 1 point of damage to each enemy unit orbiting the planet."
-MINES_2-FRIENDLY_PLANET-PLAYER_TURN,mines 2
-MINES_2-FRIENDLY_PLANET-PLAYER_TURN_DESC,"Deal 2 points of damage to each enemy unit orbiting the planet."
-REDUCE_STRUCTURE_1-FRIENDLY-,structure -1
-REDUCE_STRUCTURE_1-FRIENDLY-_DESC,"Reduces structure by 1."
-REDUCE_COST_4-FRIENDLY-,upkeep cost -4
-REDUCE_COST_4-FRIENDLY-_DESC,"Reduces upkeep cost by 4."
-CAPTURE-TARGET-ATTACK,capture
-CAPTURE-TARGET-ATTACK_DESC,"Gain control over the enemy unit if damage is greater than or equal to structure."
-TAKE_OVER-ENEMY_PLANET-,take over planet
-TAKE_OVER-ENEMY_PLANET-_DESC,"Gain control of an enemy planet."
-SPAWN_LIGHT_FIGHTER-FRIENDLY_PLANET-PLAYER_TURN,spawn fighters
-SPAWN_LIGHT_FIGHTER-FRIENDLY_PLANET-PLAYER_TURN_DESC,"Spawns a light fighter each turn if free space is available."
-POINTS_2-PLAYER-ATTACK,plunder
-POINTS_2-PLAYER-ATTACK_DESC,"Gain 2 resource points on attack."
-DESTRUCTION-FRIENDLY-,Self-Destruction
-DESTRUCTION-FRIENDLY-_DESC,"Destroy one of your units."
+

@@ -15,49 +15,6 @@ var logo = {
 	"rebels":preload("res://images/cards/logo_rebels.png"),
 	"pirates":preload("res://images/cards/logo_pirates.png")
 }
-var icon_effect = {
-	"increase dmg 2-friendly-":preload("res://images/cards/effects/attack_up_2.png"),
-	"reduce dmg 1-self-attack":preload("res://images/cards/effects/attack_down_1.png"),
-	"reduce dmg 2-enemy-":preload("res://images/cards/effects/attack_down_2.png"),
-	"armor 2-friendly-":preload("res://images/cards/effects/armor_up_2.png"),
-	"defense 6-friendly planet-":preload("res://images/cards/effects/armor_up_6.png"),
-	"reduce structure 1-friendly-":preload("res://images/cards/effects/armor_down_1.png"),
-	"shield 1-friendly-":preload("res://images/cards/effects/shield_up_1.png"),
-	"shield 1-friendly planet-":preload("res://images/cards/effects/shield_up_1.png"),
-	"jam 1-enemy-":preload("res://images/cards/effects/shield_down_1.png"),
-	"repair 4-friendly-":preload("res://images/cards/effects/repair_4.png"),
-	"repair 5-friendly-":preload("res://images/cards/effects/repair_5.png"),
-	"repair 6-friendly-":preload("res://images/cards/effects/repair_6.png"),
-	"drydock-friendly planet-player turn":preload("res://images/cards/effects/repair_2.png"),
-	"drydock-self-player turn":preload("res://images/cards/effects/repair_2.png"),
-	"cheap-self-spawn":preload("res://images/cards/effects/cheap.png"),
-	"cheap-friendly planet-":preload("res://images/cards/effects/cheap.png"),
-	"production 1-friendly planet-":preload("res://images/cards/effects/points_1.png"),
-	"production 2-friendly planet-":preload("res://images/cards/effects/points_2.png"),
-	"reduce cost 4-friendly-":preload("res://images/cards/effects/points_4.png"),
-	"draw 2-player-spawn":preload("res://images/cards/effects/cards_2.png"),
-	"draw 3-player-":preload("res://images/cards/effects/cards_3.png"),
-	"remove 2-opposite-":preload("res://images/cards/effects/discard_2.png"),
-	"direct damage 4-enemy-":preload("res://images/cards/effects/damage_4.png"),
-	"direct damage 6-enemy-":preload("res://images/cards/effects/damage_6.png"),
-	"direct damage 7-enemy-":preload("res://images/cards/effects/damage_7.png"),
-	"bombardment 2-self-attack":preload("res://images/cards/effects/bombardment_2.png"),
-	"mines 1-friendly planet-player turn":preload("res://images/cards/effects/mines.png"),
-	"mines 2-friendly planet-player turn":preload("res://images/cards/effects/mines.png"),
-	"counterattack-attacker-attacked":preload("res://images/cards/effects/counter.png"),
-	"partisan-self-":preload("res://images/cards/effects/counter.png"),
-	"penetrate shield-self-attack":preload("res://images/cards/effects/no_shield.png"),
-	"capture-target-attack":null,
-	"take over-enemy planet-":null,
-	"revolt-enemy planet-":null,
-	"spawn light_fighter-friendly planet-player turn":preload("res://images/cards/effects/spawn_fighter.png"),
-	"points 2-player-attack":preload("res://images/cards/effects/points_2.png"),
-	"destruction-friendly-":null,
-	"unmoveable-self-":preload("res://images/cards/effects/movement0.png"),
-	"no attack-self-":preload("res://images/cards/effects/attack0.png")
-}
-var icon_attack = [preload("res://images/cards/effects/attack0.png"),preload("res://images/cards/effects/attack1.png")]
-var icon_movement = [preload("res://images/cards/effects/movement0.png"),preload("res://images/cards/effects/movement1.png")]
 
 
 func create_card(ID):
@@ -74,32 +31,27 @@ func create_card(ID):
 	bi.get_node("Logo").set_texture(logo[card["faction"]])
 	bi.get_node("Type").set_texture(icon_type[card["type"]])
 	bi.ID = ID
-	update_values(bi,card["level"],Data.calc_value(ID,"structure"),Data.calc_value(ID,"dmg"),Data.calc_value(ID,"shield"),Data.calc_value(ID,"production"))
+	update_values(bi,card["level"],Data.calc_value(ID,"structure"),Data.calc_value(ID,"damage"),Data.calc_value(ID,"shield"),Data.calc_value(ID,"cards"))
 	
-	var effects = card["effects"]
-	var targets = card["targets"]
-	var events = card["events"]
-	for i in range(effects.size()):
-		var t = effects[i]+"-"+targets[i]+"-"+events[i]
+	for i in range(card["effects"].size()):
+		var effect = card["effects"][i]
 		var pi = bi.get_node("Description/Effect").duplicate()
-		if (icon_effect.has(t)):
+		var texture = load("res://images/effects/"+effect["icon"]+".png")
+		if (texture!=null):
 			var ti = bi.get_node("Effects/Effect").duplicate()
-			ti.set_texture(icon_effect[t])
+			ti.set_texture(texture)
 			ti.set_name("Effect"+str(i))
 			ti.show()
 			bi.get_node("Effects").add_child(ti)
 		else:
-			print("No icon found for "+t+"!")
+			print("Icon "+effect["icon"]+" not found!")
 		pi.set_name("Effect"+str(i))
-		pi.get_node("Name").set_text(tr(t.to_upper().replace(" ","_")))
-		pi.get_node("Desc").set_text(tr(t.to_upper().replace(" ","_")+"_DESC"))
+		pi.get_node("Name").set_text(tr(effect["name"]))
+		pi.get_node("Desc").set_text(tr(effect["rule"]))
 		pi.show()
 		bi.get_node("Description/ScrollContainer/VBoxContainer").add_child(pi)
-	if (card["type"]=="unit"):
-		if ("no attack" in effects):
-			bi.get_node("Effects/Attack").set_texture(icon_attack[0])
-		if ("unmoveable" in effects):
-			bi.get_node("Effects/Movement").set_texture(icon_movement[0])
+		bi.get_node("Effects/Attack").set_texture(load("res://images/effects/attack"+str(card["attack_points"])+".png"))
+		bi.get_node("Effects/Movement").set_texture(load("res://images/effects/movement"+str(card["movement_points"])+".png"))
 	
 	return bi
 

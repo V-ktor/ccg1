@@ -100,30 +100,58 @@ class Card:
 	var cards
 	var level
 	var type
+	var position
+	var owner
+	var enemy
 	var node
-	var root
+	var effects
+	var Main
+	
 
 class Unit:
 	extends Card
-	var attacked
-	var moved
+	var attack_points
+	var movement_points
 	
-	func _init(_root,_type,_structure,_damage,_shield,_level,player,pos,pos0,rot):
-		root = _root
+	func _init(_root,_type,_structure,_damage,_shield,_level,_effects,_player,pos,pos0,rot):
+		var code = "var _self\n"
+		var script = GDScript.new()
+		Main = _root
 		node = Cards.create_card(_type)
 		structure = _structure
 		damage = _damage
 		shield = _shield
 		level = _level
 		type = _type
-		attacked = false
-		moved = false
+		owner = _player
+		enemy = int(!owner)
+		attack_points = 0
+		movement_points = 0
+		position = pos
+		
+		# add script to this class
+		effects = Card.new()
+		for effect in _effects:
+			if (effect.has("script")):
+				code += effect["script"]+"\n"
+		script.set_source_code(code)
+		printt(script,"\n",code)
+		script.reload()
+		effects.set_script(script)
+		for effect in _effects:
+			if (effect.has("script")):
+				var p1 = effect["script"].find("func ")+5
+				var p2 = effect["script"].find("(",p1)
+				var property = effect["script"].substr(p1,p2-p1)+"_targets"
+				printt(property,effect["target"])
+				effects.set(property,effect["target"])
+		effects._self = self
 		
 		node.set_draw_behind_parent(true)
 		node.set_name("Card")
 		node.set_rotation(rot*PI)
 		node.get_node("Description").set_rotation(-rot*PI)
-		root.get_node("Card_"+str(pos)+"_"+str(player)).add_child(node)
+		Main.get_node("Card_"+str(pos)+"_"+str(owner)).add_child(node)
 		node.set_process(true)
 		node.set_position(pos0)
 		
@@ -134,19 +162,19 @@ class Unit:
 			structure = 0
 		Cards.update_values(node,level,structure,damage,shield)
 		node.get_node("VBoxContainer/Structure").show()
-		node.get_node("Effects/Attack").set_visible(!attacked)
-		node.get_node("Effects/Movement").set_visible(!moved)
+		node.get_node("Effects/Attack").set_visible(attack_points>0)
+		node.get_node("Effects/Movement").set_visible(movement_points>0)
+	
 
 class Planet:
 	extends Card
-	var owner
 	var planet
 	var image
-	var revolt
+	var revolt = false
 	
-	func _init(_root,_type,_structure,_damage,_shield,_level,_cards,_owner,_image,pos):
+	func _init(_root,_type,_structure,_damage,_shield,_level,effects,_cards,_owner,_image,pos):
 		var img = Sprite.new()
-		root = _root
+		Main = _root
 		node = Cards.base.instance()
 		node.set_draw_behind_parent(true)
 		node.set_name("Card")
@@ -162,11 +190,25 @@ class Planet:
 		planet = _type
 		points = {}
 		type = ""
+		position = pos
 		owner = _owner
+		enemy = int(!owner)
 		image = _image
-		revolt = false
+		for effect in effects:
+			if (effect.has("script")):
+				# add script to this class
+				var script = GDScript.new()
+				script.set_source_code(effect["script"])
+				script.reload()
+				set_script(script)
+				
+				var p1 = effect["script"].find("func ")+5
+				var p2 = effect["script"].find("(",p1)
+				var property = effect["script"].substr(p1,p2-p1)
+				printt(property,effect["target"])
+				set(property,effect["target"])
 		
-		root.get_node("Planet_"+str(pos)).add_child(node)
+		Main.get_node("Planet_"+str(pos)).add_child(node)
 		node.set_process(true)
 		
 		update()
@@ -177,7 +219,7 @@ class Planet:
 			node.get_node("VBoxContainer/Level").hide()
 		node.get_node("VBoxContainer/Structure").show()
 		node.get_node("Header").set_modulate(COLOURS[owner])
-		node.get_node("Image/Image").set_texture(root.planet_icons[planet][image])
+		node.get_node("Image/Image").set_texture(Main.planet_icons[planet][image])
 		if (type==""):
 			node.get_node("Name").set_text(tr(PLANET_TEXT[planet]))
 			node.get_node("Desc").set_text("")
@@ -204,6 +246,7 @@ class Planet:
 				pi.get_node("Name").set_text(tr(t.to_upper().replace(" ","_")))
 				pi.get_node("Desc").set_text(tr(t.to_upper().replace(" ","_")+"_DESC"))
 				node.get_node("Description/ScrollContainer/VBoxContainer").add_child(pi)
+	
 
 
 # other graphics #
@@ -414,7 +457,7 @@ func apply_effect_target(effect,player,enemy,target,ID):
 		if (ps!=null && target!=null):
 			target.node.add_child(ps.instance())
 	if (effect=="direct damage 4" || effect=="direct damage 6" || effect=="direct damage 7"):
-		target.structure -= max(Data.calc_value(ID,"dmg")-target.shield,0)
+		target.structure -= max(Data.calc_value(ID,"damage")-target.shield,0)
 		target.update()
 		if (target.structure<=0):
 			var x
@@ -424,13 +467,13 @@ func apply_effect_target(effect,player,enemy,target,ID):
 					break
 			if (x!=null):
 				destroy_unit(x,enemy)
-	elif (effect=="increase dmg 2"):
+	elif (effect=="increase damage 2"):
 		target.damage += 2
 	elif (effect=="armor 2"):
 		target.structure += 2
 	elif (effect=="reduce structure 1"):
 		target.structure = max(target.structure-1,1)
-	elif (effect=="reduce dmg 2"):
+	elif (effect=="reduce damage 2"):
 		target.damage = max(target.damage-2,0)
 	elif (effect=="shield 1"):
 		target.shield += 1
@@ -448,9 +491,9 @@ func apply_effect_target(effect,player,enemy,target,ID):
 		target.structure += 4
 	elif (effect=="defense 6"):
 		target.structure += 6
-	elif (effect=="reduce dmg 1"):
+	elif (effect=="reduce damage 1"):
 		target.damage = max(target.damage-1,0)
-	elif (effect=="reduce dmg 2"):
+	elif (effect=="reduce damage 2"):
 		target.damage = max(target.damage-2,0)
 	elif (effect=="reduce cost 4"):
 		target.level = max(target.level-4,0)
@@ -482,7 +525,7 @@ func apply_effect_target(effect,player,enemy,target,ID):
 
 
 remote func attack_unit(attacker,target,player,enemy,counterattack=false):
-	if (cards[player][attacker]==null || (cards[player][attacker].attacked && !counterattack) || cards[enemy][target]==null || ("no attack" in Data.data[cards[player][attacker].type]["effects"] && !counterattack) || floor(attacker/POSITIONS)!=floor(target/POSITIONS)):
+	if (cards[player][attacker]==null || (cards[player][attacker].attack_points<1 && !counterattack) || cards[enemy][target]==null || ("no attack" in Data.data[cards[player][attacker].type]["effects"] && !counterattack) || floor(attacker/POSITIONS)!=floor(target/POSITIONS)):
 		return
 	
 	var card_a = Data.data[cards[player][attacker].type]
@@ -524,7 +567,7 @@ remote func attack_unit(attacker,target,player,enemy,counterattack=false):
 		return
 	
 	if (!counterattack):
-		cards[player][attacker].attacked = true
+		cards[player][attacker].attack_points -= 1
 	
 	if (capture):
 		var pi = load("res://scenes/effects/"+Data.data[cards[player][attacker].type]["file"]+".tscn").instance()
@@ -577,7 +620,7 @@ remote func attack_unit(attacker,target,player,enemy,counterattack=false):
 		cards[player][attacker].node.get_node("Description").set_rotation(-(player+main_player)*PI)
 
 remote func bombard_unit(attacker,target,player,enemy):
-	if (cards[player][attacker]==null || cards[player][attacker].attacked || field[target].owner==player || "no attack" in Data.data[cards[player][attacker].type] || floor(attacker/POSITIONS)!=target):
+	if (cards[player][attacker]==null || cards[player][attacker].attack_points<1 || field[target].owner==player || "no attack" in Data.data[cards[player][attacker].type] || floor(attacker/POSITIONS)!=target):
 		return
 	for x in range(target*POSITIONS,(target+1)*POSITIONS):
 		if (cards[enemy][x]!=null):
@@ -609,7 +652,7 @@ remote func bombard_unit(attacker,target,player,enemy):
 	if (damage<=0):
 		return
 	
-	cards[player][attacker].attacked = true
+	cards[player][attacker].attack_points -= 1
 	
 	var pi = load("res://scenes/effects/"+Data.data[cards[player][attacker].type]["file"]+".tscn").instance()
 	var offset = Vector2(0,0)
@@ -631,7 +674,7 @@ remote func bombard_unit(attacker,target,player,enemy):
 	emit_signal("unit_invaded")
 
 remote func move_unit(from,to,player):
-	if (cards[player][from]==null || cards[player][to]!=null || cards[player][from].moved || floor(from/POSITIONS)==floor(to/POSITIONS) || "unmoveable" in Data.data[cards[player][from].type]["effects"]):
+	if (cards[player][from]==null || cards[player][to]!=null || cards[player][from].movement_points<1 || floor(from/POSITIONS)==floor(to/POSITIONS) || "unmoveable" in Data.data[cards[player][from].type]["effects"]):
 		return
 	
 	add_unit(to,cards[player][from].type,player,get_node("Card_"+str(from)+"_"+str(player)).get_global_position()-get_node("Card_"+str(to)+"_"+str(player)).get_global_position())
@@ -640,8 +683,8 @@ remote func move_unit(from,to,player):
 	cards[player][to].structure = cards[player][from].structure
 	cards[player][to].damage = cards[player][from].damage
 	cards[player][to].shield = cards[player][from].shield
-	cards[player][to].attacked = cards[player][from].attacked
-	cards[player][to].moved = true
+	cards[player][to].attack_points = cards[player][from].attack_points
+	cards[player][to].movement_points = cards[player][from].movement_points-1
 	cards[player][to].update()
 	
 	destroy_unit(from,player,false)
@@ -651,7 +694,7 @@ remote func move_unit(from,to,player):
 	emit_signal("unit_moved")
 
 func add_unit(x,ID,player,pos=Vector2(0,0)):
-	cards[player][x] = Unit.new(self,ID,Data.calc_value(ID,"structure"),Data.calc_value(ID,"dmg"),Data.calc_value(ID,"shield"),Data.calc_value(ID,"level"),player,x,pos,player+main_player)
+	cards[player][x] = Unit.new(self,ID,Data.data[ID]["structure"],Data.data[ID]["damage"],Data.data[ID]["shield"],Data.data[ID]["level"],Data.data[ID]["effects"],player,x,pos,player+main_player)
 	if (pos==Vector2(0,0)):
 		cards[player][x].node.set_position(cards[player][x].node.get_position()+Vector2(0,800*(0.5-player)))
 
@@ -750,8 +793,8 @@ remote func next_turn():
 		if (cards[player][x]!=null):
 			var pos = floor(x/POSITIONS)
 			var card = Data.data[cards[player][x].type]
-			cards[player][x].attacked = false #!("no attack" in card["effects"])
-			cards[player][x].moved = false #!("unmoveable" in card["effects"])
+			cards[player][x].attack_points = Data.calc_data(cards[player][x].type,"attack_points")
+			cards[player][x].movement_points = Data.calc_data(cards[player][x].type,"movement_points")
 			num_units += 1
 #			cards[player][x].level = max(cards[player][x].level-1,1)
 			if (player_used_points[player].has(card["faction"])):
@@ -1073,7 +1116,7 @@ func init_field():
 		pi.show()
 	
 	for x in range(SIZE):
-		field[x] = Planet.new(self,planets[x]["type"],planets[x]["structure"],planets[x]["damage"],planets[x]["shield"],planets[x]["level"],planets[x]["cards"],planets[x]["owner"],planets[x]["image"],x)
+		field[x] = Planet.new(self,planets[x]["type"],planets[x]["structure"],planets[x]["damage"],planets[x]["shield"],planets[x]["level"],[],planets[x]["cards"],planets[x]["owner"],planets[x]["image"],x)
 	
 	var homeworld = 0
 	
@@ -1244,7 +1287,7 @@ func select_unit(x,p):
 	select = EMPTY_OR_ENEMY
 	get_node("Card_"+str(x)+"_"+str(p)+"/Select").set_modulate(Color(0.0,1.0,0.0))
 	get_node("Card_"+str(x)+"_"+str(p)+"/Select").show()
-	if (!cards[p][x].attacked && !("no attack" in Data.data[cards[p][x].type]["effects"])):
+	if (cards[p][x].attack_points>0 && !("no attack" in Data.data[cards[p][x].type]["effects"])):
 		var guarded = false
 		for y in get_card_targets(x,p,enemy):
 			get_node("Card_"+str(y)+"_"+str(enemy)+"/Select").set_modulate(Color(1.0,0.0,0.0))
@@ -1253,7 +1296,7 @@ func select_unit(x,p):
 		if (!guarded && field[floor(x/POSITIONS)].owner!=player):
 			get_node("Planet_"+str(floor(x/POSITIONS))+"/Select").set_modulate(Color(1.0,0.0,0.0))
 			get_node("Planet_"+str(floor(x/POSITIONS))+"/Select").show()
-	if (!cards[p][x].moved && !("unmoveable" in Data.data[cards[p][x].type]["effects"])):
+	if (cards[p][x].movement_points>0 && !("unmoveable" in Data.data[cards[p][x].type]["effects"])):
 		for y in range(SIZE*POSITIONS):
 			if (cards[player][y]==null && floor(y/POSITIONS)!=floor(x/POSITIONS)):
 				get_node("Card_"+str(y)+"_"+str(player)+"/Select").set_modulate(Color(0.0,0.25,1.0))

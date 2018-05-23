@@ -16,8 +16,8 @@
 [ext_resource path="res://images/cards/card_rebels.png" type="Texture" id=14]
 [ext_resource path="res://images/cards/card_pirates.png" type="Texture" id=15]
 [ext_resource path="res://images/cards/card_deck.png" type="Texture" id=16]
-[ext_resource path="res://images/cards/effects/attack1.png" type="Texture" id=17]
-[ext_resource path="res://images/cards/effects/movement1.png" type="Texture" id=18]
+[ext_resource path="res://images/effects/attack1.png" type="Texture" id=17]
+[ext_resource path="res://images/effects/movement1.png" type="Texture" id=18]
 [ext_resource path="res://images/weapons/exp02.png" type="Texture" id=19]
 [ext_resource path="res://images/weapons/exp06.png" type="Texture" id=20]
 [ext_resource path="res://images/weapons/explosion02.png" type="Texture" id=21]
@@ -736,7 +736,7 @@ tracks/24/keys = {
 } ]
 }
 
-[node name="Card" type="Node2D"]
+[node name="Card" type="Node2D" index="0"]
 
 script = ExtResource( 1 )
 _sections_unfolded = [ "Visibility" ]

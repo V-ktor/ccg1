@@ -57,12 +57,19 @@ var cards_tier2 = [[],[],[],[],[]]
 var cards_tier3 = [[],[],[],[],[]]
 
 
+class Test:
+	var property = 1
+	var extend
+	
+	func test1():
+		printt("test1")
 
-func load_data():
+
+func load_path(path):
 	var dir = Directory.new()
 	var file = File.new()
 	var filename
-	var error = dir.change_dir("res://cards")
+	var error = dir.change_dir(path)
 	if (error!=OK):
 		print("Can't open data directory!")
 		return
@@ -99,19 +106,49 @@ func load_data():
 				continue
 			
 			# parse data
+			var raw = currentline
 			currentline = JSON.parse(currentline)
 			if (currentline.error!=OK):
-				printt("Error parsing "+filename+".")
+				printt("Error parsing "+filename+".",raw)
 				continue
 			currentline = currentline.get_result()
 			if (!currentline.has("name")):
-				printt("Error parsing "+filename+".")
+				printt("Error parsing "+filename+" (missing name).")
 				continue
 			
-			# add card data
-			for s in ["structure","shield","dmg"]:
+			# set undefined values to default
+			for s in ["structure","shield","damage","cards"]:
 				if (!currentline.has(s)):
 					currentline[s] = 0
+			for s in ["movement_points","attack_points"]:
+				if (!currentline.has(s)):
+					currentline[s] = 1
+			# set 'effects' to array
+			if (!currentline.has("effects")):
+				currentline["effects"] = []
+			elif (typeof(currentline["effects"])!=TYPE_ARRAY):
+				currentline["effects"] = [currentline["effects"]]
+			for effect in currentline["effects"]:
+				if (effect.has("script")):
+					# set indentation right
+					var p1
+					var p2
+					var n
+					var script = effect["script"].replace("self","_self")
+					p1 = script.find("func")
+					p2 = script.rfind("\n",p1)
+					n = p1-p2-2
+					for i in range(script.length()-1,-1,-1):
+						if (script[i]=="\n"):
+							script = script.substr(0,i+1)+script.substr(i+n+2,script.length()-i-n-2)
+					printt(p1,p2,script==effect["script"],"\n",script)
+					effect["script"] = script
+				if (!effect.has("target")):
+					effect["target"] = []
+				elif (typeof(effect["target"])!=TYPE_ARRAY):
+					effect["target"] = [effect["target"]]
+			
+			# add card data
 			data[currentline["name"]] = currentline
 			if (currentline.has("level")):
 				if (currentline["level"]<5):
@@ -125,27 +162,25 @@ func load_data():
 				all_cards.push_back(currentline["name"])
 		filename = dir.get_next()
 
+func load_data():
+	load_path("res://cards")
+	load_path("user://cards")
+
 func calc_value(ID,value):
 	if (value=="level"):
 		return data[ID]["level"]
-	elif (value=="production"):
-		return int("production 1" in data[ID]["effects"])+2*int("production 2" in data[ID]["effects"])
-	elif (value=="dmg"):
-		return data[ID]["dmg"]+4*int("direct damage 4" in data[ID]["effects"])+6*int("direct damage 6" in data[ID]["effects"])+7*int("direct damage 7" in data[ID]["effects"])
+	elif (value=="damage"):
+		return data[ID]["damage"]
 	elif (value=="structure"):
 		return data[ID]["structure"]
 	elif (value=="shield"):
 		return data[ID]["shield"]
-	elif (value=="repair"):
-		return 4*int("repair 4" in data[ID]["effects"])+6*int("repair 6" in data[ID]["effects"])+2*int("drydock" in data[ID]["effects"])
-	elif (value=="movement cost"):
-		return int(!("no movement cost" in data[ID]["effects"]))+int("expensive movement" in data[ID]["effects"])
-	elif (value=="attack cost"):
-		return int(!("no attack cost" in data[ID]["effects"]))+int("expensive attack" in data[ID]["effects"])
-	elif (value=="bombardment"):
-		return 2*int("bombardment 2" in data[ID]["effects"])+4*int("bombardment 4" in data[ID]["effects"])
-	elif (value=="mine damage"):
-		return int("mines 1" in data[ID]["effects"])+2*int("mines 2" in data[ID]["effects"])
+	elif (value=="cards"):
+		return data[ID]["cards"]
+	elif (value=="movement_points"):
+		return data[ID]["movement_points"]
+	elif (value=="attack_points"):
+		return data[ID]["attack_points"]
 	
 	return
 
@@ -225,3 +260,15 @@ func get_tier3_unit(faction="rnd"):
 
 func _ready():
 	load_data()
+	
+	var script = GDScript.new()
+	var test = Test.new()
+	var ext = Test.new()
+	var code = 'func test2(s):	printt("Test2",s,_self.property,Data.MAX_CARDS)'
+	script.set_source_code("var _self\n"+code)
+	script.reload()
+	ext.set_script(script)
+	test.extend = ext
+	test.extend._self = test
+	test.test1()
+	test.extend.test2("string")

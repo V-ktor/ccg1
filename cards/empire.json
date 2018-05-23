@@ -5,11 +5,8 @@
 	"grade":1,
 	"structure":2,
 	"shield":0,
-	"dmg":2,
+	"damage":2,
 	"level":2,
-	"effects":[],
-	"targets":[],
-	"events":[],
 	"file":"fighters01"
 }
 {
@@ -19,11 +16,8 @@
 	"grade":3,
 	"structure":2,
 	"shield":0,
-	"dmg":3,
+	"damage":3,
 	"level":2,
-	"effects":[],
-	"targets":[],
-	"events":[],
 	"file":"fighters02"
 }
 {
@@ -33,11 +27,17 @@
 	"grade":3,
 	"structure":1,
 	"shield":1,
-	"dmg":4,
+	"damage":4,
 	"level":2,
-	"effects":["reduce dmg 1"],
-	"targets":["self"],
-	"events":["attack"],
+	"effects":
+	{
+		"name":"REDUCE_DAMAGE_1-SELF-ATTACK",
+		"icon":"attack_down_1",
+		"rule":"REDUCE_DAMAGE_1-SELF-ATTACK_DESC",
+		"script":"
+			func on_attack(target):
+				self.damage = max(self.damage-1,0)"
+	},
 	"file":"bomber"
 }
 {
@@ -47,11 +47,8 @@
 	"grade":1,
 	"structure":4,
 	"shield":1,
-	"dmg":4,
+	"damage":4,
 	"level":4,
-	"effects":[],
-	"targets":[],
-	"events":[],
 	"file":"corvette"
 }
 {
@@ -61,11 +58,17 @@
 	"grade":2,
 	"structure":4,
 	"shield":1,
-	"dmg":6,
+	"damage":6,
 	"level":4,
-	"effects":["reduce dmg 1"],
-	"targets":["self"],
-	"events":["attack"],
+	"effects":
+	{
+		"name":"REDUCE_DAMAGE_1-SELF-ATTACK",
+		"icon":"attack_down_1",
+		"rule":"REDUCE_DAMAGE_1-SELF-ATTACK_DESC",
+		"script":"
+			func on_attack(target):
+				self.damage = max(self.damage-1,0)"
+	},
 	"file":"missile_frigate"
 }
 {
@@ -75,11 +78,8 @@
 	"grade":1,
 	"structure":4,
 	"shield":1,
-	"dmg":6,
+	"damage":6,
 	"level":5,
-	"effects":[],
-	"targets":[],
-	"events":[],
 	"file":"destroyer"
 }
 {
@@ -89,11 +89,8 @@
 	"grade":1,
 	"structure":6,
 	"shield":2,
-	"dmg":6,
+	"damage":6,
 	"level":6,
-	"effects":[],
-	"targets":[],
-	"events":[],
 	"file":"cruiser"
 }
 {
@@ -103,11 +100,8 @@
 	"grade":3,
 	"structure":7,
 	"shield":2,
-	"dmg":7,
+	"damage":7,
 	"level":6,
-	"effects":[],
-	"targets":[],
-	"events":[],
 	"file":"assault_carrier"
 }
 {
@@ -117,11 +111,8 @@
 	"grade":1,
 	"structure":8,
 	"shield":3,
-	"dmg":6,
+	"damage":6,
 	"level":7,
-	"effects":[],
-	"targets":[],
-	"events":[],
 	"file":"carrier"
 }
 {
@@ -131,11 +122,8 @@
 	"grade":3,
 	"structure":9,
 	"shield":3,
-	"dmg":7,
+	"damage":7,
 	"level":8,
-	"effects":[],
-	"targets":[],
-	"events":[],
 	"file":"battleship"
 }
 {
@@ -145,11 +133,39 @@
 	"grade":2,
 	"structure":7,
 	"shield":0,
-	"dmg":6,
+	"damage":6,
 	"level":5,
-	"effects":["unmoveable","no attack","counterattack"],
-	"targets":["self","self","attacker"],
-	"events":["","","attacked"],
+	"movement_points":0,
+	"attack_points":0,
+	"effects":
+	[
+		{
+			"name":"UNMOVEABLE",
+			"icon":"movement0",
+			"rule":"UNMOVEABLE_DESC"
+		},
+		{
+			"name":"NO_ATTACK",
+			"icon":"attack0",
+			"rule":"NO_ATTACK_DESC"
+		},
+		{
+			"name":"COUNTERATTACK",
+			"icon":"counter",
+			"rule":"COUNTERATTACK_DESC",
+			"script":"
+				func on_attacked(target):
+					var card = Main.cards[enemy][target]
+					var pi = load('res://scenes/effects/planetary_defense.tscn').instance()
+					var pos = self.node.get_global_position()
+					pi.set_scale(Vector2(1,pos.distance_to(card.node.get_global_position())/800.0))
+					pi.set_global_position(pos)
+					pi.set_rotation(pos.angle_to_point(card.node.get_global_position())-PI/2.0)
+					Main.add_child(pi)
+					card.structure -= damage
+					cards[enemy][target].update()"
+		}
+	],
 	"file":"planetary_defense"
 }
 {
@@ -159,11 +175,26 @@
 	"grade":1,
 	"structure":5,
 	"shield":1,
-	"dmg":1,
+	"damage":1,
+	"cards":2,
 	"level":4,
-	"effects":["unmoveable","draw 2"],
-	"targets":["self","player"],
-	"events":["","spawn"],
+	"movement_points":0,
+	"effects":
+	[
+		{
+			"name":"UNMOVEABLE",
+			"icon":"movement0",
+			"rule":"UNMOVEABLE_DESC"
+		},
+		{
+			"name":"DRAW_2",
+			"icon":"cards_2",
+			"rule":"DRAW_2_DESC",
+			"script":"
+				func on_spawn():
+					Main.draw_cards(owner,2)"
+		}
+	],
 	"file":"factory"
 }
 {
@@ -173,11 +204,26 @@
 	"grade":2,
 	"structure":5,
 	"shield":1,
-	"dmg":0,
+	"damage":0,
 	"level":4,
-	"effects":["drydock"],
-	"targets":["self"],
-	"events":["player turn"],
+	"effects":
+	{
+		"name":"DRYDOCK",
+		"icon":"repair_2",
+		"rule":"DRYDOCK_DESC",
+		"script":"
+			func on_next_turn(player):
+				if (player!=owner):
+					return
+				for target in range(floor(position/Main.POSITIONS)*Main.POSITIONS,(floor(position/Main.POSITIONS)+1)*Main.POSITIONS):
+					var card = Main.cards[player][target]
+					if (card!=null):
+						var max_structure = Data.calc_value(card.type,'structure')
+						if (card.structure<max_structure):
+							card.node.add_child(load('res://scenes/effects/repair03.tscn').instance())
+							card.structure = min(card.structure+2,max_structure)
+							card.update()"
+	},
 	"file":"repair03"
 }
 {
@@ -187,11 +233,17 @@
 	"grade":2,
 	"structure":4,
 	"shield":1,
-	"dmg":3,
+	"damage":3,
 	"level":4,
-	"effects":["bombardment 2"],
-	"targets":["self"],
-	"events":["attack"],
+	"effects":
+	{
+		"name":"BOMBARDMENT_2",
+		"icon":"bombardment_2",
+		"rule":"BOMBARDMENT_2_DESC",
+		"script":"
+			func on_bombard(player,target):
+				Main.field[target].structure -= 2"
+	},
 	"file":"heavy_bomber"
 }
 {
@@ -199,11 +251,21 @@
 	"name":"long_range_torpedos",
 	"faction":"empire",
 	"grade":1,
-	"dmg":6,
+	"damage":6,
 	"level":4,
-	"effects":["direct damage 6"],
-	"targets":["enemy"],
-	"events":[""],
+	"effects":
+	{
+		"name":"DIRECT_DAMAGE_6",
+		"icon":"damage_6",
+		"rule":"DIRECT_DAMAGE_6_DESC",
+		"script":"
+			func on_use(target):
+				var card = Main.cards[enemy][target]
+				card.structure -= max(6-card.shield,0)
+				card.update()
+				card.node.add_child(load('res://scenes/effects/torpedo.tscn').instance())",
+		"target":"enemy"
+	},
 	"file":"torpedo"
 }
 {
@@ -211,10 +273,17 @@
 	"name":"draw_3",
 	"faction":"empire",
 	"grade":2,
+	"cards":3,
 	"level":5,
-	"effects":["draw 3"],
-	"targets":["player"],
-	"events":[""],
+	"effects":
+	{
+		"name":"DRAW_3",
+		"icon":"cards_3",
+		"rule":"DRAW_3_DESC",
+		"script":"
+			func on_spawn():
+				Main.draw_cards(owner,3)"
+	},
 	"file":""
 }
 {
@@ -222,11 +291,21 @@
 	"name":"upgrade_weapons",
 	"faction":"empire",
 	"grade":1,
-	"dmg":2,
+	"damage":2,
 	"level":2,
-	"effects":["increase dmg 2"],
-	"targets":["friendly"],
-	"events":[""],
+	"effects":
+	{
+		"name":"INCREASE_DAMAGE_2",
+		"icon":"attack_up_2",
+		"rule":"INCREASE_DAMAGE_2_DESC",
+		"script":"
+			func on_use(target):
+				var card = Main.cards[owner][target]
+				card.damage += 2
+				card.update()
+				card.node.add_child(load('res://scenes/effects/upg_weapon.tscn').instance())",
+		"target":"ally"
+	},
 	"file":"upg_weapon"
 }
 {
@@ -236,9 +315,19 @@
 	"grade":1,
 	"structure":2,
 	"level":2,
-	"effects":["armor 2"],
-	"targets":["friendly"],
-	"events":[""],
+	"effects":
+	{
+		"name":"ARMOR_2",
+		"icon":"armor_up_2",
+		"rule":"ARMOR_2_DESC",
+		"script":"
+			func on_use(target):
+				var card = Main.cards[owner][target]
+				card.structure += 2
+				card.update()
+				card.node.add_child(load('res://scenes/effects/upg_armor.tscn').instance())",
+		"target":"ally"
+	},
 	"file":"upg_armor"
 }
 {
@@ -248,9 +337,19 @@
 	"grade":1,
 	"shield":1,
 	"level":2,
-	"effects":["shield 1"],
-	"targets":["friendly"],
-	"events":[""],
+	"effects":
+	{
+		"name":"SHIELD_1",
+		"icon":"shield_up_1",
+		"rule":"SHIELD_1_DESC",
+		"script":"
+			func on_use(target):
+				var card = Main.cards[owner][target]
+				card.shield += 1
+				card.update()
+				card.node.add_child(load('res://scenes/effects/upg_armor.tscn').instance())",
+		"target":"ally"
+	},
 	"file":"upg_shield"
 }
 {
@@ -260,9 +359,20 @@
 	"grade":1,
 	"structure":4,
 	"level":2,
-	"effects":["repair 4"],
-	"targets":["friendly"],
-	"events":[""],
+	"effects":
+	{
+		"name":"REPAIR_4",
+		"icon":"repair_4",
+		"rule":"REPAIR_4_DESC",
+		"script":"
+			func on_use(target):
+				var card = Main.cards[owner][target]
+				var max_structure = Data.calc_value(card.type,'structure')
+				card.structure = min(card.structure+4,max_structure)
+				card.update()
+				card.node.add_child(load('res://scenes/effects/repair01.tscn').instance())",
+		"target":"ally"
+	},
 	"file":"repair01"
 }
 {
@@ -272,9 +382,18 @@
 	"grade":2,
 	"structure":6,
 	"level":3,
-	"effects":["defense 6"],
-	"targets":["friendly planet"],
-	"events":[""],
+	"effects":
+	{
+		"name":"DEFENSE_6",
+		"icon":"repair_6",
+		"rule":"DEFENSE_6_DESC",
+		"script":"
+			func on_use(target):
+				var card = Main.field[target]
+				card.structure += 6
+				card.update()",
+		"target":"ally_planet"
+	},
 	"file":""
 }
 {
@@ -283,9 +402,25 @@
 	"faction":"empire",
 	"grade":1,
 	"level":4,
-	"effects":["cheap","production 2"],
-	"targets":["friendly planet","friendly planet"],
-	"events":["",""],
+	"effects":
+	[
+		{
+			"name":"CHEAP",
+			"icon":"cheap",
+			"rule":"CHEAP_DESC",
+			"script":"
+				func on_spawn():
+					self.level = 0
+					points['empire'] = 2
+					player_points['empire'] += 2
+					player_used_points['empire'] += 2"
+		},
+		{
+			"name":"PRODUCTION_2",
+			"icon":"points_2",
+			"rule":"PRODUCTION_2_DESC"
+		}
+	],
 	"file":""
 }
 {
@@ -295,9 +430,17 @@
 	"grade":1,
 	"shield":1,
 	"level":2,
-	"effects":["shield 1"],
-	"targets":["friendly planet"],
-	"events":[""],
+	"effects":
+	{
+		"name":"SHIELD_1",
+		"icon":"shield_up_1",
+		"rule":"SHIELD_1_DESC",
+		"script":"
+			func on_use(target):
+				Main.field[target].shield += 1
+				Main.field[target].update()",
+		"target":"ally_planet"
+	},
 	"file":"planetary_barrier"
 }
 {
@@ -305,11 +448,24 @@
 	"name":"orbital_mine_field",
 	"faction":"empire",
 	"grade":2,
-	"dmg":1,
+	"damage":1,
 	"level":3,
-	"effects":["mines 1"],
-	"targets":["friendly planet"],
-	"events":["player turn"],
+	"effects":
+	{
+		"name":"MINES_1",
+		"icon":"mines",
+		"rule":"MINES_1_PLANET_DESC",
+		"script":"
+			func on_next_turn(player):
+				if (player!=owner):
+					return
+				for target in range(position*Main.POSITIONS,(position+1)*Main.POSITIONS):
+					var card = Main.cards[enemy][target]
+					if (card!=null):
+						card.node.add_child(load('res://scenes/effects/mine.tscn').instance())
+						card.structure -= 1
+						card.update()"
+	},
 	"file":""
 }
 {
@@ -318,8 +474,23 @@
 	"faction":"empire",
 	"grade":2,
 	"level":3,
-	"effects":["drydock"],
-	"targets":["friendly planet"],
-	"events":["player turn"],
+	"effects":
+	{
+		"name":"DRYDOCK",
+		"icon":"repair_2",
+		"rule":"DRYDOCK_DESC",
+		"script":"
+			func on_next_turn(player):
+				if (player!=owner):
+					return
+				for target in range((position*Main.POSITIONS,(position+1)*Main.POSITIONS):
+					var card = Main.cards[player][target]
+					if (card!=null):
+						var max_structure = Data.calc_value(card.type,'structure')
+						if (card.structure<max_structure):
+							card.node.add_child(load('res://scenes/effects/repair03.tscn').instance())
+							card.structure = min(card.structure+2,max_structure)
+							card.update()"
+	},
 	"file":"orbital_drydock"
 }
