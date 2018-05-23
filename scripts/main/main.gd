@@ -337,14 +337,14 @@ func add_target(target,type,list,t):
 	elif (target==null):
 		list.clear()
 
-remote func execute_effect(event,effects,_args=[]):
+func execute_effect(event,effects,_args=[]):
 	printt("execute ",event,effects,_args)
 	if (effects.has_method(event)):
 		var args = []+_args
 		# force the player to select targets
 		printt("target list",effects.get(event+"_targets"))
 		for target in effects.get(event+"_targets"):
-			printt("select ",target,"...")
+			select(target)
 			select = target
 			connect("target_selected",self,"add_target",[args,target],CONNECT_ONESHOT)
 			yield(self,"target_selected")
@@ -984,8 +984,67 @@ func button_end_turn():
 	unselect_unit()
 	end_turn()
 
+func clear_hints():
+	for i in range(hand[player].size()):
+		if (has_node("UI/Cards"+str(int(player!=main_player)+1)+"/Card"+str(i)+"/Outline")):
+			get_node("UI/Cards"+str(int(player!=main_player)+1)+"/Card"+str(i)+"/Outline").hide()
+	for x in range(SIZE*POSITIONS):
+		for y in range(2):
+			get_node("Card_"+str(x)+"_"+str(y)+"/Select").hide()
+	for x in range(SIZE):
+		get_node("Planet_"+str(x)+"/Select").hide()
+	
+
+func select(target):
+	var enemy = int(!player)
+	printt("select ",target,"...")
+	select = target
+	
+	# display visual hints
+	clear_hints()
+	if (select==EMPTY):
+		for x in range(SIZE*POSITIONS):
+			if (cards[player][x]==null && (field[floor(x/POSITIONS)].owner==player)):
+				get_node("Card_"+str(x)+"_"+str(player)+"/Select").show()
+				get_node("Card_"+str(x)+"_"+str(player)+"/Select").set_modulate(Color(0.0,1.0,0.0))
+	elif (select==HAND):
+		for i in range(hand[player].size()):
+			if (has_node("UI/Cards"+str(int(player!=main_player)+1)+"/Card"+str(i)+"/Outline")):
+				get_node("UI/Cards"+str(int(player!=main_player)+1)+"/Card"+str(i)+"/Outline").show()
+	elif (select==ALLY_PLANET):
+		for x in range(SIZE):
+			if (field[x]!=null && field[x].owner==player):
+				get_node("Planet_"+str(x)+"/Select").show()
+				get_node("Planet_"+str(x)+"/Select").set_modulate(Color(0.0,1.0,0.0))
+	elif (select==ENEMY_PLANET):
+		for x in range(SIZE):
+			if (field[x]!=null && field[x].owner!=player):
+				get_node("Planet_"+str(x)+"/Select").show()
+				get_node("Planet_"+str(x)+"/Select").set_modulate(Color(1.0,0.0,0.0))
+	elif (select==PLANET):
+		for x in range(SIZE):
+			get_node("Planet_"+str(x)+"/Select").show()
+			get_node("Planet_"+str(x)+"/Select").set_modulate(Color(0.0,0.0,1.0))
+	elif (select==ALLY_UNIT):
+		for x in range(SIZE*POSITIONS):
+			if (cards[player][x]!=null):
+				get_node("Card_"+str(x)+"_"+str(player)+"/Select").set_modulate(Color(0.0,1.0,0.0))
+				get_node("Card_"+str(x)+"_"+str(player)+"/Select").show()
+	elif (select==ENEMY_UNIT):
+		for x in range(SIZE*POSITIONS):
+			if (cards[enemy][x]!=null):
+				get_node("Card_"+str(x)+"_"+str(enemy)+"/Select").set_modulate(Color(1.0,0.0,0.0))
+				get_node("Card_"+str(x)+"_"+str(enemy)+"/Select").show()
+	elif (select==UNIT):
+		for p in range(NUM_PLAYERS):
+			for x in range(SIZE*POSITIONS):
+				if (cards[p][x]!=null):
+					get_node("Card_"+str(x)+"_"+str(p)+"/Select").set_modulate(Color(0.0,0.0,1.0))
+					get_node("Card_"+str(x)+"_"+str(p)+"/Select").show()
+	
+
 func select_hand(index,player):
-	if (player_is_ai[player]):
+	if (player_is_ai[player] || player!=main_player):
 		return
 	
 	var faction = Data.data[hand[player][index]]["faction"]
@@ -1018,7 +1077,7 @@ func select_hand(index,player):
 				rpc("use_card_effect",selected_hand,player)
 			else:
 				use_card_effect(selected_hand,player)
-	elif (select==HAND && Data.calc_value(hand[player][index],"level")>player_points[player][faction]-player_used_points[player][faction]):
+	elif (select==HAND && Data.data[hand[player][index]]["level"]>player_points[player][faction]-player_used_points[player][faction]):
 		selected_hand = index
 		select = DISCARD
 		get_node("UI/Cards"+str(int(player!=main_player)+1)+"/Card"+str(index)+"/Outline").show()
@@ -1026,23 +1085,17 @@ func select_hand(index,player):
 
 func unselect_hand():
 	if (selected_hand!=null):
-		if (has_node("UI/Cards"+str(int(player!=main_player)+1)+"/Card"+str(selected_hand)+"/Outline")):
-			get_node("UI/Cards"+str(int(player!=main_player)+1)+"/Card"+str(selected_hand)+"/Outline").hide()
+		clear_hints()
 		selected_hand = null
 		select = HAND
 		effect_canceled = true
-		for x in range(SIZE*POSITIONS):
-			for y in range(2):
-				get_node("Card_"+str(x)+"_"+str(y)+"/Select").hide()
-		for x in range(SIZE):
-			get_node("Planet_"+str(x)+"/Select").hide()
 		selected_target = null
-		emit_signal("effect_used",false)
+#		emit_signal("effect_used",false)
 #		emit_signal("target_selected",null,NONE)
 	get_node("UI/Player1/VBoxContainer/ButtonD").set_disabled(true)
 
 func select_unit(x,p):
-	if (player<0 || player_is_ai[player] || select!=HAND || cards[p][x]==null || p!=player):
+	if (player<0 || player_is_ai[player]  || player!=main_player || select!=HAND || cards[p][x]==null || p!=player):
 		return
 	
 	var enemy = PLAYER1
@@ -1081,7 +1134,7 @@ func unselect_unit():
 		select = HAND
 
 func select_field(x,p):
-	if (player<0 || player_is_ai[player]):
+	if (player<0 || player_is_ai[player] || player!=main_player):
 		return
 	
 	if (select==EMPTY):
@@ -1121,7 +1174,7 @@ func select_field(x,p):
 			emit_signal("target_selected",selected_target,type)
 
 func select_planet(x):
-	if (player<0 || player_is_ai[player]):
+	if (player<0 || player_is_ai[player] || player!=main_player):
 		return
 	
 	var enemy = PLAYER1
@@ -1161,13 +1214,15 @@ func select_planet(x):
 #			emit_signal("target_selected",selected_target,NONE)
 
 func _input(event):
-	if (player<0 || player_is_ai[player]):
+	if (player<0 || player_is_ai[player] || player!=main_player):
 		return
 	
-	if (event is InputEventMouseButton && event.pressed && event.button_index==2):
+#	if (event is InputEventMouseButton && event.pressed && event.button_index==2):
+	if (event.is_action_pressed("RMB")):
 		if (select!=NONE):
 			unselect_hand()
 			unselect_unit()
+			emit_signal("effect_used",false)
 			select = HAND
 
 func _process(delta):
@@ -1214,7 +1269,6 @@ func _ready():
 	_resize()
 	get_node("UI/Player1/VBoxContainer/Button").connect("pressed",self,"_next_turn")
 	get_node("UI/Player1/VBoxContainer/ButtonD").connect("pressed",self,"_discard_hand")
-	rpc_config("execute_effect",RPC_MODE_SYNC)
 	rpc_config("set_hand",RPC_MODE_SYNC)
 	rpc_config("use_card_unit",RPC_MODE_SYNC)
 	rpc_config("use_card_effect",RPC_MODE_SYNC)
