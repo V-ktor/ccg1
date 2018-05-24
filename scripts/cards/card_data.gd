@@ -69,6 +69,7 @@ func load_path(path):
 	var dir = Directory.new()
 	var file = File.new()
 	var filename
+	var p = path.substr(0,path.find("://")+2)
 	var error = dir.change_dir(path)
 	if (error!=OK):
 		print("Can't open data directory!")
@@ -128,6 +129,7 @@ func load_path(path):
 					currentline[s] = 1
 			if (currentline["type"]=="planet" && !currentline.has("target")):
 				currentline["target"] = "ally_planet"
+			currentline["path"] = p
 			# set 'effects' to array
 			if (!currentline.has("effects")):
 				currentline["effects"] = []

@@ -498,7 +498,7 @@ remote func attack_unit(attacker,target,player,enemy):
 #	if (damage<=0):
 #		return
 	
-	var pi = load("res://scenes/effects/"+Data.data[cards[player][attacker].type]["file"]+".tscn").instance()
+	var pi = load(Data.data[[cards][player][attacker].type]["path"]+"/scenes/effects/"+Data.data[cards[player][attacker].type]["file"]+".tscn").instance()
 	var pos = cards[player][attacker].node.get_global_position()
 	cards[player][attacker].attack_points -= 1
 	pi.set_scale(Vector2(1,pos.distance_to(cards[enemy][target].node.get_global_position())/800.0))
@@ -528,7 +528,7 @@ remote func bombard_unit(attacker,target,player,enemy):
 #	if (damage<=0):
 #		return
 	
-	var pi = load("res://scenes/effects/"+Data.data[cards[player][attacker].type]["file"]+".tscn").instance()
+	var pi = load(Data.data[[cards][player][attacker].type]["path"]+"/scenes/effects/"+Data.data[cards[player][attacker].type]["file"]+".tscn").instance()
 	var offset = Vector2(0,0)
 	var pos = cards[player][attacker].node.get_global_position()+offset
 	cards[player][attacker].attack_points -= 1

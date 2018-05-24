@@ -20,7 +20,7 @@ var logo = {
 func create_card(ID):
 	var card = Data.data[ID]
 	var bi = base.instance()
-	var ii = load("res://scenes/cards/"+card["file"]+".tscn")
+	var ii = load(card["path"]+"/scenes/cards/"+card["file"]+".tscn")
 	if (ii!=null):
 		ii = ii.instance()
 		bi.get_node("Image").add_child(ii)
