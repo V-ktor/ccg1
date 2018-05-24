@@ -1108,7 +1108,10 @@ func select_hand(index,player):
 		return
 	
 	var faction = Data.data[hand[player][index]]["faction"]
-	unselect_hand()
+	if (select==EMPTY):
+		effect_canceled = true
+		emit_signal("effect_used",false)
+		unselect_hand()
 	if (select==HAND && Data.calc_value(hand[player][index],"level")<=player_points[player][faction]-player_used_points[player][faction]):
 		var type = Data.data[hand[player][index]]["type"]
 		selected_hand = index

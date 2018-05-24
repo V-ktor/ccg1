@@ -312,7 +312,7 @@ func get_effect():
 			# use planet cards
 			var val = cost-abs(left[faction]/2-cost)
 			var pos
-			var targets = Main.get_targets(Main.ALLY_PLANET,null)
+			var targets = Main.get_targets(Main.ALLY_PLANET)
 			if (effects.has_method("estimate_effectiveness")):
 				for x in targets:
 					var v = effects.call("estimate_effectiveness",val,[field[x]])
@@ -321,7 +321,7 @@ func get_effect():
 						pos = x
 			elif (val>0 && targets.size()>0):
 				pos = targets[randi()%targets.size()]
-			if (val>0):
+			if (pos!=null):
 				action = {"function":"use_card_planet","arguments":[pos,c,player]}
 	
 	return action
