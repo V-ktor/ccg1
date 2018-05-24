@@ -87,7 +87,9 @@
 			func on_use(target):
 				var card = Main.cards[self.enemy][target]
 				card.structure -= max(4-card.shield,0)
-				card.node.add_child(load('res://scenes/effects/torpedo.tscn').instance())",
+				card.node.add_child(load('res://scenes/effects/torpedo.tscn').instance())
+			func on_use_target1_filter(target,targets):
+				return target.shield<4",
 		"target":"enemy_unit"
 	},
 	"file":"booby_trap"
@@ -106,10 +108,13 @@
 			"rule":"SUICIDE_DESC",
 			"script":"
 				func on_use(ally,target):
-					var unit = Main.cards[self.owner][ally]
+					var unit = Main.cards[self.player][ally]
 					var card = Main.cards[self.enemy][target]
 					card.structure -= max(unit.structure-card.shield,0)
-					destroy_unit(ally,owner)",
+					unit.node.move_to = card.node.get_global_position()
+					destroy_unit(ally,self.player)
+				func on_use_target2_filter(target,targets):
+					return floor(target.position/Main.POSITIONS)==floor(targets[0].position/Main.POSITIONS)",
 			"target":["ally_unit","enemy_unit"]
 		}
 	],
@@ -134,7 +139,9 @@
 					var card = Main.cards[self.enemy][target]
 					card.damage = max(card.damage-2,0)
 					card.shield = max(card.shield-1,0)
-					card.node.add_child(load('res://scenes/effects/virus.tscn').instance())",
+					card.node.add_child(load('res://scenes/effects/virus.tscn').instance())
+				func on_use_target1_filter(target,targets):
+					return target.damage>0 || target.shield>0",
 			"target":"enemy_unit"
 		},
 		{

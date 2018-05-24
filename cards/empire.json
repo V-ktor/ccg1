@@ -169,14 +169,15 @@
 			"rule":"COUNTERATTACK_DESC",
 			"script":"
 				func on_attacked(target):
-					var card = Main.cards[self.enemy][target]
-					var pi = load('res://scenes/effects/planetary_defense.tscn').instance()
-					var pos = self.node.get_global_position()
-					pi.set_scale(Vector2(1,pos.distance_to(card.node.get_global_position())/800.0))
-					pi.set_global_position(pos)
-					pi.set_rotation(pos.angle_to_point(card.node.get_global_position())-PI/2.0)
-					Main.add_child(pi)
-					card.structure -= max(self.damage-card.shield,0)"
+					if (floor(target/Main.POSITIONS)==floor(self.position/Main.POSITIONS)):
+						var card = Main.cards[self.enemy][target]
+						var pi = load('res://scenes/effects/planetary_defense.tscn').instance()
+						var pos = self.node.get_global_position()
+						pi.set_scale(Vector2(1,pos.distance_to(card.node.get_global_position())/800.0))
+						pi.set_global_position(pos)
+						pi.set_rotation(pos.angle_to_point(card.node.get_global_position())-PI/2.0)
+						Main.add_child(pi)
+						card.structure -= max(self.damage-card.shield,0)"
 		}
 	],
 	"file":"planetary_defense"
@@ -231,7 +232,7 @@
 				for target in range(floor(self.position/Main.POSITIONS)*Main.POSITIONS,(floor(self.position/Main.POSITIONS)+1)*Main.POSITIONS):
 					var card = Main.cards[self.player][target]
 					if (card!=null):
-						var max_structure = Data.data[card.type,'structure']
+						var max_structure = Data.data[card.type]['structure']
 						if (card.structure<max_structure):
 							card.node.add_child(load('res://scenes/effects/repair03.tscn').instance())
 							card.structure = min(card.structure+2,max(max_structure,card.structure))"
@@ -274,7 +275,9 @@
 			func on_use(target):
 				var card = Main.cards[self.enemy][target]
 				card.structure -= max(6-card.shield,0)
-				card.node.add_child(load('res://scenes/effects/torpedo.tscn').instance())",
+				card.node.add_child(load('res://scenes/effects/torpedo.tscn').instance())
+			func on_use_target1_filter(target,targets):
+				return target.shield<6",
 		"target":"enemy_unit"
 	},
 	"file":"torpedo"
@@ -292,8 +295,8 @@
 		"icon":"cards_3",
 		"rule":"DRAW_3_DESC",
 		"script":"
-			func on_spawn():
-				Main.draw_cards(self.owner,3)"
+			func on_use():
+				Main.draw_cards(self.player,3)"
 	},
 	"file":""
 }
@@ -311,7 +314,7 @@
 		"rule":"INCREASE_DAMAGE_2_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[self.owner][target]
+				var card = Main.cards[self.player][target]
 				card.damage += 2
 				card.node.add_child(load('res://scenes/effects/upg_weapon.tscn').instance())",
 		"target":"ally_unit"
@@ -332,7 +335,7 @@
 		"rule":"ARMOR_2_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[self.owner][target]
+				var card = Main.cards[self.player][target]
 				card.structure += 2
 				card.node.add_child(load('res://scenes/effects/upg_armor.tscn').instance())",
 		"target":"ally_unit"
@@ -353,7 +356,7 @@
 		"rule":"SHIELD_1_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[self.owner][target]
+				var card = Main.cards[self.player][target]
 				card.shield += 1
 				card.node.add_child(load('res://scenes/effects/upg_shield.tscn').instance())",
 		"target":"ally_unit"
@@ -374,10 +377,12 @@
 		"rule":"REPAIR_4_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[self.owner][target]
+				var card = Main.cards[self.player][target]
 				var max_structure = Data.data[card.type]['structure']
 				card.structure = min(card.structure+4,max(max_structure,card.structure))
-				card.node.add_child(load('res://scenes/effects/repair01.tscn').instance())",
+				card.node.add_child(load('res://scenes/effects/repair01.tscn').instance())
+			func on_use_target1_filter(target,targets):
+				return target.structure<Data.data[target.type]['structure']",
 		"target":"ally_unit"
 	},
 	"file":"repair01"
@@ -465,7 +470,7 @@
 				if (player!=self.owner):
 					return
 				for target in range(self.position*Main.POSITIONS,(self.position+1)*Main.POSITIONS):
-					var card = Main.cards[enemy][target]
+					var card = Main.cards[self.enemy][target]
 					if (card!=null):
 						card.node.add_child(load('res://scenes/effects/mine.tscn').instance())
 						card.structure -= 1"

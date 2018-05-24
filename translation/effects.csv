@@ -46,7 +46,7 @@ PENETRATE_SHIELD_DESC,"Ignore enemy shields."
 PLUNDER,plunder
 PLUNDER_DESC,"Gain 2 resource points on attack."
 SUICIDE,suicide
-SUICIDE_DESC,"Destroy one of your units and deal damage equal to it's structure to an enemy unit."
+SUICIDE_DESC,"Destroy one of your units and deal damage equal to it's structure to an adjacent enemy unit."
 JAM_1,jam shields
 JAM_1_DESC,"Reduces shields by 1."
 REDUCE_DMG_2,damage -2

@@ -59,6 +59,12 @@ var cards_tier2 = [[],[],[],[],[]]
 var cards_tier3 = [[],[],[],[],[]]
 
 
+class Effects:
+	var Main
+	var owner
+	var _self
+
+
 func load_path(path):
 	var dir = Directory.new()
 	var file = File.new()
@@ -87,6 +93,9 @@ func load_path(path):
 			# gather all lines that are belonging to the same card
 			var currentline = file.get_line()
 			var num_brackets = 0
+			var code = "var _self\nvar Main\n"
+			var scr = GDScript.new()
+			var effects = Effects.new()
 			for s in currentline:
 				num_brackets += int(s=="{")-int(s=="}")
 			while (num_brackets>0):
@@ -145,6 +154,22 @@ func load_path(path):
 					effect["target"] = [effect["target"]]
 				for i in range(effect["target"].size()):
 					effect["target"][i] = TARGET_TYPE[effect["target"][i]]
+			# parse script
+			for effect in currentline["effects"]:
+				if (effect.has("script")):
+					code += effect["script"]+"\n"
+			for effect in currentline["effects"]:
+				if (effect.has("script")):
+					var p1 = effect["script"].find("func ")+5
+					var p2 = effect["script"].find("(",p1)
+					var property = effect["script"].substr(p1,p2-p1)+"_targets"
+					printt(property,effect["target"])
+					code += "var "+property+" = "+str(effect["target"])+"\n"
+			scr.set_source_code(code)
+#			printt(scr,"\n",code)
+			scr.reload()
+			effects.set_script(scr)
+			currentline["script"] = effects
 			
 			# add card data
 			data[currentline["name"]] = currentline

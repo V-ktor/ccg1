@@ -116,24 +116,7 @@
 					var card = Main.cards[self.enemy][target]
 					card.structure -= max(card.shield-self.damage,0)
 					if (card.structure+card.shield-self.damage<=0):
-						var timer = Timer.new()
-						var tpos = card.node.get_global_position()
-						var new
-						Main.destroy_unit(self.position,self.owner,false)
-						Main.add_unit(self.position,card.type,self.owner)
-						new = Main.cards[self.owner][self.position]
-						new.structure = card.structure
-						new.damage = card.damage
-						new.shield = card.shield
-						new.attack_points = 0
-						new.movement_points = 0
-						Main.destroy_unit(target,self.enemy,false)
-						timer.set_one_shot(true)
-						timer.set_wait_time(1.0)
-						add_child(timer)
-						timer.start()
-						yield(timer,'timeout')
-						new.node.set_global_position(tpos)"
+						Main.capture_unit(target,self.position,self.owner,self.enemy)"
 		}
 	],
 	"file":"troop_ship"
@@ -247,7 +230,9 @@
 			func on_use(target):
 				var card = Main.cards[self.enemy][target]
 				card.shield = max(card.shield-1,0)
-				card.node.add_child(load('res://scenes/effects/jam_shield.tscn').instance())",
+				card.node.add_child(load('res://scenes/effects/jam_shield.tscn').instance())
+			func on_use_target1_filter(target,targets):
+				return target.shield>0",
 		"target":"enemy_unit"
 	},
 	"file":"jam_shield"
@@ -268,7 +253,9 @@
 			func on_use(target):
 				var card = Main.cards[self.enemy][target]
 				card.damage = max(card.damage-2,0)
-				card.node.add_child(load('res://scenes/effects/cripple.tscn').instance())",
+				card.node.add_child(load('res://scenes/effects/cripple.tscn').instance())
+			func on_use_target1_filter(target,targets):
+				return target.damage>0",
 		"target":"enemy_unit"
 	},
 	"file":"cripple"
@@ -288,10 +275,12 @@
 			"rule":"REDUCE_COST_4_DESC",
 			"script":"
 				func on_use(target):
-					var card = Main.cards[self.owner][target]
+					var card = Main.cards[self.player][target]
 					card.level = max(card.level-4,0)
 					card.structure = max(card.structure-1,1)
-					card.node.add_child(load('res://scenes/effects/downgrade.tscn').instance())",
+					card.node.add_child(load('res://scenes/effects/downgrade.tscn').instance())
+				func on_use_target1_filter(target,targets):
+					return target.level>0 && target.structure>1",
 			"target":"ally_unit"
 		},
 		{
@@ -315,10 +304,12 @@
 		"rule":"REPAIR_5_DESC",
 		"script":"
 			func on_use(target):
-				var card = Main.cards[self.owner][target]
+				var card = Main.cards[self.player][target]
 				var max_structure = Data.data[card.type]['structure']
 				card.structure = min(card.structure+5,max(max_structure,card.structure))
-				card.node.add_child(load('res://scenes/effects/repair04.tscn').instance())",
+				card.node.add_child(load('res://scenes/effects/repair04.tscn').instance())
+			func on_use_target1_filter(target,targets):
+				return target.structure<Data.data[target.type]['structure']",
 		"target":"ally_unit"
 	},
 	"file":"repair04"
@@ -363,9 +354,14 @@
 			func on_use(target):
 				var card = Main.field[target]
 				card.structure = 0
-				card.owner = self.owner
+				card.owner = self.player
 				card.upate()
-				card.node.add_child(load('res://scenes/effects/rebellion.tscn').instance())",
+				card.node.add_child(load('res://scenes/effects/rebellion.tscn').instance())
+			func on_use_target1_filter(target,targets):
+				for x in range(Main.SIZE):
+					if (Main.field[x].owner==self.enemy):
+						return true
+				return false",
 		"target":"enemy_planet"
 	},
 	"file":"rebellion"
@@ -386,12 +382,12 @@
 				if (player!=self.owner):
 					return
 				var pos = -1
-				for y in range(POSITIONS):
-					if (cards[self.owner][self.position*POSITIONS+y]==null):
-						pos = self.position*POSITIONS+y
+				for y in range(Main.POSITIONS):
+					if (Main.cards[self.owner][self.position*Main.POSITIONS+y]==null):
+						pos = self.position*Main.POSITIONS+y
 						break
 				if (pos>=0):
-					Main.add_unit(pos,'light_fighter',owner)"
+					Main.add_unit(pos,'light_fighter',self.owner)"
 	},
 	"file":"shipyard"
 }
