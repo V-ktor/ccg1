@@ -156,7 +156,7 @@ class Unit:
 		update()
 	
 	func update():
-		if (structure<0):
+		if (structure<=0):
 			structure = 0
 			Main.destroy_unit(position,owner)
 		Cards.update_values(node,level,structure,damage,shield)
@@ -250,8 +250,8 @@ func ai_timer():
 	get_node("AiTimer").set_wait_time(0.25)
 	
 	# skip AI turns
-	get_node("TimerNextTurn").start()
-	return
+#	get_node("TimerNextTurn").start()
+#	return
 	
 	var action
 	ai.update()
@@ -291,7 +291,6 @@ func get_card_targets(x,player,enemy):
 func get_targets(type,effects=null,event="",ID=0,last_targets=[]):
 	var targets = []
 	var method = event+"_target"+str(ID+1)+"_filter"
-	printt(method)
 	if (type==EMPTY):
 		for x in range(SIZE*POSITIONS):
 			if (cards[player][x]==null && (field[floor(x/POSITIONS)].owner==player)):
@@ -371,30 +370,34 @@ func add_target(target,type,list,t,effects=null,event="",ID=0,last_targets=[]):
 	elif (target==null):
 		list.clear()
 
-func execute_effect(event,effects,_args=[]):
+func execute_effect(event,effects,_args=[],_targets=null):
 	var target_ID = 0
 	printt("execute ",event,effects,_args)
 	if (effects.has_method(event)):
 		var args = []+_args
-		# force the player to select targets
-		for target in effects.get(event+"_targets"):
-			queue_select(target,effects,event,target_ID,[]+args)
-			select = target
-			connect("target_selected",self,"add_target",[args,target,effects,event,target_ID,[]+args],CONNECT_ONESHOT)
-			yield(self,"target_selected")
-			if (args.size()<1):
-				printt("cancel effect execution")
-				effect_canceled = true
-				emit_signal("effect_used",false)
-				return
-			target_ID += 1
+		if (_targets!=null):
+			# targets are already provided
+			args += _targets
+		else:
+			# force the player to select targets
+			for target in effects.get(event+"_targets"):
+				queue_select(target,effects,event,target_ID,[]+args)
+				select = target
+				connect("target_selected",self,"add_target",[args,target,effects,event,target_ID,[]+args],CONNECT_ONESHOT)
+				yield(self,"target_selected")
+				if (args.size()<1):
+					printt("cancel effect execution")
+					effect_canceled = true
+					emit_signal("effect_used",false)
+					return
+				target_ID += 1
 		printt(event,effects,args)
 		effects.callv(event,args)
 	update()
 	yield(get_tree(),"idle_frame")
 	emit_signal("effect_used",true)
 
-remote func use_card_effect(ID,player):
+remote func use_card_effect(ID,player,targets=null):
 	printt("use effect card",ID,player,hand[player][ID],hand[player])
 	var card = Data.data[hand[player][ID]]
 	var faction = card["faction"]
@@ -412,7 +415,7 @@ remote func use_card_effect(ID,player):
 	effects._self = self
 	effects.Main = self
 	effect_canceled = false
-	execute_effect("on_use",effects)
+	execute_effect("on_use",effects,[],targets)
 	
 	yield(self,"effect_used")
 	if (effect_canceled):
@@ -486,52 +489,54 @@ func remove_card_ID(player,ID):
 
 
 remote func attack_unit(attacker,target,player,enemy):
-	if (cards[player][attacker]==null || cards[player][attacker].attack_points<1 || cards[enemy][target]==null || floor(attacker/POSITIONS)!=floor(target/POSITIONS)):
+	var card = cards[player][attacker]
+	var t_card = cards[enemy][target]
+	if (card==null || card.attack_points<1 || t_card==null || floor(attacker/POSITIONS)!=floor(target/POSITIONS)):
 		return
 	
-	var damage = max(cards[player][attacker].damage-cards[enemy][target].shield,0)
-	var t_pos = cards[enemy][target].node.get_global_position()
+	var damage = max(card.damage-t_card.shield,0)
+	var pi = load(Data.data[card.type]["path"]+"/scenes/effects/"+Data.data[card.type]["file"]+".tscn").instance()
+	var t_pos = t_card.node.get_global_position()
+	var pos = card.node.get_global_position()
 	
-	execute_effect("on_attack",cards[player][attacker],[target].effects)
-	execute_effect("on_attacked",cards[enemy][target],[attacker].effects)
+	execute_effect("on_attack",card.effects,[target])
+	execute_effect("on_attacked",t_card.effects,[attacker])
 	
 #	if (damage<=0):
 #		return
 	
-	var pi = load(Data.data[[cards][player][attacker].type]["path"]+"/scenes/effects/"+Data.data[cards[player][attacker].type]["file"]+".tscn").instance()
-	var pos = cards[player][attacker].node.get_global_position()
-	cards[player][attacker].attack_points -= 1
-	pi.set_scale(Vector2(1,pos.distance_to(cards[enemy][target].node.get_global_position())/800.0))
+	card.attack_points -= 1
+	pi.set_scale(Vector2(1,pos.distance_to(t_card.node.get_global_position())/800.0))
 	pi.set_global_position(pos)
-	pi.set_rotation(pos.angle_to_point(cards[enemy][target].node.get_global_position())-PI/2.0)
+	pi.set_rotation(pos.angle_to_point(t_card.node.get_global_position())-PI/2.0)
 	add_child(pi)
-	cards[enemy][target].structure -= damage
-	cards[player][attacker].update()
-	cards[enemy][target].update()
+	t_card.structure -= damage
+	card.update()
+	t_card.update()
 	
-	update_resources()
 	unselect_unit()
 	emit_signal("unit_attacked")
 
 remote func bombard_unit(attacker,target,player,enemy):
-	if (cards[player][attacker]==null || cards[player][attacker].attack_points<1 || field[target].owner==player || floor(attacker/POSITIONS)!=target):
+	var card = cards[player][attacker]
+	if (card==null || card.attack_points<1 || field[target].owner==player || floor(attacker/POSITIONS)!=target):
 		return
 	for x in range(target*POSITIONS,(target+1)*POSITIONS):
 		if (cards[enemy][x]!=null):
 			return
 	
-	var damage = max(cards[player][attacker].damage-field[target].shield,0)
+	var damage = max(card.damage-field[target].shield,0)
+	var pi = load(Data.data[cards[player][attacker].type]["path"]+"/scenes/effects/"+Data.data[cards[player][attacker].type]["file"]+".tscn").instance()
+	var offset = Vector2(0,0)
+	var pos = cards[player][attacker].node.get_global_position()+offset
 	
-	execute_effect("on_bombard",cards[player][attacker].effects,[target])
+	execute_effect("on_bombard",card.effects,[target])
 	execute_effect("on_bombarded",field[target].effects,[attacker])
 	
 #	if (damage<=0):
 #		return
 	
-	var pi = load(Data.data[[cards][player][attacker].type]["path"]+"/scenes/effects/"+Data.data[cards[player][attacker].type]["file"]+".tscn").instance()
-	var offset = Vector2(0,0)
-	var pos = cards[player][attacker].node.get_global_position()+offset
-	cards[player][attacker].attack_points -= 1
+	card.attack_points -= 1
 	pi.set_position(offset)
 	pi.set_scale(Vector2(1,pos.distance_to(field[target].node.get_global_position())/800.0))
 	pi.set_global_position(pos)
@@ -541,41 +546,45 @@ remote func bombard_unit(attacker,target,player,enemy):
 	if (field[target].structure<=0):
 		field[target].structure = 0
 		field[target].owner = player
-	cards[player][attacker].update()
+	card.update()
 	field[target].update()
 	
-	update_resources()
 	unselect_unit()
 	emit_signal("unit_invaded")
 
 remote func move_unit(from,to,player):
-	if (cards[player][from]==null || cards[player][to]!=null || cards[player][from].movement_points<1 || floor(from/POSITIONS)==floor(to/POSITIONS)):
+	var card = cards[player][from]
+	if (card==null || cards[player][to]!=null || card.movement_points<1 || floor(from/POSITIONS)==floor(to/POSITIONS)):
 		return
 	
-	add_unit(to,cards[player][from].type,player,get_node("Card_"+str(from)+"_"+str(player)).get_global_position()-get_node("Card_"+str(to)+"_"+str(player)).get_global_position())
+	var pos = card.node.get_global_position()
+	get_node("Card_"+str(from)+"_"+str(player)).remove_child(card.node)
+	get_node("Card_"+str(to)+"_"+str(player)).add_child(card.node)
+	card.node.set_global_position(pos)
+	card.node.move_to = get_node("Card_"+str(to)+"_"+str(player)).get_global_position()
+	
+	card.movement_points -= 1
+	cards[player][to] = card
+	card.position = to
+	cards[player][from] = null
+	card.update()
 	
 	execute_effect("on_moved",cards[player][to].effects)
-	
-	cards[player][to].level = cards[player][from].level
-	cards[player][to].structure = cards[player][from].structure
-	cards[player][to].damage = cards[player][from].damage
-	cards[player][to].shield = cards[player][from].shield
-	cards[player][to].attack_points = cards[player][from].attack_points
-	cards[player][to].movement_points = cards[player][from].movement_points-1
-	cards[player][to].update()
-	
-	destroy_unit(from,player,false)
 	
 	unselect_unit()
 	update_resources()
 	emit_signal("unit_moved")
 
 func add_unit(x,ID,player,pos=Vector2(0,0)):
+	if (cards[player][x]!=null):
+		return
 	cards[player][x] = Unit.new(self,ID,Data.data[ID]["structure"],Data.data[ID]["damage"],Data.data[ID]["shield"],Data.data[ID]["level"],Data.data[ID]["script"],player,x,pos,player+main_player)
 	if (pos==Vector2(0,0)):
 		cards[player][x].node.set_position(cards[player][x].node.get_position()+Vector2(0,800*(0.5-player)))
 
 func destroy_unit(x,player,explosion=true):
+	if (cards[player][x]==null):
+		return
 	cards[player][x].node.set_name("destroyed")
 	if (explosion):
 		cards[player][x].node.get_node("Anim").play("explode")
@@ -1085,7 +1094,7 @@ func queue_select(target,effects=null,event="",ID=0,last_targets=[]):
 					get_node("Card_"+str(x)+"_"+str(p)+"/Select").show()
 	
 	if (player_is_ai[player]):
-		var t = ai.get_target(select)
+		var t = ai.get_target(select,effects,event,ID,last_targets,targets)
 		if (t==null):
 			unselect_hand()
 			unselect_unit()
@@ -1204,9 +1213,9 @@ func select_field(x,p):
 	elif (select==EMPTY_OR_ENEMY):
 		if (cards[p][x]!=null && player!=p):
 			if (get_tree().has_network_peer()):
-				rpc("attack_unit",selected_field,x,player,p,false)
+				rpc("attack_unit",selected_field,x,player,p)
 			else:
-				attack_unit(selected_field,x,player,p,false)
+				attack_unit(selected_field,x,player,p)
 			selected_target = null
 #			emit_signal("target_selected",selected_target,NONE)
 		elif (cards[p][x]==null && player==p):
@@ -1339,6 +1348,6 @@ func _ready():
 	draw_init()
 	
 	update_resources()
-	ai = ai_class.new(PLAYER2,hand,deck,cards,field,player_points[PLAYER2],player_used_points[PLAYER2],SIZE,POSITIONS)
+	ai = ai_class.new(PLAYER2,hand,deck,cards,field,player_points[PLAYER2],player_used_points[PLAYER2],SIZE,POSITIONS,self)
 	
 	update_discard_cards()

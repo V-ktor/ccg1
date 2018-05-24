@@ -45,6 +45,9 @@
 					self.damage = max(self.damage-1,0)"
 		}
 	],
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score-2",
 	"file":"bomber"
 }
 {
@@ -83,6 +86,9 @@
 					self.damage = max(self.damage-1,0)"
 		}
 	],
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score-2",
 	"file":"missile_frigate"
 }
 {
@@ -180,6 +186,9 @@
 						card.structure -= max(self.damage-card.shield,0)"
 		}
 	],
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score",
 	"file":"planetary_defense"
 }
 {
@@ -209,6 +218,9 @@
 					Main.draw_cards(self.owner,2)"
 		}
 	],
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score+2+max(5-Main.hand[self.player].size(),0)",
 	"file":"factory"
 }
 {
@@ -237,6 +249,9 @@
 							card.node.add_child(load('res://scenes/effects/repair03.tscn').instance())
 							card.structure = min(card.structure+2,max(max_structure,card.structure))"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score+4",
 	"file":"repair03"
 }
 {
@@ -257,6 +272,9 @@
 			func on_bombard(target):
 				Main.field[target].structure -= 2"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score+2",
 	"file":"heavy_bomber"
 }
 {
@@ -280,6 +298,10 @@
 				return target.shield<6",
 		"target":"enemy_unit"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			score += max(6-targets[0].shield,0)+25*float(targets[0].structure+targets[0].shield<=6)
+			return score",
 	"file":"torpedo"
 }
 {
@@ -298,6 +320,9 @@
 			func on_use():
 				Main.draw_cards(self.player,3)"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+2+2*max(5-Main.hand[self.player].size(),0)",
 	"file":""
 }
 {
@@ -319,6 +344,9 @@
 				card.node.add_child(load('res://scenes/effects/upg_weapon.tscn').instance())",
 		"target":"ally_unit"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+4+targets[0].structure+2*targets[0].shield",
 	"file":"upg_weapon"
 }
 {
@@ -340,6 +368,9 @@
 				card.node.add_child(load('res://scenes/effects/upg_armor.tscn').instance())",
 		"target":"ally_unit"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+2+targets[0].structure+targets[0].damage+2*targets[0].shield",
 	"file":"upg_armor"
 }
 {
@@ -361,6 +392,9 @@
 				card.node.add_child(load('res://scenes/effects/upg_shield.tscn').instance())",
 		"target":"ally_unit"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+2+targets[0].structure+targets[0].damage+4*targets[0].shield",
 	"file":"upg_shield"
 }
 {
@@ -385,6 +419,9 @@
 				return target.structure<Data.data[target.type]['structure']",
 		"target":"ally_unit"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+2+max(targets[0].structure-Data.data[targets[0].type]['structure'],0)+targets[0].structure+targets[0].damage+2*targets[0].shield",
 	"file":"repair01"
 }
 {
@@ -405,6 +442,9 @@
 				card.structure += 6",
 		"target":"ally_planet"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+3",
 	"file":""
 }
 {
@@ -432,6 +472,9 @@
 			"rule":"PRODUCTION_2_DESC"
 		}
 	],
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+6",
 	"file":""
 }
 {
@@ -448,9 +491,11 @@
 		"rule":"SHIELD_1_DESC",
 		"script":"
 			func on_use(target):
-				Main.field[target].shield += 1",
-		"target":"ally_planet"
+				Main.field[target].shield += 1"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+10-targets[0].structure",
 	"file":"planetary_barrier"
 }
 {
@@ -475,6 +520,9 @@
 						card.node.add_child(load('res://scenes/effects/mine.tscn').instance())
 						card.structure -= 1"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+4",
 	"file":""
 }
 {
@@ -500,5 +548,8 @@
 							card.node.add_child(load('res://scenes/effects/repair03.tscn').instance())
 							card.structure = min(card.structure+2,max(max_structure,card.structure))"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+6",
 	"file":"orbital_drydock"
 }

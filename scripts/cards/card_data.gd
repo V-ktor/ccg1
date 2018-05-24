@@ -120,7 +120,7 @@ func load_path(path):
 				printt("Error parsing "+filename+" (missing name).")
 				continue
 			
-			# set undefined values to default
+			# set undefined values to default values
 			for s in ["structure","shield","damage","cards"]:
 				if (!currentline.has(s)):
 					currentline[s] = 0
@@ -130,11 +130,12 @@ func load_path(path):
 			if (currentline["type"]=="planet" && !currentline.has("target")):
 				currentline["target"] = "ally_planet"
 			currentline["path"] = p
-			# set 'effects' to array
+			# make 'effects' an array
 			if (!currentline.has("effects")):
 				currentline["effects"] = []
 			elif (typeof(currentline["effects"])!=TYPE_ARRAY):
 				currentline["effects"] = [currentline["effects"]]
+			# first add effect scripts
 			for effect in currentline["effects"]:
 				if (effect.has("script")):
 					# correct indentation
@@ -156,10 +157,10 @@ func load_path(path):
 					effect["target"] = [effect["target"]]
 				for i in range(effect["target"].size()):
 					effect["target"][i] = TARGET_TYPE[effect["target"][i]]
-			# parse script
 			for effect in currentline["effects"]:
 				if (effect.has("script")):
 					code += effect["script"]+"\n"
+			# add an array containing target types used for effect function call
 			for effect in currentline["effects"]:
 				if (effect.has("script")):
 					var p1 = effect["script"].find("func ")+5
@@ -167,10 +168,27 @@ func load_path(path):
 					var property = effect["script"].substr(p1,p2-p1)+"_targets"
 					printt(property,effect["target"])
 					code += "var "+property+" = "+str(effect["target"])+"\n"
+			# add AI helper function that estimates usefullness
+			if (currentline.has("effectiveness")):
+				# correct indentation
+				var p1
+				var p2
+				var n
+				var script = currentline["effectiveness"].replace("self","_self")
+				p1 = script.find("func")
+				p2 = script.rfind("\n",p1)
+				n = p1-p2-2
+				for i in range(script.length()-1,-1,-1):
+					if (script[i]=="\n"):
+						script = script.substr(0,i+1)+script.substr(i+n+2,script.length()-i-n-2)
+				code += "\n"+script
+			
+			# finally parse script
 			scr.set_source_code(code)
 #			printt(scr,"\n",code)
 			scr.reload()
 			effects.set_script(scr)
+			# replace script string with class
 			currentline["script"] = effects
 			
 			# add card data

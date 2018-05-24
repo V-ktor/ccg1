@@ -17,6 +17,9 @@
 				var card = Main.cards[self.enemy][target]
 				card.structure -= max(card.shield-self.damage,0)"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score+4",
 	"file":"pirate_fighters"
 }
 {
@@ -48,6 +51,9 @@
 			func on_attack(target):
 				Main.player_used_points[self.owner]['pirates'] = max(Main.player_used_points['pirates']-2,0)"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score+4+max(6-Main.points[self.player]['pirates'],0)",
 	"file":"looter"
 }
 {
@@ -92,6 +98,10 @@
 				return target.shield<4",
 		"target":"enemy_unit"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			score += max(4-targets[0].shield,0)+25*float(targets[0].structure+targets[0].shield<=4)
+			return score",
 	"file":"booby_trap"
 }
 {
@@ -118,6 +128,10 @@
 			"target":["ally_unit","enemy_unit"]
 		}
 	],
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			score += max(targets[0].structure-targets[1].shield,0)+25*float(targets[1].structure+targets[1].shield<=targets[0].structure)-targets[0].damage-2*targets[0].shield
+			return score",
 	"file":"suicide"
 }
 {
@@ -150,6 +164,9 @@
 			"rule":"JAM_1_DESC"
 		}
 	],
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+4+2*targets[0].shield",
 	"file":"virus"
 }
 {
@@ -174,5 +191,8 @@
 						card.node.add_child(load('res://scenes/effects/mine.tscn').instance())
 						card.structure -= 2"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+6",
 	"file":""
 }

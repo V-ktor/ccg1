@@ -16,6 +16,9 @@
 			func on_spawn():
 				self.level = 0"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score+1",
 	"file":"fighters03"
 }
 {
@@ -37,6 +40,9 @@
 				var card = Main.cards[self.enemy][target]
 				card.structure -= max(card.shield-self.damage,0)"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score+2",
 	"file":"fighters04"
 }
 {
@@ -58,6 +64,9 @@
 				var card = Main.cards[self.enemy][target]
 				card.structure -= max(card.shield-self.damage,0)"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score+4",
 	"file":"stealth_fighters"
 }
 {
@@ -78,6 +87,9 @@
 			func on_spawn():
 				self.level = 0"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score+3",
 	"file":"freighter01"
 }
 {
@@ -119,6 +131,9 @@
 						Main.capture_unit(target,self.position,self.owner,self.enemy)"
 		}
 	],
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score+4",
 	"file":"troop_ship"
 }
 {
@@ -212,6 +227,9 @@
 			func on_spawn():
 				self.level = 0"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,position):
+			return score+3",
 	"file":"colony_ship"
 }
 {
@@ -235,6 +253,9 @@
 				return target.shield>0",
 		"target":"enemy_unit"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+2*targets[0].shield",
 	"file":"jam_shield"
 }
 {
@@ -258,6 +279,9 @@
 				return target.damage>0",
 		"target":"enemy_unit"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+4",
 	"file":"cripple"
 }
 {
@@ -289,6 +313,9 @@
 			"rule":"REDUCE_STRUCTURE_1_DESC"
 		}
 	],
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+1+2*float(targets[0].level>=4)",
 	"file":"downgrade"
 }
 {
@@ -312,6 +339,9 @@
 				return target.structure<Data.data[target.type]['structure']",
 		"target":"ally_unit"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+3+max(targets[0].structure-Data.data[targets[0].type]['structure'],0)+targets[0].structure+targets[0].damage+2*targets[0].shield",
 	"file":"repair04"
 }
 {
@@ -320,6 +350,9 @@
 	"faction":"rebels",
 	"grade":1,
 	"level":3,
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score",
 	"file":"revolt"
 }
 {
@@ -337,6 +370,9 @@
 			func on_spawn():
 				Main.remove_cards(self.enemy,2)"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return (score+2+0.25*Main.hand[self.enemy].size())*float(Main.hand[self.enemy].size()>=2)",
 	"file":"sabotage"
 }
 {
@@ -355,7 +391,6 @@
 				var card = Main.field[target]
 				card.structure = 0
 				card.owner = self.player
-				card.upate()
 				card.node.add_child(load('res://scenes/effects/rebellion.tscn').instance())
 			func on_use_target1_filter(target,targets):
 				for x in range(Main.SIZE):
@@ -364,6 +399,9 @@
 				return false",
 		"target":"enemy_planet"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+8+targets[0].structure+2*targets[0].shield",
 	"file":"rebellion"
 }
 {
@@ -389,6 +427,9 @@
 				if (pos>=0):
 					Main.add_unit(pos,'light_fighter',self.owner)"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+4",
 	"file":"shipyard"
 }
 {
@@ -407,5 +448,8 @@
 			func on_use(target):
 				Main.field[target].shield += 1"
 	},
+	"effectiveness":"
+		func estimate_effectiveness(score,targets):
+			return score+2",
 	"file":"bunker_complex"
 }
