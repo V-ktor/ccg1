@@ -166,7 +166,6 @@ func load_path(path):
 					var p1 = effect["script"].find("func ")+5
 					var p2 = effect["script"].find("(",p1)
 					var property = effect["script"].substr(p1,p2-p1)+"_targets"
-					printt(property,effect["target"])
 					code += "var "+property+" = "+str(effect["target"])+"\n"
 			# add AI helper function that estimates usefullness
 			if (currentline.has("effectiveness")):
