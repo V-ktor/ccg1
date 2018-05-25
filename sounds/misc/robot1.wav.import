@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/robot1.wav-b1490be4af93bff4abf70d2cfd1aa65f.sample"
+
+[deps]
+
+source_file="res://sounds/misc/robot1.wav"
+source_md5="fa3ab8399547f7c16a04d33298003e1b"
+
+dest_files=[ "res://.import/robot1.wav-b1490be4af93bff4abf70d2cfd1aa65f.sample" ]
+dest_md5="84f8fe01c25387299220a90f5df1b1d4"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

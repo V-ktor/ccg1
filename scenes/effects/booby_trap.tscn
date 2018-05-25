@@ -5,37 +5,37 @@
 [ext_resource path="res://images/weapons/explosion_normal.png" type="Texture" id=3]
 [ext_resource path="res://sounds/explosions/explosion09.wav" type="AudioStream" id=4]
 
-[sub_resource type="CanvasItemMaterial" id=6]
+[sub_resource type="CanvasItemMaterial" id=1]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 1
 
-[sub_resource type="Gradient" id=7]
+[sub_resource type="Gradient" id=2]
 
 offsets = PoolRealArray( 0, 0.0591716, 0.792899, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=8]
+[sub_resource type="GradientTexture" id=3]
 
 flags = 4
-gradient = SubResource( 7 )
+gradient = SubResource( 2 )
 width = 2048
 
-[sub_resource type="Curve" id=9]
+[sub_resource type="Curve" id=4]
 
 min_value = 0.99
 max_value = 1.5
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1.5 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=10]
+[sub_resource type="CurveTexture" id=5]
 
 flags = 4
 width = 2048
-curve = SubResource( 9 )
+curve = SubResource( 4 )
 
-[sub_resource type="ParticlesMaterial" id=11]
+[sub_resource type="ParticlesMaterial" id=6]
 
 render_priority = 0
 trail_divisor = 1
@@ -65,8 +65,8 @@ angle = 360.0
 angle_random = 1.0
 scale = 1.25
 scale_random = 0.5
-scale_curve = SubResource( 10 )
-color_ramp = SubResource( 8 )
+scale_curve = SubResource( 5 )
+color_ramp = SubResource( 3 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 1.0
@@ -76,7 +76,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angle", "Animation", "Color", "Damping", "Emission Shape", "Initial Velocity", "Scale", "Spread" ]
 
-[sub_resource type="Shader" id=12]
+[sub_resource type="Shader" id=7]
 
 code = "shader_type canvas_item;
 
@@ -88,25 +88,25 @@ void fragment()
 	COLOR.a *= normal.a;
 }"
 
-[sub_resource type="ShaderMaterial" id=13]
+[sub_resource type="ShaderMaterial" id=8]
 
 render_priority = 0
-shader = SubResource( 12 )
+shader = SubResource( 7 )
 
-[sub_resource type="Curve" id=14]
+[sub_resource type="Curve" id=9]
 
 min_value = 0.25
 max_value = 1.5
 bake_resolution = 100
 _data = [ Vector2( 0, 0.25 ), 0.0, 0.0, 0, 0, Vector2( 1, 1.5 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=15]
+[sub_resource type="CurveTexture" id=10]
 
 flags = 4
 width = 2048
-curve = SubResource( 14 )
+curve = SubResource( 9 )
 
-[sub_resource type="ParticlesMaterial" id=16]
+[sub_resource type="ParticlesMaterial" id=11]
 
 render_priority = 0
 trail_divisor = 1
@@ -135,7 +135,7 @@ angle = 0.0
 angle_random = 0.0
 scale = 1.2
 scale_random = 0.25
-scale_curve = SubResource( 15 )
+scale_curve = SubResource( 10 )
 color = Color( 1, 1, 1, 1 )
 hue_variation = 0.0
 hue_variation_random = 0.0
@@ -146,7 +146,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Scale" ]
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=12]
 
 length = 3.0
 loop = false
@@ -238,8 +238,8 @@ __meta__ = {
 
 modulate = Color( 1, 1, 1, 0 )
 light_mask = 0
-material = SubResource( 6 )
-scale = Vector2( 0.48, 0.48 )
+material = SubResource( 1 )
+scale = Vector2( 0.86, 0.86 )
 texture = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Visibility" ]
 
@@ -259,7 +259,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
 draw_order = 0
-process_material = SubResource( 11 )
+process_material = SubResource( 6 )
 texture = ExtResource( 2 )
 normal_map = null
 h_frames = 10
@@ -268,7 +268,7 @@ _sections_unfolded = [ "Process Material", "Transform" ]
 
 [node name="Distortion" type="Particles2D" parent="." index="2"]
 
-material = SubResource( 13 )
+material = SubResource( 8 )
 emitting = false
 amount = 8
 lifetime = 0.5
@@ -282,7 +282,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
 draw_order = 0
-process_material = SubResource( 16 )
+process_material = SubResource( 11 )
 texture = ExtResource( 3 )
 normal_map = ExtResource( 3 )
 h_frames = 1
@@ -302,7 +302,7 @@ __meta__ = {
 stream = ExtResource( 4 )
 volume_db = 0.0
 autoplay = false
-max_distance = 4000.0
+max_distance = 40000.0
 attenuation = 0.0
 bus = "Sound"
 area_mask = 1
@@ -317,7 +317,7 @@ autoplay = "attack"
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/attack = SubResource( 17 )
+anims/attack = SubResource( 12 )
 blend_times = [  ]
 
 

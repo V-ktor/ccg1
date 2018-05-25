@@ -144,7 +144,7 @@ anti_aliasing = true
 anti_aliasing_size = 1
 _sections_unfolded = [ "Corner Radius" ]
 
-[node name="Menu" type="CanvasLayer" index="0"]
+[node name="Menu" type="CanvasLayer"]
 
 layer = 100
 offset = Vector2( 0, 0 )

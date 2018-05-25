@@ -1,26 +1,19 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://images/weapons/shield.png" type="Texture" id=1]
+[ext_resource path="res://images/weapons/shield01.png" type="Texture" id=1]
+[ext_resource path="res://images/weapons/shield02.png" type="Texture" id=2]
 
-[sub_resource type="Shader" id=1]
-
-code = "shader_type canvas_item;
-
-uniform float offset = 0.0;
-
-void fragment()
-{
-	float len = (UV.x-0.5)*(UV.x-0.5)+(UV.y-0.5)*(UV.y-0.5);
-	COLOR = texture(TEXTURE,UV);
-	COLOR.a *= max(atan(8.0*(mod((UV.x-0.5)/(UV.y-0.5)+offset,2.0)-1.0)),0.0)+0.5*max(sin(117.0*(offset+len)),-0.5)-4.0*len;
-}"
-
-[sub_resource type="ShaderMaterial" id=2]
+[sub_resource type="CanvasItemMaterial" id=1]
 
 render_priority = 0
-shader = SubResource( 1 )
-shader_param/offset = 0.0
-_sections_unfolded = [ "shader_param" ]
+blend_mode = 1
+light_mode = 0
+
+[sub_resource type="CanvasItemMaterial" id=2]
+
+render_priority = 0
+blend_mode = 1
+light_mode = 0
 
 [sub_resource type="Animation" id=3]
 
@@ -29,52 +22,52 @@ length = 2.0
 loop = false
 step = 0.1
 tracks/0/type = "value"
-tracks/0/path = NodePath("Sprite:material:shader_param/offset")
+tracks/0/path = NodePath("Sprite02:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 2 ),
-"transitions": PoolRealArray( 1, 1 ),
+"times": PoolRealArray( 0, 0.1, 0.3, 0.5, 0.7, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, 10.0 ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.501961 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath("Sprite:rotation_degrees")
+tracks/1/path = NodePath("Sprite02:rotation_degrees")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 1.5, 2 ),
-"transitions": PoolRealArray( 2, 0.5, 1 ),
+"times": PoolRealArray( 0, 0.1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 0,
-"values": [ 0.0, -180.0, -360.0 ]
+"values": [ -360.0, 0.0, 1440.0 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("Sprite:modulate")
+tracks/2/path = NodePath("Sprite01:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.5, 0.7, 1, 1.3, 1.5, 2 ),
+"times": PoolRealArray( 0.1, 0.3, 0.5, 0.7, 0.9, 1.1, 2 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.501961 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.501961 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.501961 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("Sprite:scale")
+tracks/3/path = NodePath("Sprite01:rotation_degrees")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0, 1, 2 ),
-"transitions": PoolRealArray( 1, 1, 1 ),
+"times": PoolRealArray( 0, 0.9, 1.1, 2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 0,
-"values": [ Vector2( 0.75, 0.75 ), Vector2( 1, 1 ), Vector2( 0.75, 0.75 ) ]
+"values": [ 1440.0, -1440.0, 1440.0, -1440.0 ]
 }
 tracks/4/type = "method"
 tracks/4/path = NodePath(".")
@@ -93,16 +86,29 @@ tracks/4/keys = {
 
 [node name="UpgradeShield" type="Node2D" index="0"]
 
-[node name="Sprite" type="Sprite" parent="." index="0"]
+[node name="Sprite01" type="Sprite" parent="." index="0"]
 
 modulate = Color( 1, 1, 1, 0 )
-self_modulate = Color( 1, 1, 1, 0.752941 )
-material = SubResource( 2 )
+self_modulate = Color( 1, 1, 1, 0.627451 )
+light_mask = 0
+material = SubResource( 1 )
+rotation = -25.1327
 scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]
 
-[node name="Animation" type="AnimationPlayer" parent="." index="1"]
+[node name="Sprite02" type="Sprite" parent="." index="1"]
+
+modulate = Color( 1, 1, 1, 0 )
+self_modulate = Color( 1, 1, 1, 0.752941 )
+light_mask = 0
+material = SubResource( 2 )
+rotation = 25.1327
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
+
+[node name="Animation" type="AnimationPlayer" parent="." index="2"]
 
 root_node = NodePath("..")
 autoplay = "shield"

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/flagreturn.wav-8d5834db17394bdc7dfde38d248f2afb.sample"
+
+[deps]
+
+source_file="res://sounds/misc/flagreturn.wav"
+source_md5="7799f0c318cfb49bbe5ea4400c89644d"
+
+dest_files=[ "res://.import/flagreturn.wav-8d5834db17394bdc7dfde38d248f2afb.sample" ]
+dest_md5="936d3e52b527dc7494eee87adaa09561"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -6,13 +6,13 @@
 [ext_resource path="res://images/weapons/flash_red.png" type="Texture" id=4]
 [ext_resource path="res://sounds/weapons/Laser_06.wav" type="AudioStream" id=5]
 
-[sub_resource type="CanvasItemMaterial" id=2]
+[sub_resource type="CanvasItemMaterial" id=1]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 1
 
-[sub_resource type="CanvasItemMaterial" id=31]
+[sub_resource type="CanvasItemMaterial" id=2]
 
 render_priority = 0
 blend_mode = 1
@@ -82,31 +82,31 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angle", "Angular Velocity", "Color", "Damping", "Gravity", "Initial Velocity", "Scale", "Spread" ]
 
-[sub_resource type="Gradient" id=28]
+[sub_resource type="Gradient" id=8]
 
 offsets = PoolRealArray( 0, 0.189349, 0.550296, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 0.12549, 0, 1, 1, 0.0627451, 0, 0 )
 
-[sub_resource type="GradientTexture" id=29]
+[sub_resource type="GradientTexture" id=9]
 
 flags = 4
-gradient = SubResource( 28 )
+gradient = SubResource( 8 )
 width = 2048
 
-[sub_resource type="Curve" id=26]
+[sub_resource type="Curve" id=10]
 
 min_value = 0.75
 max_value = 1.25
 bake_resolution = 100
 _data = [ Vector2( 0, 0.75 ), 0.0, 0.0, 0, 0, Vector2( 1, 1.25 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=27]
+[sub_resource type="CurveTexture" id=11]
 
 flags = 4
 width = 2048
-curve = SubResource( 26 )
+curve = SubResource( 10 )
 
-[sub_resource type="ParticlesMaterial" id=30]
+[sub_resource type="ParticlesMaterial" id=12]
 
 render_priority = 0
 trail_divisor = 1
@@ -135,8 +135,8 @@ angle = 360.0
 angle_random = 1.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 27 )
-color_ramp = SubResource( 29 )
+scale_curve = SubResource( 11 )
+color_ramp = SubResource( 9 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 1.0
@@ -146,7 +146,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angle", "Animation", "Color", "Emission Shape", "Initial Velocity", "Scale", "Spread" ]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id=13]
 
 length = 3.0
 loop = false
@@ -262,7 +262,7 @@ tracks/8/keys = {
 } ]
 }
 
-[node name="GunFire" type="Node2D"]
+[node name="GunFire" type="Node2D" index="0"]
 
 z_index = 1
 _sections_unfolded = [ "Z Index" ]
@@ -274,7 +274,7 @@ __meta__ = {
 
 self_modulate = Color( 1, 1, 1, 0 )
 light_mask = 0
-material = SubResource( 2 )
+material = SubResource( 1 )
 rotation = 0.261799
 scale = Vector2( 0.5, 0.25 )
 texture = ExtResource( 1 )
@@ -285,7 +285,7 @@ _sections_unfolded = [ "Material" ]
 
 self_modulate = Color( 1, 1, 1, 0.501961 )
 light_mask = 0
-material = SubResource( 31 )
+material = SubResource( 2 )
 position = Vector2( 0, -500 )
 rotation = -1.5708
 emitting = false
@@ -325,7 +325,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
 draw_order = 0
-process_material = SubResource( 30 )
+process_material = SubResource( 12 )
 texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
@@ -339,7 +339,7 @@ __meta__ = {
 
 modulate = Color( 1, 1, 1, 0 )
 light_mask = 0
-material = SubResource( 2 )
+material = SubResource( 1 )
 scale = Vector2( 1, 2 )
 texture = ExtResource( 4 )
 _sections_unfolded = [ "Material", "Visibility" ]
@@ -349,7 +349,7 @@ _sections_unfolded = [ "Material", "Visibility" ]
 stream = ExtResource( 5 )
 volume_db = -10.0
 autoplay = false
-max_distance = 4000.0
+max_distance = 40000.0
 attenuation = 0.0
 bus = "Sound"
 area_mask = 1
@@ -361,7 +361,7 @@ autoplay = "shoot"
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/shoot = SubResource( 1 )
+anims/shoot = SubResource( 13 )
 blend_times = [  ]
 
 

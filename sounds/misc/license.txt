@@ -1,0 +1,17 @@
+acid5.wav, acid6.wav, flagdrop.wav, flagreturn.wav, teleport.wav:
+Copyright: Michel Baradari
+License: CC-BY 3.0
+
+cogs.ogg:
+Copyright: yd
+License: CC0
+
+open_chest.ogg:
+License: CC0
+
+robot1.wav, robotstomp.wav:
+Author: Lee Barkovich
+URL: http://www.archive.org/details/Berklee44Barkovich http://www.lbarkovich.com/
+License: Creative Commons Attribution 3.0
+Distributior: OpenGameArt.org
+

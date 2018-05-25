@@ -435,7 +435,7 @@ tracks/16/keys = {
 } ]
 }
 
-[node name="GunFire" type="Node2D"]
+[node name="GunFire" type="Node2D" index="0"]
 
 z_index = 1
 _sections_unfolded = [ "Z Index" ]
@@ -614,7 +614,7 @@ position = Vector2( -25, 0 )
 stream = ExtResource( 5 )
 volume_db = 0.0
 autoplay = false
-max_distance = 4000.0
+max_distance = 40000.0
 attenuation = 0.0
 bus = "Sound"
 area_mask = 1
@@ -626,7 +626,7 @@ position = Vector2( 25, 0 )
 stream = ExtResource( 5 )
 volume_db = 0.0
 autoplay = false
-max_distance = 4000.0
+max_distance = 40000.0
 attenuation = 0.0
 bus = "Sound"
 area_mask = 1

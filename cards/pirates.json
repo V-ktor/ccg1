@@ -108,7 +108,7 @@
 			func on_use(target):
 				var card = Main.cards[self.enemy][target]
 				card.structure -= max(4-card.shield,0)
-				card.node.add_child(load('res://scenes/effects/torpedo.tscn').instance())
+				card.node.add_child(load('res://scenes/effects/booby_trap.tscn').instance())
 			func on_use_target1_filter(target,targets):
 				return target.shield<4",
 		"target":"enemy_unit"

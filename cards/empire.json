@@ -491,7 +491,8 @@
 		"rule":"SHIELD_1_DESC",
 		"script":"
 			func on_use(target):
-				Main.field[target].shield += 1"
+				Main.field[target].shield += 1
+				Main.field[target].node.add_child(load('res://scenes/effects/upg_shield.tscn').instance())"
 	},
 	"effectiveness":"
 		func estimate_effectiveness(score,targets):

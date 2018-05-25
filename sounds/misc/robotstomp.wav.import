@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/robotstomp.wav-3c3696b61617ce02c80aea71578f2c61.sample"
+
+[deps]
+
+source_file="res://sounds/misc/robotstomp.wav"
+source_md5="932ffb3185ae3ca75a91dbeb2e0b5cca"
+
+dest_files=[ "res://.import/robotstomp.wav-3c3696b61617ce02c80aea71578f2c61.sample" ]
+dest_md5="14f17fd54acda701bfaa77ac29993cb4"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

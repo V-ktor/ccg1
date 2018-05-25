@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/acid6.wav-e2aaeb8b33fd7b8ee96aa580912de85c.sample"
+
+[deps]
+
+source_file="res://sounds/misc/acid6.wav"
+source_md5="77efb486ee505797c1932fd7508f9d28"
+
+dest_files=[ "res://.import/acid6.wav-e2aaeb8b33fd7b8ee96aa580912de85c.sample" ]
+dest_md5="6f22b10f6dc51845bba4d487b1dfedb9"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

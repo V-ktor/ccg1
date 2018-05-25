@@ -1,0 +1,147 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://images/weapons/mask_lightning.png" type="Texture" id=1]
+[ext_resource path="res://images/weapons/shield01.png" type="Texture" id=2]
+[ext_resource path="res://sounds/misc/acid6.wav" type="AudioStream" id=3]
+
+[sub_resource type="Shader" id=4]
+
+code = "shader_type canvas_item;
+
+uniform sampler2D mask;
+uniform float scale = 1.0;
+uniform float rotation = 0.0;
+
+void fragment()
+{
+	vec2 uv = (UV-vec2(0.5))*mat2(vec2(cos(rotation),sin(rotation)),vec2(-sin(rotation),cos(rotation)))+vec2(0.5);
+	COLOR = texture(TEXTURE,uv);
+	COLOR.a *= clamp(scale*texture(mask,uv).g*(texture(mask,uv).g+0.5),0.0,1.0);
+}"
+
+[sub_resource type="ShaderMaterial" id=5]
+
+render_priority = 0
+shader = SubResource( 4 )
+shader_param/scale = 10.0
+shader_param/rotation = 1440.0
+shader_param/mask = ExtResource( 1 )
+_sections_unfolded = [ "shader_param" ]
+
+[sub_resource type="Animation" id=3]
+
+resource_name = "shield"
+length = 1.5
+loop = false
+step = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite01:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0.501961 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite01:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.8, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ -1440.0, 1080.0, -1440.0, 720.0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Sprite01:material:shader_param/scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 1.5 ),
+"transitions": PoolRealArray( 0.5, 1 ),
+"update": 0,
+"values": [ 10.0, 0.0 ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Sprite01:material:shader_param/rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0, 0.8, 1, 1.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 1440.0, -1080.0, 1440.0, -720.0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Sound:playing")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 2,
+"values": [ true ]
+}
+tracks/5/type = "method"
+tracks/5/path = NodePath(".")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 1.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "queue_free"
+} ]
+}
+
+[node name="JamShield" type="Node2D" index="0"]
+
+[node name="Sprite01" type="Sprite" parent="." index="0"]
+
+modulate = Color( 1, 1, 1, 0 )
+self_modulate = Color( 1, 1, 1, 0.627451 )
+light_mask = 0
+material = SubResource( 5 )
+rotation = -25.1327
+scale = Vector2( 0.75, 0.75 )
+texture = ExtResource( 2 )
+_sections_unfolded = [ "Material", "Transform", "Visibility" ]
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="." index="1"]
+
+light_mask = 0
+stream = ExtResource( 3 )
+volume_db = 0.0
+autoplay = false
+max_distance = 40000.0
+attenuation = 0.0
+bus = "Sound"
+area_mask = 1
+_sections_unfolded = [ "Transform" ]
+
+[node name="Animation" type="AnimationPlayer" parent="." index="2"]
+
+root_node = NodePath("..")
+autoplay = "shield"
+playback_process_mode = 1
+playback_default_blend_time = 0.0
+playback_speed = 1.0
+anims/shield = SubResource( 3 )
+blend_times = [  ]
+
+

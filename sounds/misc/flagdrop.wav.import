@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/flagdrop.wav-75a0b16bc6dda64581cf688df839b397.sample"
+
+[deps]
+
+source_file="res://sounds/misc/flagdrop.wav"
+source_md5="6b4609f37cda0ae4d458a5e027985e8a"
+
+dest_files=[ "res://.import/flagdrop.wav-75a0b16bc6dda64581cf688df839b397.sample" ]
+dest_md5="c8962d317fc4dccd5962a9de377444a8"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

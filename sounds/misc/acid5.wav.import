@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/acid5.wav-35f60b2d56e2efa4762492a6ded86d86.sample"
+
+[deps]
+
+source_file="res://sounds/misc/acid5.wav"
+source_md5="7261977d4bd857844624dfde6dcdfda4"
+
+dest_files=[ "res://.import/acid5.wav-35f60b2d56e2efa4762492a6ded86d86.sample" ]
+dest_md5="29ca82604db09d84de1081d578482822"
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

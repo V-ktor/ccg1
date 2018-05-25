@@ -10,31 +10,31 @@
 [ext_resource path="res://sounds/weapons/missile_launch01.wav" type="AudioStream" id=8]
 [ext_resource path="res://sounds/explosions/explosion01.wav" type="AudioStream" id=9]
 
-[sub_resource type="Gradient" id=14]
+[sub_resource type="Gradient" id=1]
 
 offsets = PoolRealArray( 0, 0.118343, 0.431953, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 0.627451, 0.627451, 0.627451, 1, 0.25098, 0.25098, 0.25098, 0 )
 
-[sub_resource type="GradientTexture" id=15]
+[sub_resource type="GradientTexture" id=2]
 
 flags = 4
-gradient = SubResource( 14 )
+gradient = SubResource( 1 )
 width = 2048
 
-[sub_resource type="Curve" id=16]
+[sub_resource type="Curve" id=3]
 
 min_value = 0.75
 max_value = 2.0
 bake_resolution = 100
 _data = [ Vector2( 0, 0.75 ), 0.0, 0.0, 0, 0, Vector2( 1, 2 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=17]
+[sub_resource type="CurveTexture" id=4]
 
 flags = 4
 width = 2048
-curve = SubResource( 16 )
+curve = SubResource( 3 )
 
-[sub_resource type="ParticlesMaterial" id=18]
+[sub_resource type="ParticlesMaterial" id=5]
 
 render_priority = 0
 trail_divisor = 1
@@ -63,8 +63,8 @@ angle = 0.0
 angle_random = 0.0
 scale = 2.0
 scale_random = 0.5
-scale_curve = SubResource( 17 )
-color_ramp = SubResource( 15 )
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -74,37 +74,37 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Color", "Damping", "Initial Velocity", "Scale", "Spread" ]
 
-[sub_resource type="CanvasItemMaterial" id=12]
+[sub_resource type="CanvasItemMaterial" id=6]
 
 render_priority = 0
 blend_mode = 1
 light_mode = 1
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=7]
 
 offsets = PoolRealArray( 0, 0.12426, 0.568047, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=3]
+[sub_resource type="GradientTexture" id=8]
 
 flags = 4
-gradient = SubResource( 2 )
+gradient = SubResource( 7 )
 width = 2048
 
-[sub_resource type="Curve" id=4]
+[sub_resource type="Curve" id=9]
 
-min_value = 1.0
+min_value = 0.99
 max_value = 2.0
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 2 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=5]
+[sub_resource type="CurveTexture" id=10]
 
 flags = 4
 width = 2048
-curve = SubResource( 4 )
+curve = SubResource( 9 )
 
-[sub_resource type="ParticlesMaterial" id=6]
+[sub_resource type="ParticlesMaterial" id=11]
 
 render_priority = 0
 trail_divisor = 1
@@ -134,8 +134,8 @@ angle = 360.0
 angle_random = 1.0
 scale = 1.0
 scale_random = 0.5
-scale_curve = SubResource( 5 )
-color_ramp = SubResource( 3 )
+scale_curve = SubResource( 10 )
+color_ramp = SubResource( 8 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 0.0
@@ -145,7 +145,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angle", "Angular Velocity", "Color", "Damping", "Emission Shape", "Initial Velocity", "Scale", "Spread" ]
 
-[sub_resource type="Gradient" id=25]
+[sub_resource type="Gradient" id=12]
 
 offsets = PoolRealArray( 0, 0.106509, 0.544379, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
@@ -153,23 +153,23 @@ colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 [sub_resource type="GradientTexture" id=13]
 
 flags = 4
-gradient = SubResource( 25 )
+gradient = SubResource( 12 )
 width = 2048
 
-[sub_resource type="Curve" id=26]
+[sub_resource type="Curve" id=14]
 
 min_value = 0.75
 max_value = 1.25
 bake_resolution = 100
 _data = [ Vector2( 0, 0.75 ), 0.0, 0.0, 0, 0, Vector2( 1, 1.25 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=27]
+[sub_resource type="CurveTexture" id=15]
 
 flags = 4
 width = 2048
-curve = SubResource( 26 )
+curve = SubResource( 14 )
 
-[sub_resource type="ParticlesMaterial" id=29]
+[sub_resource type="ParticlesMaterial" id=16]
 
 render_priority = 0
 trail_divisor = 1
@@ -198,7 +198,7 @@ angle = 360.0
 angle_random = 1.0
 scale = 1.0
 scale_random = 0.0
-scale_curve = SubResource( 27 )
+scale_curve = SubResource( 15 )
 color_ramp = SubResource( 13 )
 hue_variation = 0.0
 hue_variation_random = 0.0
@@ -209,31 +209,31 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angle", "Animation", "Color", "Emission Shape", "Initial Velocity", "Scale", "Spread" ]
 
-[sub_resource type="Gradient" id=20]
+[sub_resource type="Gradient" id=17]
 
 offsets = PoolRealArray( 0, 0.0591716, 0.792899, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="GradientTexture" id=21]
+[sub_resource type="GradientTexture" id=18]
 
 flags = 4
-gradient = SubResource( 20 )
+gradient = SubResource( 17 )
 width = 2048
 
-[sub_resource type="Curve" id=22]
+[sub_resource type="Curve" id=19]
 
-min_value = 1.0
+min_value = 0.99
 max_value = 1.5
 bake_resolution = 100
 _data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 1.5 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=23]
+[sub_resource type="CurveTexture" id=20]
 
 flags = 4
 width = 2048
-curve = SubResource( 22 )
+curve = SubResource( 19 )
 
-[sub_resource type="ParticlesMaterial" id=19]
+[sub_resource type="ParticlesMaterial" id=21]
 
 render_priority = 0
 trail_divisor = 1
@@ -263,8 +263,8 @@ angle = 360.0
 angle_random = 1.0
 scale = 1.25
 scale_random = 0.5
-scale_curve = SubResource( 23 )
-color_ramp = SubResource( 21 )
+scale_curve = SubResource( 20 )
+color_ramp = SubResource( 18 )
 hue_variation = 0.0
 hue_variation_random = 0.0
 anim_speed = 1.0
@@ -274,7 +274,7 @@ anim_offset_random = 0.0
 anim_loop = false
 _sections_unfolded = [ "Angle", "Animation", "Color", "Damping", "Emission Shape", "Initial Velocity", "Scale", "Spread" ]
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=22]
 
 length = 3.5
 loop = false
@@ -462,7 +462,7 @@ tracks/14/keys = {
 } ]
 }
 
-[node name="GunFire" type="Node2D"]
+[node name="GunFire" type="Node2D" index="0"]
 
 z_index = 1
 _sections_unfolded = [ "Z Index" ]
@@ -504,7 +504,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
 draw_order = 0
-process_material = SubResource( 18 )
+process_material = SubResource( 5 )
 texture = ExtResource( 3 )
 normal_map = null
 h_frames = 1
@@ -517,7 +517,7 @@ __meta__ = {
 [node name="Particles1" type="Particles2D" parent="." index="2"]
 
 light_mask = 0
-material = SubResource( 12 )
+material = SubResource( 6 )
 position = Vector2( -48, -738 )
 emitting = false
 amount = 48
@@ -532,7 +532,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
 draw_order = 0
-process_material = SubResource( 6 )
+process_material = SubResource( 11 )
 texture = ExtResource( 4 )
 normal_map = null
 h_frames = 1
@@ -555,7 +555,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
 draw_order = 0
-process_material = SubResource( 29 )
+process_material = SubResource( 16 )
 texture = ExtResource( 5 )
 normal_map = null
 h_frames = 1
@@ -581,7 +581,7 @@ fract_delta = true
 visibility_rect = Rect2( -100, -100, 200, 200 )
 local_coords = false
 draw_order = 0
-process_material = SubResource( 19 )
+process_material = SubResource( 21 )
 texture = ExtResource( 6 )
 normal_map = null
 h_frames = 10
@@ -593,7 +593,7 @@ _sections_unfolded = [ "Drawing", "Process Material", "Textures", "Time" ]
 stream = ExtResource( 7 )
 volume_db = -4.0
 autoplay = false
-max_distance = 4000.0
+max_distance = 40000.0
 attenuation = 0.0
 bus = "Sound"
 area_mask = 1
@@ -603,7 +603,7 @@ area_mask = 1
 stream = ExtResource( 8 )
 volume_db = -4.0
 autoplay = false
-max_distance = 4000.0
+max_distance = 40000.0
 attenuation = 0.0
 bus = "Sound"
 area_mask = 1
@@ -614,7 +614,7 @@ position = Vector2( 0, -700 )
 stream = ExtResource( 9 )
 volume_db = 4.0
 autoplay = false
-max_distance = 4000.0
+max_distance = 40000.0
 attenuation = 0.0
 bus = "Sound"
 area_mask = 1
@@ -626,7 +626,7 @@ autoplay = "shoot"
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/shoot = SubResource( 30 )
+anims/shoot = SubResource( 22 )
 blend_times = [  ]
 
 
