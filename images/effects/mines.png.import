@@ -7,10 +7,10 @@ path="res://.import/mines.png-669641867b6f6bbb44d67140af62b7ff.stex"
 [deps]
 
 source_file="res://images/effects/mines.png"
-source_md5="f991e85c5e730ea0d5a2f5b21d5ec5a6"
+source_md5="ea365b32021026796c4c87da188b0d2f"
 
 dest_files=[ "res://.import/mines.png-669641867b6f6bbb44d67140af62b7ff.stex" ]
-dest_md5="6bc8797cd056a8fe8936f3595bb4ae51"
+dest_md5="2ca15a0a472f998e328d10c6f07b368d"
 
 [params]
 

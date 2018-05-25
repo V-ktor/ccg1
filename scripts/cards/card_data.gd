@@ -16,13 +16,13 @@ const DECK_DEFAULT = {
 	"rebels":{
 		"light_fighter":3,"fighter_flamer":2,"stealth_fighter":1,
 		"freighter":2,"defender":3,
-		"abandoned_space_station":2,"troop_ship":1,
+		"abandoned_space_station":2,"troop_ship":2,
 		"militia":2,"ironclad":2,"asteroid_ship":2,
 		"rebels_carrier":2,"rebels_battleship":2,
 		"jam_shields":2,"cripple":2,
 		"downgrade":2,"repair_5":2,
-		"sabotage":2,"revolt":2,"rebellion":1,
-		"bunker_complex":1,"shipyard":2}
+		"sabotage":2,"rebellion":1,
+		"bunker_complex":2,"shipyard":2}
 		
 }
 const INVENTORY_DEFAULT = {
@@ -37,10 +37,10 @@ const INVENTORY_DEFAULT = {
 	"freighter":3,"defender":3,
 	"militia":2,"ironclad":2,"asteroid_ship":2,
 	"rebels_carrier":2,"rebels_battleship":2,
-	"abandoned_space_station":2,"troop_ship":1,
+	"abandoned_space_station":2,"troop_ship":2,
 	"jam_shields":2,"cripple":2,
 	"downgrade":2,"repair_5":2,
-	"sabotage":2,"revolt":2,"rebellion":1,
+	"sabotage":2,"rebellion":1,
 	"bunker_complex":2,"shipyard":2,
 	"pirate_fighter":3,"stolen_freighter":3,"looter":2,
 	"pirate_corvette":2,"pirate_carrier":2,

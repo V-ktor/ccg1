@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/movement0.png-e09e47998dd9f3d39081af010a18df55.stex"
+path="res://.import/death.png-4f238a153eeab56e570456ea07dc22a6.stex"
 
 [deps]
 
-source_file="res://images/effects/movement0.png"
-source_md5="3435ccca90709e9e22ed5292e7d479e7"
+source_file="res://images/effects/death.png"
+source_md5="b72cb99773446c0753f57f35ded6ec1d"
 
-dest_files=[ "res://.import/movement0.png-e09e47998dd9f3d39081af010a18df55.stex" ]
-dest_md5="def16a39842ce8fca5f8f4bfd3abe54b"
+dest_files=[ "res://.import/death.png-4f238a153eeab56e570456ea07dc22a6.stex" ]
+dest_md5="977577a3ff01055ccd0382e156c9db3f"
 
 [params]
 

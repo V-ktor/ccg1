@@ -31,15 +31,23 @@
 	"damage":1,
 	"level":1,
 	"effects":
-	{
-		"name":"PENETRATE_SHIELD",
-		"icon":"no_shield",
-		"rule":"PENETRATE_SHIELD_DESC",
-		"script":"
-			func on_attack(target):
-				var card = Main.cards[self.enemy][target]
-				card.structure -= max(card.shield-self.damage,0)"
-	},
+	[
+		{
+			"name":"PENETRATE_SHIELD",
+			"icon":"no_shield",
+			"rule":"PENETRATE_SHIELD_DESC",
+			"script":"
+				func on_attack(target):
+					var card = Main.cards[self.enemy][target]
+					card.structure -= max(self.damage-max(self.damage-card.shield,0),0)"
+		},
+		{
+			"script":"
+				func on_bombard(target):
+					var card = Main.field[target]
+					card.structure -= max(self.damage-max(self.damage-card.shield,0),0)"
+		},
+	],
 	"effectiveness":"
 		func estimate_effectiveness(score,position):
 			return score+2",
@@ -55,15 +63,23 @@
 	"damage":2,
 	"level":2,
 	"effects":
-	{
-		"name":"PENETRATE_SHIELD",
-		"icon":"no_shield",
-		"rule":"PENETRATE_SHIELD_DESC",
-		"script":"
-			func on_attack(target):
-				var card = Main.cards[self.enemy][target]
-				card.structure -= max(card.shield-self.damage,0)"
-	},
+	[
+		{
+			"name":"PENETRATE_SHIELD",
+			"icon":"no_shield",
+			"rule":"PENETRATE_SHIELD_DESC",
+			"script":"
+				func on_attack(target):
+					var card = Main.cards[self.enemy][target]
+					card.structure -= max(self.damage-max(self.damage-card.shield,0),0)"
+		},
+		{
+			"script":"
+				func on_bombard(target):
+					var card = Main.field[target]
+					card.structure -= max(self.damage-max(self.damage-card.shield,0),0)"
+		},
+	],
 	"effectiveness":"
 		func estimate_effectiveness(score,position):
 			return score+4",
@@ -346,17 +362,6 @@
 }
 {
 	"type":"effect",
-	"name":"revolt",
-	"faction":"rebels",
-	"grade":1,
-	"level":3,
-	"effectiveness":"
-		func estimate_effectiveness(score,targets):
-			return score",
-	"file":"revolt"
-}
-{
-	"type":"effect",
 	"name":"sabotage",
 	"faction":"rebels",
 	"grade":1,
@@ -367,7 +372,7 @@
 		"icon":"cards_2",
 		"rule":"DISCARD_2_OPPONENT_DESC",
 		"script":"
-			func on_spawn():
+			func on_use():
 				Main.remove_cards(self.enemy,2)"
 	},
 	"effectiveness":"

@@ -8,15 +8,23 @@
 	"damage":2,
 	"level":2,
 	"effects":
-	{
-		"name":"PENETRATE_SHIELD",
-		"icon":"no_shield",
-		"rule":"PENETRATE_SHIELD_DESC",
-		"script":"
-			func on_attack(target):
-				var card = Main.cards[self.enemy][target]
-				card.structure -= max(card.shield-self.damage,0)"
-	},
+	[
+		{
+			"name":"PENETRATE_SHIELD",
+			"icon":"no_shield",
+			"rule":"PENETRATE_SHIELD_DESC",
+			"script":"
+				func on_attack(target):
+					var card = Main.cards[self.enemy][target]
+					card.structure -= max(self.damage-max(self.damage-card.shield,0),0)"
+		},
+		{
+			"script":"
+				func on_bombard(target):
+					var card = Main.field[target]
+					card.structure -= max(self.damage-max(self.damage-card.shield,0),0)"
+		},
+	],
 	"effectiveness":"
 		func estimate_effectiveness(score,position):
 			return score+4",
@@ -40,17 +48,24 @@
 	"grade":2,
 	"structure":2,
 	"shield":0,
-	"damage":3,
+	"damage":2,
 	"level":3,
 	"effects":
-	{
-		"name":"PLUNDER",
-		"icon":"points_2",
-		"rule":"PLUNDER_DESC",
-		"script":"
-			func on_attack(target):
-				Main.player_used_points[self.owner]['pirates'] = max(Main.player_used_points['pirates']-2,0)"
-	},
+	[
+		{
+			"name":"PLUNDER",
+			"icon":"points_2",
+			"rule":"PLUNDER_DESC",
+			"script":"
+				func on_attack(target):
+					Main.player_used_points[self.owner]['pirates'] = max(Main.player_used_points[self.owner]['pirates']-2,0)"
+		},
+		{
+			"script":"
+				func on_bombard(target):
+					Main.player_used_points[self.owner]['pirates'] = max(Main.player_used_points[self.owner]['pirates']-2,0)"
+		},
+	],
 	"effectiveness":"
 		func estimate_effectiveness(score,position):
 			return score+4+max(6-Main.points[self.player]['pirates'],0)",
@@ -114,17 +129,23 @@
 	[
 		{
 			"name":"SUICIDE",
-			"icon":"suicide",
+			"icon":"death",
 			"rule":"SUICIDE_DESC",
 			"script":"
 				func on_use(ally,target):
 					var unit = Main.cards[self.player][ally]
 					var card = Main.cards[self.enemy][target]
-					card.structure -= max(unit.structure-card.shield,0)
+					var timer = Timer.new()
+					card.structure -= unit.structure
+					Main.destroy_unit(ally,self.player)
+					timer.set_wait_time(0.75)
+					timer.set_one_shot(true)
+					Main.add_child(timer)
+					timer.start()
+					yield(timer,'timeout')
 					unit.node.move_to = card.node.get_global_position()
-					destroy_unit(ally,self.player)
 				func on_use_target2_filter(target,targets):
-					return floor(target.position/Main.POSITIONS)==floor(targets[0].position/Main.POSITIONS)",
+					return floor(target.position/Main.POSITIONS)==floor(targets[0]/Main.POSITIONS)",
 			"target":["ally_unit","enemy_unit"]
 		}
 	],

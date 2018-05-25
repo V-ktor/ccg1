@@ -326,6 +326,10 @@ func _load():
 		elif (currentline.has("inventory")):
 			Data.inventory = currentline["inventory"]
 			credits = currentline["credits"]
+	
+	for ID in Data.inventory.keys():
+		if (!Data.data.keys().has(ID)):
+			Data.inventory.erase(ID)
 
 func _save():
 	var dir = Directory.new()
@@ -501,13 +505,11 @@ func _deck_load():
 		update_cards()
 		return
 	
+	var result
 	file.open("user://decks/"+deck_file+".sav",File.READ)
-	Data.deck.clear()
-	while (!file.eof_reached()):
-		var card = file.get_line()
-		if (card!=""):
-			Data.deck.push_back(card)
-	Data.update_inventory()
+	result = JSON.parse(file.get_line())
+	if (result.error==OK):
+		Data.deck = result.get_result()
 	file.close()
 	get_node("Deck/Load").hide()
 	update_cards()
@@ -516,8 +518,7 @@ func _deck_save():
 	var file = File.new()
 	create_save_dir()
 	file.open("user://decks/"+deck_file+".sav",File.WRITE)
-	for c in Data.deck:
-		file.store_line(c)
+	file.store_line(JSON.print(Data.deck))
 	file.close()
 	get_node("Deck/Load").hide()
 
