@@ -226,7 +226,7 @@ tracks/5/keys = {
 } ]
 }
 
-[node name="BoobyTrap" type="Node2D" index="0"]
+[node name="MineExplosion" type="Node2D" index="0"]
 
 z_index = 1
 _sections_unfolded = [ "Z Index" ]
@@ -239,7 +239,7 @@ __meta__ = {
 modulate = Color( 1, 1, 1, 0 )
 light_mask = 0
 material = SubResource( 1 )
-scale = Vector2( 0.86, 0.86 )
+scale = Vector2( 0.1, 0.1 )
 texture = ExtResource( 1 )
 _sections_unfolded = [ "Material", "Visibility" ]
 
