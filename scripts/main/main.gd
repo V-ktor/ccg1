@@ -133,7 +133,7 @@ class Unit:
 		type = _type
 		owner = _player
 		enemy = int(!owner)
-		attack_points = 0
+		attack_points = Data.data[type]["attack_points"]
 		movement_points = 0
 		position = pos
 		dead = false
@@ -661,7 +661,7 @@ func update():
 				cards[p][x].update()
 	for x in range(SIZE):
 		field[x].update()
-#	update_cards()
+	update_cards()
 
 
 func _next_turn():
@@ -1125,6 +1125,7 @@ func queue_select(target,player,effects=null,event="",ID=0,last_targets=[]):
 			unselect_hand(player)
 			unselect_unit(player)
 			emit_signal("effect_used",false)
+			emit_signal("target_selected",null,NONE)
 			select = HAND
 		else:
 			if (get_tree().has_network_peer()):
@@ -1140,6 +1141,7 @@ func select_hand(index,player):
 	if (select==EMPTY):
 		effect_canceled = true
 		emit_signal("effect_used",false)
+		emit_signal("target_selected",null,NONE)
 		unselect_hand(player)
 	if (select==HAND && Data.calc_value(hand[player][index],"level")<=player_points[player][faction]-player_used_points[player][faction]):
 		var type = Data.data[hand[player][index]]["type"]
@@ -1331,6 +1333,7 @@ func _input(event):
 			unselect_hand(player)
 			unselect_unit(player)
 			emit_signal("effect_used",false)
+			emit_signal("target_selected",null,NONE)
 			select = HAND
 
 func _process(delta):

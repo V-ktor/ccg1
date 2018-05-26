@@ -88,7 +88,7 @@ func _skirmish():
 		factions.push_back("pirates")
 	
 	add_credits = 150
-	start_game(randomize_planets(4),4,3,Data.deck,randomize_deck(Data.MAX_CARDS,factions),player_name,tr("SKIRMISH_AI"),false,true)
+	start_game(randomize_planets(3),3,3,Data.deck,randomize_deck(Data.MAX_CARDS,factions),player_name,tr("SKIRMISH_AI"),false,true)
 
 func _tutorial():
 	var ti = tutorial_scene.instance()

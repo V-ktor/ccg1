@@ -21,14 +21,14 @@ shader = SubResource( 1 )
 shader_param/alpha = 0.0
 _sections_unfolded = [ "shader_param" ]
 
-[sub_resource type="ShaderMaterial" id=4]
+[sub_resource type="ShaderMaterial" id=3]
 
 render_priority = 0
 shader = SubResource( 1 )
 shader_param/alpha = 0.0
 _sections_unfolded = [ "shader_param" ]
 
-[sub_resource type="ShaderMaterial" id=7]
+[sub_resource type="ShaderMaterial" id=4]
 
 render_priority = 0
 shader = SubResource( 1 )
@@ -49,9 +49,8 @@ shader = SubResource( 1 )
 shader_param/alpha = 0.0
 _sections_unfolded = [ "shader_param" ]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=7]
 
-resource_name = "amor_plating"
 length = 3.0
 loop = false
 step = 0.1
@@ -202,7 +201,7 @@ tracks/11/keys = {
 } ]
 }
 
-[node name="UpgradeArmor" type="Node2D"]
+[node name="UpgradeArmor" type="Node2D" index="0"]
 
 modulate = Color( 1, 1, 1, 0 )
 _sections_unfolded = [ "Visibility" ]
@@ -218,7 +217,7 @@ _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="ArmorPlate2" type="Sprite" parent="." index="1"]
 
-material = SubResource( 4 )
+material = SubResource( 3 )
 position = Vector2( -118, -64 )
 scale = Vector2( 2, 2 )
 texture = ExtResource( 1 )
@@ -226,7 +225,7 @@ _sections_unfolded = [ "Material", "Transform" ]
 
 [node name="ArmorPlate5" type="Sprite" parent="." index="2"]
 
-material = SubResource( 7 )
+material = SubResource( 4 )
 position = Vector2( 96, 52 )
 rotation = 0.959931
 scale = Vector2( 2, 2 )
@@ -257,7 +256,7 @@ autoplay = "amor_plating"
 playback_process_mode = 1
 playback_default_blend_time = 0.0
 playback_speed = 1.0
-anims/amor_plating = SubResource( 3 )
+anims/amor_plating = SubResource( 7 )
 blend_times = [  ]
 
 

@@ -542,7 +542,7 @@
 				if (player!=self.owner):
 					return
 				for target in range(self.position*Main.POSITIONS,(self.position+1)*Main.POSITIONS):
-					var card = Main.cards[self.player][target]
+					var card = Main.cards[self.owner][target]
 					if (card!=null):
 						var max_structure = Data.data[card.type]['structure']
 						if (card.structure<max_structure):

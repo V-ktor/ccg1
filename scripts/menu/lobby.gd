@@ -69,7 +69,7 @@ remote func register_player(ID,nm,deck):
 	if (player_name.size()>1):
 		var planets
 		if (player_self==0):
-			planets = get_parent().randomize_planets(4)
+			planets = get_parent().randomize_planets(3)
 			rpc("start",planets,3)
 
 remote func start(planets,positions):

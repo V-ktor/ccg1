@@ -7,6 +7,7 @@
 [sub_resource type="Shader" id=4]
 
 code = "shader_type canvas_item;
+render_mode blend_add;
 
 uniform sampler2D mask;
 uniform float scale = 1.0;
@@ -23,8 +24,8 @@ void fragment()
 
 render_priority = 0
 shader = SubResource( 4 )
-shader_param/scale = 10.0
-shader_param/rotation = 1440.0
+shader_param/scale = 0.0
+shader_param/rotation = -720.0
 shader_param/mask = ExtResource( 1 )
 _sections_unfolded = [ "shader_param" ]
 
@@ -117,7 +118,7 @@ modulate = Color( 1, 1, 1, 0 )
 self_modulate = Color( 1, 1, 1, 0.627451 )
 light_mask = 0
 material = SubResource( 5 )
-rotation = -25.1327
+rotation = 12.5664
 scale = Vector2( 0.75, 0.75 )
 texture = ExtResource( 2 )
 _sections_unfolded = [ "Material", "Transform", "Visibility" ]

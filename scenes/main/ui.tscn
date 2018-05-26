@@ -423,7 +423,7 @@ group = null
 text = "END_TURN"
 flat = false
 align = 1
-_sections_unfolded = [ "Rect", "Size Flags" ]
+_sections_unfolded = [ "Rect", "Size Flags", "custom_fonts" ]
 
 [node name="ButtonD" type="Button" parent="Player1/VBoxContainer" index="8"]
 
@@ -849,5 +849,31 @@ texture_hover = ExtResource( 15 )
 texture_focused = ExtResource( 16 )
 script = ExtResource( 17 )
 _sections_unfolded = [ "Rect", "Textures" ]
+
+[node name="Label" type="Label" parent="Card" index="0"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 40.0
+margin_top = -2.0
+margin_right = -40.0
+margin_bottom = 30.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 4
+custom_fonts/font = SubResource( 1 )
+text = "DISCARD"
+align = 1
+valign = 1
+percent_visible = 1.0
+lines_skipped = 0
+max_lines_visible = -1
+_sections_unfolded = [ "Anchor", "Margin", "Rect", "custom_fonts" ]
 
 

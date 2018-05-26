@@ -105,7 +105,7 @@ tracks/2/keys = {
 } ]
 }
 
-[node name="Virus" type="Node2D" index="0"]
+[node name="Virus" type="Node2D"]
 
 [node name="Particles01" type="Particles2D" parent="." index="0"]
 

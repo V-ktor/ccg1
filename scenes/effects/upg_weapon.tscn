@@ -139,7 +139,7 @@ tracks/5/keys = {
 } ]
 }
 
-[node name="UpgradeWeapons" type="Node2D" index="0"]
+[node name="UpgradeWeapons" type="Node2D"]
 
 [node name="Particles01" type="Particles2D" parent="." index="0"]
 

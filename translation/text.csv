@@ -31,6 +31,7 @@ default,default
 END_TURN,End Turn
 CONFIRM,Confirm
 DISMANTLE,Dismantle
+DISCARD,Discard
 WON!,Won!
 LOST!,Lost!
 GAINED,gained

@@ -8,6 +8,8 @@ func _input_event(ev):
 	if (ev is InputEventMouseButton && ev.button_index==BUTTON_RIGHT):
 		focus = ev.pressed
 		get_node("Card").set_z_index(ev.pressed)
+	else:
+		get_node("Label").set_visible(is_pressed())
 
 func _process(delta):
 	var target_zoom = Vector2(1.0,1.0)*(1.0+1.0*float(focus))
