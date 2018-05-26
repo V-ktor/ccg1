@@ -68,7 +68,7 @@
 	],
 	"effectiveness":"
 		func estimate_effectiveness(score,position):
-			return score+4+max(6-Main.points[self.player]['pirates'],0)",
+			return score+4+max(6-Main.points['pirates'],0)",
 	"file":"looter"
 }
 {

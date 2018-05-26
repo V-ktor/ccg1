@@ -435,9 +435,9 @@ remote func use_card_effect(ID,player,targets=null):
 	
 	player_used_points[player][card["faction"]] += card["level"]
 	hand[player].remove(ID)
-	update()
 	remove_card(ID,player)
 	unselect_hand(player)
+	update()
 
 remote func use_card_planet(x,ID,player):
 	printt("use planet card",x,ID,player)
@@ -462,9 +462,9 @@ remote func use_card_planet(x,ID,player):
 	
 	player_used_points[player][Data.data[hand[player][ID]]["faction"]] += Data.calc_value(hand[player][ID],"level")
 	hand[player].remove(ID)
-	update()
 	remove_card(ID,player)
 	unselect_hand(player)
+	update()
 	
 	execute_effect("on_use",effects,player,[x])
 
@@ -481,10 +481,8 @@ remote func use_card_unit(x,ID,player):
 	player_used_points[player][Data.data[hand[player][ID]]["faction"]] += Data.data[hand[player][ID]]["level"]
 	unselect_hand(player)
 	hand[player].remove(ID)
-	update_resources()
-	
 	remove_card(ID,player)
-	update_cards()
+	update()
 	emit_signal("unit_used")
 
 
@@ -719,10 +717,10 @@ remote func next_turn():
 	for x in range(SIZE):
 		if (field[x].owner==player):
 			num_planets += 1
-			if (field[x].structure<20):
-				field[x].structure += 2
-				if (field[x].structure>20):
-					field[x].structure = 20
+			if (field[x].structure<10):
+				field[x].structure += min(10-field[x].structure,2)
+#				if (field[x].structure>10):
+#					field[x].structure = 10
 #			field[x].level = max(field[x].level-1,1)
 			
 			if (field[x].type!=""):
@@ -737,7 +735,7 @@ remote func next_turn():
 			player_used_points[player][f] = player_points[player][f]
 	update_resources()
 	
-	if (num_planets==0 || deck[player].size()+hand[player].size()==0):
+	if (num_planets==0 || (deck[player].size()+hand[player].size()==0 && num_units==0)):
 		print("Player "+str(player)+" lost!")
 		get_node("/root/Menu").end_match(player!=main_player,(player+1)%2)
 		return

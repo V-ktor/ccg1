@@ -111,7 +111,7 @@ func get_attack():
 			
 			if (field[x].owner!=player && !guarded[x]):
 				# invade planet
-				var v = 1.0/(1+abs(field[x].structure+field[x].shield-card.damage))
+				var v = 1.0/max(1.0+abs(field[x].structure+field[x].shield-card.damage),1.0)
 				var p = 3+int(cards[player][pos].damage>field[x].structure+field[x].shield)
 				if (p>priority || (p==priority && v>value)):
 					priority = p
@@ -123,7 +123,7 @@ func get_attack():
 					var t = x*POSITIONS+z
 					var enemy_card = cards[enemy][t]
 					if (enemy_card!=null && enemy_card.shield<card.damage):
-						var v = 2*(card.damage-enemy_card.shield)+2*enemy_card.damage+2*enemy_card.shield-enemy_card.level-4*max(card.damage-enemy_card.structure-enemy_card.shield,0)
+						var v = max(2*(card.damage-enemy_card.shield)+2*enemy_card.damage+2*enemy_card.shield-enemy_card.level-4*max(card.damage-enemy_card.structure-enemy_card.shield,0),1)
 						var p = 1+int(card.damage>enemy_card.structure+enemy_card.shield)
 						if (p>priority || (p==priority && v>value)):
 							priority = p
@@ -167,7 +167,7 @@ func get_movement():
 					else:
 						if (!guarded[x1] && card.damage>0):
 							p = 2
-							v = 1.0/(1+abs(field[x].structure+field[x].shield-card.damage))
+							v = 1.0/max(1.0+abs(field[x].structure+field[x].shield-card.damage),1.0)
 							if (card.attack_points>0 && field[x1].structure+field[x1].shield<=card.damage):
 								p = 4
 								na = {"function":"bombard_unit","arguments":[to,x1,player,enemy]}
@@ -176,7 +176,7 @@ func get_movement():
 							var t = x1*POSITIONS+y1
 							var enemy_card = cards[enemy][t]
 							if (enemy_card!=null && card.damage>0):
-								var val = 2*(card.damage-enemy_card.shield)+2*enemy_card.damage+2*enemy_card.shield-enemy_card.level-4*max(card.damage-enemy_card.structure-enemy_card.shield,0)
+								var val = max(2*(card.damage-enemy_card.shield)+2*enemy_card.damage+2*enemy_card.shield-enemy_card.level-4*max(card.damage-enemy_card.structure-enemy_card.shield,0),1)
 								var _p = 1
 								var _na
 								if (card.attack_points>0):

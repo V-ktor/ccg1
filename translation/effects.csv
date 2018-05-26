@@ -4,7 +4,7 @@ UNMOVEABLE_DESC,"Unable to move."
 NO_ATTACK,no attack
 NO_ATTACK_DESC,"Unable to attack."
 COUNTERATTACK,counterattack
-COUNTERATTACK_DESC,"Counterattacks when enemy attack is survived."
+COUNTERATTACK_DESC,"Counterattacks the attacking enemy unit."
 CHEAP,cheap
 CHEAP_DESC,"No upkeep cost."
 DRAW_2,draw 2 card
