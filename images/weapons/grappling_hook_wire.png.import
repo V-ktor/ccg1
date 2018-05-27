@@ -10,7 +10,7 @@ source_file="res://images/weapons/grappling_hook_wire.png"
 source_md5="76ed7dcfa4473b18a7c8cc5d8404e972"
 
 dest_files=[ "res://.import/grappling_hook_wire.png-7af732efe1a70c2c8c6489f9829337d1.stex" ]
-dest_md5="94bb19c0dc86db1a3a7f79be8f2063be"
+dest_md5="b2c95f7a403d72a0c339f9c0ba5ae667"
 
 [params]
 

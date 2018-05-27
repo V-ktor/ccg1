@@ -10,7 +10,7 @@ source_file="res://images/cards/asteroid_ship/asteroid_ship_bg.png"
 source_md5="0634a116d9a2753dede290f1ed4f3e2b"
 
 dest_files=[ "res://.import/asteroid_ship_bg.png-ceb6a66cf101881c9f9e0862cde47be3.stex" ]
-dest_md5="c5748922fe68ef361936becfb443c770"
+dest_md5="b3839a74b21406a64f0d44c0b79cfac6"
 
 [params]
 

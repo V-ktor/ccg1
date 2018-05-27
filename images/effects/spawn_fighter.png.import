@@ -10,7 +10,7 @@ source_file="res://images/effects/spawn_fighter.png"
 source_md5="66de09bf7dd1c3f0831ca1418a99ac52"
 
 dest_files=[ "res://.import/spawn_fighter.png-8d98b3ff6759d263ad0a4202d24ada7c.stex" ]
-dest_md5="6f8bfff23bce3565eba2d237188153a1"
+dest_md5="3ad267a7908e30af91125b08bede925b"
 
 [params]
 

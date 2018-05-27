@@ -142,7 +142,6 @@ class Unit:
 		effects = Data.Effects.new()
 		code = _effects.get_script().get_source_code()
 		script.set_source_code(code)
-#		printt(script,"\n",code)
 		script.reload()
 		effects.set_script(script)
 		effects._self = self
@@ -205,7 +204,6 @@ class Planet:
 		if (_effects!=null):
 			code = _effects.get_script().get_source_code()
 		script.set_source_code(code)
-#		printt(script,"\n",code)
 		script.reload()
 		effects.set_script(script)
 		effects._self = self
@@ -370,12 +368,10 @@ func end_turn():
 
 func add_target(target,type,list,t,effects=null,event="",ID=0,last_targets=[]):
 	printt("Selected type",type,", need",t,".")
-	printt(target,get_targets(type,effects,event,ID,last_targets))
 	if !(target in get_targets(type,effects,event,ID,last_targets)):
 		printt("Invalid selection!")
 		return
 	if (type==t):
-		printt("add",target,"to",list)
 		list.push_back(target)
 	elif (target==null):
 		list.clear()
@@ -402,7 +398,6 @@ func execute_effect(event,effects,player,_args=[],_targets=null):
 					return
 				target_ID += 1
 				yield(get_tree(),"idle_frame")
-		printt("call",event,"of",effects,"via",args)
 		effects.callv(event,args)
 	update()
 	yield(get_tree(),"idle_frame")
@@ -420,7 +415,6 @@ remote func use_card_effect(ID,player,targets=null):
 	var script = GDScript.new()
 	var code = card["script"].get_script().get_source_code()
 	script.set_source_code(code)
-#	printt(script,"\n",code)
 	script.reload()
 	effects.set_script(script)
 	effects._self = self
@@ -451,7 +445,6 @@ remote func use_card_planet(x,ID,player):
 	var script = GDScript.new()
 	var code = card["script"].get_script().get_source_code()
 	script.set_source_code(code)
-#	printt(script,"\n",code)
 	script.reload()
 	effects.set_script(script)
 	effects._self = field[x]
@@ -1070,13 +1063,12 @@ func clear_hints():
 	
 
 remote func select(target,type):
-	printt("remote select target",target,type)
 	emit_signal("target_selected",target,type)
 
 func queue_select(target,player,effects=null,event="",ID=0,last_targets=[]):
 	var enemy = int(!player)
 	var targets = get_targets(target,effects,event,ID,last_targets)
-	printt("select ",target,targets,"...")
+	print("select "+str(target)+" (valid are "+str(targets)+")...")
 	select = target
 	player_select = player
 	

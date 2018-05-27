@@ -10,7 +10,7 @@ source_file="res://images/cards/troop_ship/troop_ship.png"
 source_md5="54172e3d14978c408202e49b562f7b45"
 
 dest_files=[ "res://.import/troop_ship.png-a39afeed534912293a74595a1964ac7b.stex" ]
-dest_md5="9e3b16e1024f6a12816000827ec6be77"
+dest_md5="7f6f194b706dbdaf029747cc763a9d35"
 
 [params]
 

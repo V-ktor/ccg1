@@ -10,7 +10,7 @@ source_file="res://images/weapons/armor_plating.png"
 source_md5="295b7612260a2a54d079a6d8fc8f319f"
 
 dest_files=[ "res://.import/armor_plating.png-4cafc16355e906d8b410582ce881c68d.stex" ]
-dest_md5="308f97e7f95ab480ccc19d79f1b94155"
+dest_md5="62ac72b3ab05491984cec499c3373de9"
 
 [params]
 

@@ -10,7 +10,7 @@ source_file="res://images/cards/battleship/battleship_bg.png"
 source_md5="faa5291c43e53f1bc819c8c154961eb3"
 
 dest_files=[ "res://.import/battleship_bg.png-3d0aa1fe40b5c6d9d4327cdfaca51de2.stex" ]
-dest_md5="389162142c056d46778da392bc993eff"
+dest_md5="ef20cee6280fb2f8c7c9e2822d36fc6e"
 
 [params]
 

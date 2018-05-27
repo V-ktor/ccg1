@@ -147,7 +147,6 @@ func load_path(path):
 					for i in range(script.length()-1,-1,-1):
 						if (script[i]=="\n"):
 							script = script.substr(0,i+1)+script.substr(i+n+2,script.length()-i-n-2)
-#					printt(p1,p2,script==effect["script"],"\n",script)
 					effect["script"] = script
 				if (!effect.has("target")):
 					effect["target"] = []
@@ -182,7 +181,6 @@ func load_path(path):
 			
 			# finally parse script
 			scr.set_source_code(code)
-#			printt(scr,"\n",code)
 			scr.reload()
 			effects.set_script(scr)
 			# replace script string with class

@@ -10,7 +10,7 @@ source_file="res://images/weapons/torpedo_weapon.png"
 source_md5="643a5494f91c0ee6db1ddc9f6daad7cc"
 
 dest_files=[ "res://.import/torpedo_weapon.png-b395ab3a57045e868d96fee7a5b3c915.stex" ]
-dest_md5="9a09126ba1bbcd6748409bb0f9323c58"
+dest_md5="4cf2d5ee9db4d34473c3b36ee98db118"
 
 [params]
 

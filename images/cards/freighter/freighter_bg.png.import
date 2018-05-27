@@ -10,7 +10,7 @@ source_file="res://images/cards/freighter/freighter_bg.png"
 source_md5="22db3e6a9b69cacafdae7a8476a83c58"
 
 dest_files=[ "res://.import/freighter_bg.png-42fb634ecdc23795bd35c7c919ce29d0.stex" ]
-dest_md5="119362bdee81f6f17a015bdbd0d963e1"
+dest_md5="d585824836a6f79da9645690d64e8de1"
 
 [params]
 

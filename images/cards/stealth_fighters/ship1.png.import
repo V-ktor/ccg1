@@ -10,7 +10,7 @@ source_file="res://images/cards/stealth_fighters/ship1.png"
 source_md5="075a7cf1f48ee7ac6c620196ff3bb736"
 
 dest_files=[ "res://.import/ship1.png-c72f34c5b9a601c1a603e50e7acad7d1.stex" ]
-dest_md5="1100b740f71b1cdf3596466522b8a5d8"
+dest_md5="09c11e44bbc9eb0ca89bc298d0a558f6"
 
 [params]
 

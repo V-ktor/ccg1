@@ -10,7 +10,7 @@ source_file="res://images/cards/fighters/fighters_ship1_glow.png"
 source_md5="fc65efa40eb11167c3a031aba8b23d3f"
 
 dest_files=[ "res://.import/fighters_ship1_glow.png-61f50c42908186503f9ddec6c3361afa.stex" ]
-dest_md5="05420be768a4f9b5bdd330413eb779ed"
+dest_md5="e463e08064606855e56bc649ffa7e48c"
 
 [params]
 

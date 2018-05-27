@@ -10,7 +10,7 @@ source_file="res://images/weapons/grappling_hook_right.png"
 source_md5="67028a1b9df9ef2d39e174c3c28f804f"
 
 dest_files=[ "res://.import/grappling_hook_right.png-338e7335819358fcb730d713046d56a8.stex" ]
-dest_md5="de16bff1dce648b1d98c20839c6c97a0"
+dest_md5="439d7b6fd42833a50728f68562ebe129"
 
 [params]
 

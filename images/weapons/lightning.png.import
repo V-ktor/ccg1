@@ -10,7 +10,7 @@ source_file="res://images/weapons/lightning.png"
 source_md5="8bf4a6bb1851f5b7c8e39a16dfd90ef5"
 
 dest_files=[ "res://.import/lightning.png-d9076dfdae8b12ecb897ed1512a057f5.stex" ]
-dest_md5="f58a193473ab923974b92e67630d0b72"
+dest_md5="e4214cc1216b24be6e903402978b145e"
 
 [params]
 
