@@ -72,11 +72,9 @@ func load_path(path):
 	var p = path.substr(0,path.find("://")+2)
 	var error = dir.change_dir(path)
 	if (error!=OK):
-		print("Can't open data directory!")
 		return
 	error = dir.list_dir_begin(true)
 	if (error!=OK):
-		print("Can't open data directory!")
 		return
 	
 	# load all data files in the cards directory

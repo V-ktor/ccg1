@@ -687,7 +687,6 @@ remote func next_turn():
 	enemy = int(!player)
 	player_select = player
 	print("Turn "+str(turn)+": Player "+str(player)+"'s turn.")
-	emit_signal("new_turn")
 	
 	if (main_player==0 && turn>0):
 		draw_card(player)
@@ -749,6 +748,8 @@ remote func next_turn():
 		# player has to select a card
 		queue_select(HAND,player)
 #		select = HAND
+	
+	emit_signal("new_turn")
 
 func draw_card(player):
 	# player draws one card

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/main/help.gd" type="Script" id=1]
 [ext_resource path="res://theme.tres" type="Theme" id=2]
@@ -98,10 +98,12 @@ tracks/1/keys = {
 
 script/source = "extends Control
 
+onready var Main = get_node(\"/root/Main\")
+
 
 func _draw():
-	for i in range(get_node(\"/root/Main\").hand[get_node(\"/root/Main\").main_player].size()):
-		var card = Data.data[get_node(\"/root/Main\").hand[get_node(\"/root/Main\").main_player][i]]
+	for i in range(Main.hand[Main.main_player].size()):
+		var card = Data.data[Main.hand[Main.main_player][i]]
 		if (card[\"level\"]<=3 && card[\"type\"]==\"unit\"):
 			continue
 		
@@ -131,11 +133,13 @@ func _ready():
 
 script/source = "extends Control
 
+onready var Main = get_node(\"/root/Main\")
+
 
 func _draw():
-	for i in range(get_node(\"/root/Main\").hand[get_node(\"/root/Main\").main_player].size()):
-		var card = Data.data[get_node(\"/root/Main\").hand[get_node(\"/root/Main\").main_player][i]]
-		if (card[\"level\"]>get_node(\"/root/Main\").player_points[get_node(\"/root/Main\").main_player][card[\"faction\"]]-get_node(\"/root/Main\").player_used_points[get_node(\"/root/Main\").main_player][card[\"faction\"]] || card[\"type\"]!=\"unit\"):
+	for i in range(Main.hand[Main.main_player].size()):
+		var card = Data.data[Main.hand[Main.main_player][i]]
+		if (card[\"level\"]>Main.player_points[Main.main_player][card[\"faction\"]]-Main.player_used_points[Main.main_player][card[\"faction\"]] || card[\"type\"]!=\"unit\"):
 			continue
 		
 		var c = get_node(\"../../UI/Cards1/Card\"+str(i))
@@ -146,18 +150,24 @@ func _draw():
 		draw_line(pos0,pos1,Color(0.2,0.4,0.8,0.5),8.0)
 		draw_line(pos1,pos2,Color(0.2,0.4,0.8,0.5),8.0)
 		draw_line(pos2,pos3,Color(0.2,0.4,0.8,0.5),8.0)
+
+func _process(delta):
+	if (is_visible()):
+		update()
 "
 
 [sub_resource type="GDScript" id=7]
 
 script/source = "extends Control
 
+onready var Main = get_node(\"/root/Main\")
+
 
 func _draw():
 	set_size(get_size())
-	for i in range(get_node(\"/root/Main\").hand[get_node(\"/root/Main\").main_player].size()):
-		var card = Data.data[get_node(\"/root/Main\").hand[get_node(\"/root/Main\").main_player][i]]
-		if (card[\"level\"]<=get_node(\"/root/Main\").player_points[get_node(\"/root/Main\").main_player][card[\"faction\"]] && card[\"type\"]==\"unit\"):
+	for i in range(Main.hand[Main.main_player].size()):
+		var card = Data.data[Main.hand[Main.main_player][i]]
+		if (card[\"level\"]<=Main.player_points[Main.main_player][card[\"faction\"]] && card[\"type\"]==\"unit\"):
 			continue
 		
 		var c = get_node(\"../../UI/Cards1/Card\"+str(i))
@@ -168,6 +178,10 @@ func _draw():
 		draw_line(pos0,pos1,Color(0.2,0.4,0.8,0.5),8.0)
 		draw_line(pos1,pos2,Color(0.2,0.4,0.8,0.5),8.0)
 		draw_line(pos2,pos3,Color(0.2,0.4,0.8,0.5),8.0)
+
+func _process(delta):
+	if (is_visible()):
+		update()
 "
 
 [sub_resource type="GDScript" id=8]
@@ -177,21 +191,51 @@ script/source = "extends Control
 var move = true
 var attack = false
 var invade = false
+onready var Main = get_node(\"/root/Main\")
 
 
 func _draw():
-	for i in range(get_node(\"/root/Main\").SIZE*get_node(\"/root/Main\").POSITIONS):
-		var unit = get_node(\"/root/Main\").cards[get_node(\"/root/Main\").main_player][i]
-		if (unit==null || (move && unit.moved) || ((attack || invade) && unit.attacked)):
+	for i in range(Main.SIZE*Main.POSITIONS):
+		var unit = Main.cards[Main.main_player][i]
+		if (unit==null || (move && unit.movement_points<1) || ((attack || invade) && (unit.attack_points<1 || unit.damage<1))):
 			continue
 		
-		var pos3 = unit.node.get_global_position()/get_node(\"/root/Main/Camera\").get_zoom()+OS.get_window_size()/2
+		var pos3 = unit.node.get_global_position()/Main.get_node(\"Camera\").get_zoom()+OS.get_window_size()/2
 		var pos0 = Vector2(pos3.x+200,200)
 		var pos1 = pos0+Vector2(0,50)
 		var pos2 = pos3-Vector2(0,100)
 		draw_line(pos0,pos1,Color(0.2,0.4,0.8,0.5),8.0)
 		draw_line(pos1,pos2,Color(0.2,0.4,0.8,0.5),8.0)
 		draw_line(pos2,pos3,Color(0.2,0.4,0.8,0.5),8.0)
+
+func _process(delta):
+	update()
+"
+
+[sub_resource type="GDScript" id=9]
+
+script/source = "extends Control
+
+onready var Main = get_node(\"/root/Main\")
+
+
+func _draw():
+	for i in range(Main.SIZE*Main.POSITIONS):
+		var unit = Main.cards[Main.enemy][i]
+		if (unit==null):
+			continue
+		
+		var pos3 = unit.node.get_global_position()/Main.get_node(\"Camera\").get_zoom()+OS.get_window_size()/2
+		var pos0 = Vector2(pos3.x-200,200)
+		var pos1 = Vector2(pos0.x,pos3.y-100)
+		var pos2 = pos3-Vector2(0,100)
+		draw_line(pos0,pos1,Color(0.2,0.4,0.8,0.5),8.0)
+		draw_line(pos1,pos2,Color(0.2,0.4,0.8,0.5),8.0)
+		draw_line(pos2,pos3,Color(0.2,0.4,0.8,0.5),8.0)
+
+func _process(delta):
+	if (is_visible()):
+		update()
 "
 
 [node name="Help" type="CanvasLayer" index="0"]
@@ -344,6 +388,22 @@ mouse_default_cursor_shape = 0
 size_flags_horizontal = 1
 size_flags_vertical = 1
 script = SubResource( 8 )
+_sections_unfolded = [ "Anchor", "Margin", "Mouse" ]
+
+[node name="DrawEnemy" type="Control" parent="." index="6"]
+
+visible = false
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_pivot_offset = Vector2( 0, 0 )
+rect_clip_content = false
+mouse_filter = 2
+mouse_default_cursor_shape = 0
+size_flags_horizontal = 1
+size_flags_vertical = 1
+script = SubResource( 9 )
 _sections_unfolded = [ "Anchor", "Margin", "Mouse" ]
 
 

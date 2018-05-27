@@ -35,9 +35,13 @@ func _player_disconnected(id):
 		get_node("../BattleEnd/Text").set_text("PLAYER_DISCONNECTED")
 		get_parent().show_main()
 		get_node("../BattleEnd").popup()
+		_cancel()
 	else:
 		show()
 		set_status("PLAYER_DISCONNECTED",true,false)
+		get_node("Panel/VBoxContainer/HBoxContainer/ButtonJoin").set_disabled(false)
+		get_node("Panel/VBoxContainer/HBoxContainer/ButtonHost").set_disabled(false)
+		get_node("Panel/VBoxContainer/ButtonCancel").hide()
 
 func _server_disconnected():
 	# server disconnected, stop the game
@@ -47,9 +51,13 @@ func _server_disconnected():
 		get_node("../BattleEnd/Text").set_text("SERVER_DISCONNECTED")
 		get_parent().show_main()
 		get_node("../BattleEnd").popup()
+		_cancel()
 	else:
 		show()
 		set_status("SERVER_DISCONNECTED",true,false)
+		get_node("Panel/VBoxContainer/HBoxContainer/ButtonJoin").set_disabled(false)
+		get_node("Panel/VBoxContainer/HBoxContainer/ButtonHost").set_disabled(false)
+		get_node("Panel/VBoxContainer/ButtonCancel").hide()
 
 func _connected_ok():
 	# Only called on clients, not server. Send my ID and info to all the other peers
